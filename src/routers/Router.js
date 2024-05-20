@@ -16,6 +16,7 @@ import DisplayCustomer from '../component/manage/ListCustomer/DisplayCustomer';
 import ManageMonitor from '../component/manage/Monitor/ManageMonitor';
 import Transac from '../component/transac/Transac';
 import HistoryTransac from '../component/transac/HistoryTransac';
+import ServiceMonitor from '../component/container/ServiceMonitor/ServiceMonitor';
 import { AuthContext } from './AuthContext'; // Đảm bảo đường dẫn chính xác
 
 const Stack = createStackNavigator();
@@ -45,6 +46,7 @@ const Router = () => {
       <Stack.Screen name="ManageMonitor" component={ManageMonitor} options={{ headerShown: false }} />
       <Stack.Screen name="Transac" component={Transac} options={{ headerShown: false }} />
       <Stack.Screen name="HistoryTransac" component={HistoryTransac} options={{ headerShown: false }} />
+      <Stack.Screen name="ServiceMonitor" component={ServiceMonitor} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 
@@ -53,6 +55,7 @@ const Router = () => {
       <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
       <Stack.Screen name="Register" component={Register} options={{ headerShown: false }} />
       <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+      <Stack.Screen name="ServiceMonitor" component={ServiceMonitor} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 

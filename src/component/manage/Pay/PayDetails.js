@@ -6,6 +6,7 @@ import { getCardActive,getPromotion,getService,updatePayment } from '../../../ap
 import ConfirmBox from '../../../default/part/ConfirmBox';
 import { alertBox } from '../../../default/part/Notify';
 import { useNavigation } from '@react-navigation/native';
+import { formatCurrency } from '../../../default/part/MoneyFomart';
 
 const PayDetails = () => {
   const navigation = useNavigation();
@@ -192,7 +193,7 @@ const PayDetails = () => {
                               <Icon name="dollar" style={styles.icon} />
                               <TextInput
                                 style={styles.input}
-                                value={serviceMoney}
+                                value={formatCurrency(serviceMoney, 'vi-VN', 'VND')}
                                 readOnly
                                 placeholder="Số tiền"
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -283,7 +284,7 @@ const PayDetails = () => {
                               <TextInput
                                 style={[styles.input,styles.inputMoneys]}
                                 placeholder="############"
-                                value={availableBalance}
+                                value={formatCurrency(availableBalance, 'vi-VN', 'VND')}
                                 readOnly
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                               />
@@ -497,31 +498,7 @@ const styles = StyleSheet.create({
   selectedNumber:{
     fontSize:wp('3%'),
   },
-  cardTypeContainer:{
-    flexDirection: 'row',
-    marginLeft:wp('2%'),
-    marginBottom:wp('2%')
-  },
-  cardTypeButton:{
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 5,
-    paddingVertical: 5,
-    borderColor: '#724929',
-    borderRadius: 5,
-    marginRight: wp('2%'),
-  },
-  cardTypeText: {
-    color: '#724929',
-    marginLeft: 5,
-    marginRight:5
-  },
-  cardText: {
-    marginRight:5,fontSize:wp('3%')
-  },
-  cardIcon:{
-    fontSize:wp('4%')
-  },
+  
 });
 
 export default PayDetails;

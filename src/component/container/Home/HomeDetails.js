@@ -14,12 +14,10 @@ import {
 } from "react-native-responsive-screen";
 import { getServiceshort } from "../../../api/API";
 import { useNavigation } from "@react-navigation/native";
-import ModalService from "../../../default/part/ModalService";
 
 const HomeDetails = () => {
   const navigation = useNavigation();
   const [listService, setListService] = useState([]);
-  const [modalService, setModalService] = useState(false);
 
   const primaryURL = "http://66.42.48.193:8000"; // Đường dẫn hình ảnh
   
@@ -83,11 +81,12 @@ const HomeDetails = () => {
           const sv = listService[key];
           if (sv.useYn) {
             return (
-              // <TouchableOpacity
-              //     key={sv.idService}
-              //     onPress={() => selectService()}
-              // >
-                  <View style={styles.block} key={sv.idService}>
+              <TouchableOpacity
+                  style={styles.block} 
+                  key={sv.idService}
+                  onPress={() => navigation.navigate('ServiceMonitor',{ service:sv.idService,info:sv })}
+              >
+                  <View>
                     <Image
                       //  source={require('../../../assets/img/massageItem1.png')} // Đường dẫn đến hình ảnh của bạn
                       source={{ uri: primaryURL + sv.imageUrl }}
@@ -95,7 +94,7 @@ const HomeDetails = () => {
                     />
                     <Text style={styles.title}>{sv.serviceName}</Text>
                   </View>
-              // </TouchableOpacity>
+              </TouchableOpacity>
             );
           }
           return null;
@@ -123,7 +122,6 @@ const HomeDetails = () => {
       </View>
       
     </View>
-    {/* <ModalService modalVisible={modalService} setModalVisible={setModalService} /> */}
     </>
   );
 };

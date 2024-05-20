@@ -21,8 +21,6 @@ import { alertBox } from "../../default/part/Notify";
 import { AuthContext } from "../../routers/AuthContext";
 import { formatCurrency } from "../../default/part/MoneyFomart";
 import { useNavigation } from '@react-navigation/native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { format, toDate } from 'date-fns';
 
 const EditCustomerDetails = () => {
   const { isLoading, isLogin, isMenu, permission, logout } =
@@ -41,14 +39,6 @@ const EditCustomerDetails = () => {
   const [cardNo, setCardNo] = useState("");
   const [availableBalance, setAvailableBalance] = useState("");
   const navigation = useNavigation();
-  const [date, setDate] = useState(new Date());
-
-
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-   
-  };
 
   useEffect(()=>{
       if(permission == null){
@@ -215,12 +205,6 @@ const EditCustomerDetails = () => {
                 </View>
                 <View style={styles.inputWrapper}>
                   <Icon name="calendar" style={styles.icon} />
-                  <DateTimePicker
-                    value={date}
-                    mode="date"
-                    display="default"
-                   // onChange={onChange}
-                    />
                   <TextInput
                     style={styles.input}
                     placeholder="Ngày tháng năm sinh (vd: DD/MM/YYYY)"

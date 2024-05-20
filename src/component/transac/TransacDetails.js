@@ -6,6 +6,7 @@ import { getTransac } from '../../api/API';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format, toDate } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
+import { formatCurrency } from '../../default/part/MoneyFomart';
 
 const TransacDetails = () => {
 const navigation = useNavigation();
@@ -42,7 +43,7 @@ const navigation = useNavigation();
 
 
   const showDatepicker = () => {
-    setShow(true);
+    setShow(!show);
   };
 
   
@@ -163,7 +164,7 @@ const navigation = useNavigation();
                     <DateTimePicker
                     value={date}
                     mode="date"
-                    display="default"
+                    display={Platform.OS === 'ios' ? 'spinner' : 'default'}
                     onChange={onChange}
                     />
                 )}
@@ -177,7 +178,6 @@ const navigation = useNavigation();
                 <View style={[styles.titleContainer]}>
                     <Text style={[styles.title]}>Lịch sử giao dịch</Text>
                 </View>
-
                         {Object.keys(listTransac).map((key) => {
                                 const ts = listTransac[key];
                                 if (ts.useYn) {
@@ -192,9 +192,9 @@ const navigation = useNavigation();
                                                 </View>
                                                 <View style={[styles.itemRight]}>{
                                                     ts.transactionType == '1' ? (
-                                                        <Text style={[styles.itemText,styles.textRight,styles.colorGreen]}>+{ts.amount}</Text>
+                                                        <Text style={[styles.itemText,styles.textRight,styles.colorGreen]}>+{formatCurrency(ts.amount, 'vi-VN', 'VND')}</Text>
                                                     ): ts.transactionType == '2' ? (
-                                                        <Text style={[styles.itemText, styles.textRight,styles.colorRed]}>-{ts.amount}</Text>
+                                                        <Text style={[styles.itemText, styles.textRight,styles.colorRed]}>-{formatCurrency(ts.amount, 'vi-VN', 'VND')}</Text>
                                                     ) : null
                                                 }                                   
                                                 </View>

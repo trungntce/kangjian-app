@@ -304,6 +304,21 @@ const getService = async ()=>{
     throw error;
   }
 }
+const getServiceByID = async (data)=>{
+  try {
+    const response = await fetch(`${BASE_URL}/v1/service/${data}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseData = await response.json();
+    return responseData.result;
+  } catch (error) {
+    console.log('Error inserting data:', error);
+    throw error;
+  }
+}
 const getServiceshort = async ()=>{
   try {
     const response = await fetch(`${BASE_URL}/v1/service/short`, {
@@ -342,4 +357,4 @@ const getTransac = async (data)=>{
 
 
 
-export { loginScreen,getListUsers,getPersonal,updateUser,addUser,deleteUser,getNumberCard,updatePayment,updateUserWithCard,getPromotion,addUserWithCard,getService,getServiceshort,getCardActive,getTransac,addDeposit,getUserByPhone};
+export { loginScreen,getListUsers,getPersonal,updateUser,addUser,deleteUser,getNumberCard,getServiceByID,updatePayment,updateUserWithCard,getPromotion,addUserWithCard,getService,getServiceshort,getCardActive,getTransac,addDeposit,getUserByPhone};

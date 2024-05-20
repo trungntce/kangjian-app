@@ -1,11 +1,12 @@
 import React,{useState} from 'react';
 import { View, Text, StyleSheet,KeyboardAvoidingView,ScrollView, Platform } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { formatCurrency } from '../../default/part/MoneyFomart';
 
 
 const HistoryTransacDetails = ({transacInfo}) => {
   const [timetransact, setTimeTransact] = useState(transacInfo ? transacInfo.editedDate : '');
-  const [money, setMoney] = useState(transacInfo ? transacInfo.totalAmount : '');
+  const [money, setMoney] = useState(transacInfo ? transacInfo.amount : '');
   const [type,setType] = useState(transacInfo ? transacInfo.transactionTypeName : '');
   const [phoneNumber,setPhoneNumber] = useState(transacInfo ? transacInfo.phoneNumber : '');
   const [fullName,setFullName] = useState(transacInfo ? transacInfo.fullName : '');
@@ -23,8 +24,8 @@ const HistoryTransacDetails = ({transacInfo}) => {
                     <Text style={[styles.value]}>{timetransact}</Text>
                 </View>
                 <View style={[styles.itemList]}>
-                    <Text style={[styles.title]}>Ngày giao dịch</Text>
-                    <Text style={[styles.value]}>{money}</Text>
+                    <Text style={[styles.title]}>Số tiền</Text>
+                    <Text style={[styles.value]}>{formatCurrency(money, 'vi-VN', 'VND')}</Text>
                 </View>
                 <View style={[styles.itemList]}>
                     <Text style={[styles.title]}>Loại giao dịch</Text>

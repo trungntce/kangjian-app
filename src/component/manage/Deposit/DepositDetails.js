@@ -5,6 +5,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { getCardActive,getPromotion,addDeposit } from '../../../api/API';
 import ConfirmBox from '../../../default/part/ConfirmBox';
 import { alertBox } from '../../../default/part/Notify';
+import { formatCurrency } from '../../../default/part/MoneyFomart';
 
 const DepositDetails = () => {
 
@@ -233,7 +234,7 @@ const DepositDetails = () => {
                               <TextInput
                                 style={[styles.input,styles.designMoney]}
                                 placeholder="############"
-                                value={totalMoney}
+                                value={formatCurrency(totalMoney, 'vi-VN', 'VND')}
                                 readOnly
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                               />
