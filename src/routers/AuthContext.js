@@ -8,6 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [isLogin, setIsLogin] = useState(false);
   const [permission,setPermission] = useState(null);
+  const [language,setLanguage] = useState(false);
   const [isMenu,setIsMenu] = useState([{
     menuName:"HOME",
     menuUrl :"HOME",
@@ -74,6 +75,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     await AsyncStorage.removeItem('token');
     await AsyncStorage.removeItem('expirationTime');
+    setPermission(null);
     setIsLogin(false);
   };
 
@@ -83,10 +85,14 @@ export const AuthProvider = ({ children }) => {
       }
   }
 
+  const changeLange = (lange) => {
+    setLanguage(lange);
+  }
+
 
 
   return (
-    <AuthContext.Provider value={{ isLoading, isLogin, login, logout,permiss,isMenu,permission }}>
+    <AuthContext.Provider value={{ isLoading, isLogin, login, logout,permiss,isMenu,permission,language,changeLange }}>
       {children}
     </AuthContext.Provider>
   );

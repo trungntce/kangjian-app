@@ -1,10 +1,12 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   Image,
-  TouchableOpacity,Modal,Pressable,
+  TouchableOpacity,
+  Modal,
+  Pressable,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { useNavigation } from "@react-navigation/native";
@@ -13,23 +15,23 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import i18n from "../i18n/i18n";
 
 const Header = () => {
-  const { isLogin, permission } = useContext(AuthContext);
+  const { isLogin, permission,language,changeLange } = useContext(AuthContext);
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const { t, i18n } = useTranslation();
-  const [language,setLanguage] = useState(1);
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
-  const languageChange = (idl,li) => {
-      setLanguage(idl);
-      i18n.changeLanguage(li);
-  }
-  
+
+  const languageChange = (idl, li) => {
+    i18n.changeLanguage(li);
+    changeLange(idl);
+  };
+
   return (
     <View style={styles.header}>
       {/* Phần logo */}
@@ -51,21 +53,21 @@ const Header = () => {
       </View>
       {/* Phần icon menu */}
       <View style={styles.menuIconContainer}>
-      <TouchableOpacity onPress={toggleModal}>
-        {language === 1 && (
-                      <Image
-                      source={require("../assets/img/china.png")}
-                      style={styles.logolanguage}
-                    />
+        <TouchableOpacity onPress={toggleModal}>
+          {language && (
+            <Image
+              source={require("../assets/img/china.png")}
+              style={styles.logolanguage}
+            />
           )}
-           {language === 2 && (
-                      <Image
-                      source={require("../assets/img/vietnam.png")}
-                      style={styles.logolanguage}
-                    />
+          {!language && (
+            <Image
+              source={require("../assets/img/vietnam.png")}
+              style={styles.logolanguage}
+            />
           )}
-         </TouchableOpacity>
-        
+        </TouchableOpacity>
+
         {/* {isLogin &&
           permission &&
           (permission.includes("ADMIN") ||
@@ -84,24 +86,32 @@ const Header = () => {
       >
         <Pressable style={styles.modalBackground} onPress={toggleModal}>
           <View style={styles.modalContainer}>
-            <TouchableOpacity onPress={() => languageChange(1,'zh')}>
+            <TouchableOpacity onPress={() => languageChange(true, "zh")}>
               <View style={styles.containerItemL}>
                 <Image
                   source={require("../assets/img/china.png")}
                   style={styles.logolanguage}
                 />
                 <Text style={styles.textlanguage}>Tiếng Trung</Text>
-                <Icon name="check" size={wp('5%')} color={language === 1 ? 'green' : 'white'} />
+                <Icon
+                  name="check"
+                  size={wp("5%")}
+                  color={language ? "green" : "white"}
+                />
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => languageChange(2,'vi')}>
+            <TouchableOpacity onPress={() => languageChange(false, "vi")}>
               <View style={styles.containerItemL}>
                 <Image
                   source={require("../assets/img/vietnam.png")}
                   style={styles.logolanguage}
                 />
                 <Text style={styles.textlanguage}>Tiếng Việt</Text>
-                <Icon name="check" size={wp('5%')} color={language === 2 ? 'green' : 'white'} />
+                <Icon
+                  name="check"
+                  size={wp("5%")}
+                  color={!language ? "green" : "white"}
+                />
               </View>
             </TouchableOpacity>
           </View>
@@ -120,19 +130,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#724929",
     paddingHorizontal: 10,
   },
-  containerItemL:{
-      flexDirection:'row',
-      justifyContent:'space-between',
-      width:'100%',
-      alignItems:'center',
-      padding:wp('3%')
+  containerItemL: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    alignItems: "center",
+    padding: wp("3%"),
   },
-  textlanguage:{
-    fontWeight:'bold'
+  textlanguage: {
+    fontWeight: "bold",
   },
-  language:{
-    position:'absolute',
-    top:25
+  language: {
+    position: "absolute",
+    top: 25,
   },
   logoContainer: {
     flex: 1,
@@ -171,22 +181,22 @@ const styles = StyleSheet.create({
   menubar: {
     fontSize: wp("8%"),
   },
-  logolanguage:{
-    width:wp('13%'),
-    height:wp('8%')
+  logolanguage: {
+    width: wp("13%"),
+    height: wp("8%"),
   },
   modalBackground: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContainer: {
-    width: wp('80%'),
-    backgroundColor: 'white',
+    width: wp("80%"),
+    backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   modalText: {
     fontSize: 18,

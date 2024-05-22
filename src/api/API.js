@@ -56,6 +56,24 @@ const updateUser = async (data) =>{
   }
 }
 
+const updatePromotion = async (data) =>{
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const response = await fetch(`${BASE_URL}/v1/topup-promotion`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    return response;
+  } catch (error) {
+    console.log('Error inserting data:', error);
+    return false;
+  }
+}
+
 const updatePayment = async (data) =>{
   try {
     const token = await AsyncStorage.getItem('token');
@@ -89,6 +107,23 @@ const getListUsers = async () =>{
       console.log('Error inserting data:', error);
       throw error;
     }
+}
+const getListPromotion = async () =>{
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const response = await fetch(`${BASE_URL}/v1/topup-promotion`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    const responseData = await response.json();
+    return responseData.result;
+  } catch (error) {
+    console.log('Error inserting data:', error);
+    throw error;
+  }
 }
 
 const getPersonal = async () =>{
@@ -357,4 +392,4 @@ const getTransac = async (data)=>{
 
 
 
-export { loginScreen,getListUsers,getPersonal,updateUser,addUser,deleteUser,getNumberCard,getServiceByID,updatePayment,updateUserWithCard,getPromotion,addUserWithCard,getService,getServiceshort,getCardActive,getTransac,addDeposit,getUserByPhone};
+export { loginScreen,getListUsers,getPersonal,updateUser,addUser,deleteUser,getNumberCard,getServiceByID,getListPromotion,updatePromotion,updatePayment,updateUserWithCard,getPromotion,addUserWithCard,getService,getServiceshort,getCardActive,getTransac,addDeposit,getUserByPhone};

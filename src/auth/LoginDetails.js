@@ -17,7 +17,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const LoginDetails = () => {
   const { login, permiss } = useContext(AuthContext);
@@ -26,7 +26,7 @@ const LoginDetails = () => {
   const [password, setPassword] = useState("");
   const [notify, setNotify] = useState(false);
   const [textNotice, setTextNotice] = useState("");
-  
+
   //Begin Import many languages
   const { t, i18n } = useTranslation();
   //End Import many languages
@@ -44,7 +44,6 @@ const LoginDetails = () => {
   }
   const handleLogin = async () => {
     try {
-      setLoading(true);
       if (!checkValue()) {
         setTextNotice("Tài khoản hoặc mật khẩu không đúng!");
         setNotify(true);
@@ -52,8 +51,14 @@ const LoginDetails = () => {
       }
       const res = await loginScreen(username, password);
       if (res) {
-        login(res.result.token, res.result.expiration);
-        permiss(res.result.permissions);
+        if (res.result.permissions.length != 0 && res.result.token) {
+          login(res.result.token, res.result.expiration);
+          permiss(res.result.permissions);
+        } else {
+          setTextNotice("Tài khoản hoặc mật khẩu không đúng!");
+          setNotify(true);
+          return;
+        }
       } else {
         setTextNotice("Tài khoản hoặc mật khẩu không đúng!");
         setNotify(true);
@@ -63,8 +68,6 @@ const LoginDetails = () => {
       setNotify(false);
     } catch (e) {
       console.log(e);
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -89,7 +92,7 @@ const LoginDetails = () => {
             contentContainerStyle={{ flexGrow: 1, height: hp("100%") }}
           >
             <View style={styles.container}>
-              <Text style={styles.title}>{t('lang_login')}</Text>
+              <Text style={styles.title}>{t("lang_login")}</Text>
               <View style={styles.inputWrapper}>
                 <Icon
                   name="user"
@@ -99,7 +102,7 @@ const LoginDetails = () => {
                 />
                 <TextInput
                   style={styles.input}
-                  placeholder={t('lang_user_login')}
+                  placeholder={t("lang_user_login")}
                   onChangeText={(text) => setUsername(text)}
                   value={username}
                   underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -114,7 +117,7 @@ const LoginDetails = () => {
                 />
                 <TextInput
                   style={styles.input}
-                  placeholder={t('lang_password_login')}
+                  placeholder={t("lang_password_login")}
                   secureTextEntry={true}
                   onChangeText={(text) => setPassword(text)}
                   value={password}
@@ -127,7 +130,7 @@ const LoginDetails = () => {
                 </View>
               )}
               <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                <Text style={styles.buttonText}>{t('lang_login')}</Text>
+                <Text style={styles.buttonText}>{t("lang_login")}</Text>
               </TouchableOpacity>
               <View style={styles.bottomLinks}>
                 {/* <TouchableOpacity onPress={handleForgotPassword}>
