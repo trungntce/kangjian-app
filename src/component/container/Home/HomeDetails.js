@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Button,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // Import Ionicons từ thư viện vector icons
 import {
@@ -14,6 +15,11 @@ import {
 } from "react-native-responsive-screen";
 import { getServiceshort } from "../../../api/API";
 import { useNavigation } from "@react-navigation/native";
+
+//Begin Import many languages
+import { useTranslation } from 'react-i18next';
+import '../../../i18n/i18n';
+//End Import many languages
 
 const HomeDetails = () => {
   const navigation = useNavigation();
@@ -46,11 +52,22 @@ const HomeDetails = () => {
       console.log(e);
     }
   };
+//Begin Import many languages
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+  //End Import many languages
 
   return (
     <>
     <View style={styles.container}>
       <View style={styles.aboutusHeader}>
+        
+        <Button title="Trung Quốc" onPress={() => changeLanguage('cn')} />
+        <Button title="Tiếng Việt" onPress={() => changeLanguage('vi')} />
+        <Text>{t('welcome_message')}</Text>
         <View style={styles.searchContainer}>
           <Ionicons name="search" style={styles.searchIcon} color="#724929" />
           <TextInput
