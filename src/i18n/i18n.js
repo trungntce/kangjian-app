@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import en from './en.json';
 import vi from './vi.json';
-import cn from './cn.json';
+import cn from './zh.json';
 
 const languageDetector = {
   type: 'languageDetector',
@@ -37,8 +37,8 @@ i18n
       vi: {
         translation: vi,
       },
-      cn: {
-        translation: cn,
+      zh: {
+        translation: zh,
       },
     },
     interpolation: {
