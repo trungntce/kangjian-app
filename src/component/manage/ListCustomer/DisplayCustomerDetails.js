@@ -5,7 +5,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { getPersonal,getUserByPhone } from '../../../api/API';
 import { alertBox } from '../../../default/part/Notify';
 import { formatCurrency } from '../../../default/part/MoneyFomart';
-
+import { useTranslation } from 'react-i18next';
 
 const DisplayCustomerDetails = ({phone}) => {
     console.log(phone);
@@ -23,7 +23,7 @@ const DisplayCustomerDetails = ({phone}) => {
     const [changeList, setChangeList] = useState(false);
     const [cardNo, setCardNo] = useState('');
     const [availableBalance, setAvailableBalance] = useState('');
-
+    const { t, i18n } = useTranslation();
    // const [secureTextEntry, setSecureTextEntry] = useState(true);
 
     useEffect(()=>{
@@ -89,13 +89,13 @@ const DisplayCustomerDetails = ({phone}) => {
        {loading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0000ff" />
-          <Text style={styles.loadingText}>Đang tải dữ liệu...</Text>
+          <Text style={styles.loadingText}>{t("lang_loading")}</Text>
         </View>
       ) : (
         <View style={styles.viewContainer}>
             <ScrollView style={styles.containerScroll}>
                 <View style={styles.containerTitle}>
-                    <Text style={styles.textDesign}>Thông tin tài khoản</Text>
+                    <Text style={styles.textDesign}>{t("lang_user_info")}</Text>
                 </View>
                 <View style={styles.containerContent}>
                   <View>
@@ -103,7 +103,7 @@ const DisplayCustomerDetails = ({phone}) => {
                           <Icon name="user" style={styles.icon} />
                           <TextInput
                             style={styles.input}
-                            placeholder="Tên đăng nhập"
+                            placeholder={t("lang_user_fullName")}
                             onChangeText={(text) => setUsername(text)}
                             value={username}
                             underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -113,7 +113,7 @@ const DisplayCustomerDetails = ({phone}) => {
                           <Icon name="phone" style={styles.icon} />
                           <TextInput
                             style={styles.input}
-                            placeholder="Số điện thoại"
+                            placeholder={t("lang_user_login")}
                             onChangeText={(text) => setPhoneNumber(text)}
                             value={phoneNumber}
                             readOnly
@@ -124,7 +124,7 @@ const DisplayCustomerDetails = ({phone}) => {
                           <Icon name="envelope" style={styles.icon} />
                           <TextInput
                             style={styles.input}
-                            placeholder="abc@gmail.com"
+                            placeholder="kangjian@gmail.com"
                             onChangeText={(text) => setEmail(text)}
                             value={email}
                             underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -134,7 +134,7 @@ const DisplayCustomerDetails = ({phone}) => {
                           <Icon name="map-marker" style={[styles.icon,styles.iconMap]}  />
                           <TextInput
                             style={styles.input}
-                            placeholder="Địa chỉ"
+                            placeholder={t("lang_my_address")}
                             onChangeText={(text) => setAddress(text)}
                             value={address}
                             underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -144,7 +144,7 @@ const DisplayCustomerDetails = ({phone}) => {
                           <Icon name="calendar" style={styles.icon} />
                           <TextInput
                             style={styles.input}
-                            placeholder="Ngày tháng năm sinh (vd: DD/MM/YYYY)"
+                            placeholder={t("lang_my_birthday")}
                             onChangeText={(text) => setBirthdate(text)}
                             value={birthdate}
                             underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -154,7 +154,7 @@ const DisplayCustomerDetails = ({phone}) => {
                           <Icon name="id-card" style={styles.icon} />
                           <TextInput
                             style={styles.input}
-                            placeholder="Căn cước công dân"
+                            placeholder={t("lang_my_cccd")}
                             onChangeText={(text) => setIdCard(text)}
                             value={idCard}
                             underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -164,7 +164,7 @@ const DisplayCustomerDetails = ({phone}) => {
                           <Icon name="id-card" style={styles.icon} />
                           <TextInput
                             style={styles.input}
-                            placeholder="Số thẻ"
+                            placeholder={t("lang_card_no")}
                             onChangeText={(text) => setCardNo(text)}
                             value={cardNo}
                             readOnly
@@ -195,7 +195,7 @@ const DisplayCustomerDetails = ({phone}) => {
                                         style={styles.cardTypeButton}
                                     
                                       >
-                                        <Text style={styles.cardText}>VIP3</Text>
+                                        <Text style={styles.cardText}>VIP</Text>
                                         {cardType === '3' && <Icon name="dot-circle-o" style={styles.iconCard} color="#724929" />}
                                         {cardType !== '3' && <Icon name="circle-o" style={styles.iconCard} color="#724929" />}
                                       </TouchableOpacity>
@@ -205,7 +205,7 @@ const DisplayCustomerDetails = ({phone}) => {
                           <Text>Số dư:</Text>
                           <TextInput
                             style={styles.input}
-                            placeholder="Số thẻ"
+                            placeholder={t("lang_card_no")}
                             value={formatCurrency(availableBalance, 'vi-VN', 'VND')}
                             readOnly
                             underlineColorAndroid="transparent" // Xóa border mặc định của TextInput

@@ -3,10 +3,10 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal,Alert,Keyboa
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import Icon từ thư viện
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { useNavigation } from '@react-navigation/native';
-
+import { useTranslation } from 'react-i18next';
 const ManageMonitorDetails = () => {
    const navigation = useNavigation();
- 
+   const { t, i18n } = useTranslation();
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -18,19 +18,19 @@ const ManageMonitorDetails = () => {
                     <View style={[styles.itemManage]}>
                         <TouchableOpacity style={styles.iconLink} onPress={() => navigation.navigate('ListCustomer')}>
                             <Icon name="user" style={styles.iconFooter} color="black" />
-                            <Text style={styles.text}>Danh sách</Text>
+                            <Text style={styles.text}>{t("lang_user_list")}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={[styles.itemManage]}>
                         <TouchableOpacity style={styles.iconLink} onPress={() => navigation.navigate('Register')}>
                             <Icon name="sticky-note" style={styles.iconFooter} color="black" />
-                            <Text style={styles.text}>Thêm TV</Text>
+                            <Text style={styles.text}>{t("lang_user_add")}</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={[styles.itemManage]}>
                         <TouchableOpacity style={styles.iconLink} onPress={() => navigation.navigate('Deposit')}>
                             <Icon name="dollar" style={styles.iconFooter} color="black" />
-                            <Text style={styles.text}>Nạp tiền</Text>
+                            <Text style={styles.text}>{t("lang_topup")}</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -38,7 +38,7 @@ const ManageMonitorDetails = () => {
                     <View style={[styles.itemManage]}>
                         <TouchableOpacity style={styles.iconLink} onPress={() => navigation.navigate('Pay')}>
                             <Icon name="bars" style={styles.iconFooter} color="black" />
-                            <Text style={styles.text}>Thanh toán</Text>
+                            <Text style={styles.text}>{t("lang_payment")}</Text>
                         </TouchableOpacity>
                     </View>
                     {/* <View style={[styles.itemManage]}>

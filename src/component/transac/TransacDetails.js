@@ -7,7 +7,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { format, toDate } from 'date-fns';
 import { useNavigation } from '@react-navigation/native';
 import { formatCurrency } from '../../default/part/MoneyFomart';
-
+import { useTranslation } from 'react-i18next';
 const TransacDetails = () => {
 const navigation = useNavigation();
   const [listTransac,setListTranSac] = useState([]);
@@ -20,7 +20,7 @@ const navigation = useNavigation();
   const [endDate, setEndDate] = useState('');
   const [fill,setFill] = useState(1);
   const [cardType, setCardType] = useState('0');
-  
+  const { t, i18n } = useTranslation();
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -85,13 +85,13 @@ const navigation = useNavigation();
       <ScrollView contentContainerStyle={{ flexGrow: 1,height:hp('400%')}}>
            <View style={[styles.containerSearch]}>
                 <View style={[styles.titleContainer]}>
-                    <Text style={[styles.title]}>Tra cứu giao dịch</Text>
+                    <Text style={[styles.title]}>{t("lang_lookup_transactions")}</Text>
                 </View>
                 <View style={[styles.itemSearch]}>
                     <Icon name="phone" style={styles.iconFooter} color="black" />
                     <TextInput
                         style={styles.input}
-                        placeholder="Nhập số điện thoại"
+                        placeholder={t("lang_user_login")}
                         onChangeText={(text) => setPhoneNumber(text)}
                         value={phoneNumber}
                         underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -101,7 +101,7 @@ const navigation = useNavigation();
                     <Icon name="sticky-note" style={styles.iconFooter} color="black" />
                     <TextInput
                         style={styles.input}
-                        placeholder="Nhập số thẻ"
+                        placeholder={t("lang_input_card_no")}
                         onChangeText={(text) => setCardNo(text)}
                         value={cardNo}
                         underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -112,7 +112,7 @@ const navigation = useNavigation();
                                             style={styles.cardTypeButton}
                                             onPress={() => setCardType('0')}
                                           >
-                                            <Text style={styles.cardText}>ALL</Text>
+                                            <Text style={styles.cardText}>{t("lang_all")}</Text>
                                             {/* Chọn kiểu radiobox theo giá trị của cardType */}
                                             {cardType === '0' && <Icon name="dot-circle-o" style={styles.iconCard}color="#724929" />}
                                             {cardType !== '0' && <Icon name="circle-o" style={styles.iconCard} color="#724929" />}
@@ -121,7 +121,7 @@ const navigation = useNavigation();
                                             style={styles.cardTypeButton}
                                             onPress={() => setCardType('1')}
                                           >
-                                            <Text style={styles.cardText}>TOPUP</Text>
+                                            <Text style={styles.cardText}>{t("lang_topup")}</Text>
                                             {cardType === '1' && <Icon name="dot-circle-o" style={styles.iconCard} color="#724929" />}
                                             {cardType !== '1' && <Icon name="circle-o" style={styles.iconCard} color="#724929" />}
                                           </TouchableOpacity>
@@ -129,7 +129,7 @@ const navigation = useNavigation();
                                             style={styles.cardTypeButton}
                                             onPress={() => setCardType('2')}
                                           >
-                                            <Text style={styles.cardText}>PAYMENT</Text>
+                                            <Text style={styles.cardText}>{t("lang_payment")}</Text>
                                             {cardType === '2' && <Icon name="dot-circle-o" style={styles.iconCard} color="#724929" />}
                                             {cardType !== '2' && <Icon name="circle-o" style={styles.iconCard} color="#724929" />}
                                           </TouchableOpacity>
@@ -137,7 +137,7 @@ const navigation = useNavigation();
                 <View style={[styles.itemDate]}>
                     <View style={[styles.itemDateSub]}>
                         <TouchableOpacity style={styles.buttonDate} onPress={getFromDate}>
-                            <Text style={styles.textDate}>From</Text>
+                            <Text style={styles.textDate}>{t("lang_from_date")}</Text>
                             <TextInput
                                 style={styles.inputDate}
                                 placeholder="2022/01/01"
@@ -149,7 +149,7 @@ const navigation = useNavigation();
                     </View>
                     <View style={[styles.itemDateSub]}>
                         <TouchableOpacity style={styles.buttonDate} onPress={getEndDate}>
-                            <Text style={styles.textDate}>To</Text>
+                            <Text style={styles.textDate}>{t("lang_to_date")}</Text>
                             <TextInput
                                 style={styles.inputDate}
                                 placeholder="2022/01/01"
@@ -170,13 +170,13 @@ const navigation = useNavigation();
                 )}
                 <TouchableOpacity style={styles.button} onPress={getTransact}>
                     <View style={[styles.itembutton]}>
-                        <Text style={[styles.textBt]}>Search</Text>
+                        <Text style={[styles.textBt]}>{t("lang_button_search")}</Text>
                     </View>
                 </TouchableOpacity>
            </View>
            <View style={[styles.history]}>
                 <View style={[styles.titleContainer]}>
-                    <Text style={[styles.title]}>Lịch sử giao dịch</Text>
+                    <Text style={[styles.title]}>{t("lang_transaction_history")}</Text>
                 </View>
                         {Object.keys(listTransac).map((key) => {
                                 const ts = listTransac[key];

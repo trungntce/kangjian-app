@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { getListUsers } from '../../../api/API';
 import { deleteUser } from '../../../api/API';
 import ConfirmBox from '../../../default/part/ConfirmBox';
-
+import { useTranslation } from 'react-i18next';
 const ListCustomerDetails = () => {
     const navigation = useNavigation();
     const [listItem, setListItem] = useState([]);
@@ -14,7 +14,7 @@ const ListCustomerDetails = () => {
     const [loading, setLoading] = useState(false);
     const [isConfirmVisible, setConfirmVisible] = useState(false);
     const [idremove, setIdRemove] = useState(-1);
-
+    const { t, i18n } = useTranslation();
     useEffect(()=>{
       try{
         getListUser();
@@ -62,13 +62,13 @@ const ListCustomerDetails = () => {
         {loading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0000ff" />
-          <Text style={styles.loadingText}>Đang tải dữ liệu...</Text>
+          <Text style={styles.loadingText}>{t("lang_loading")}</Text>
         </View>
       ) : (
         
    
       <View>
-        <Text style={styles.titleCustomer}>Danh sách khách hàng</Text>
+        <Text style={styles.titleCustomer}>{t("lang_user_list_title")}</Text>
         <ScrollView style={styles.scrollView}>
             {listItem.map((item, index) => (
                 <View key={index} style={styles.container}>
@@ -92,7 +92,7 @@ const ListCustomerDetails = () => {
         </ScrollView>
         <ConfirmBox
                 visible={isConfirmVisible}
-                message="Bạn có muốn xóa?"
+                message={t("lang_alert_delete_question")}
                 onConfirm={handleConfirm}
                 onCancel={handleCancel}
             />

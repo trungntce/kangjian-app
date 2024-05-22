@@ -68,7 +68,7 @@ const HomeDetails = () => {
           <Ionicons name="search" style={styles.searchIcon} color="#724929" />
           <TextInput
             style={styles.searchInput}
-            placeholder="Tìm kiếm..."
+            placeholder={t('lang_search_home')}
             placeholderTextColor="#000000" // Màu đen cho placeholder
           />
         </View>
@@ -81,11 +81,11 @@ const HomeDetails = () => {
       <View style={styles.contentContainer}>
         {/* Phần nút menu */}
         <TouchableOpacity style={styles.menuButton}>
-          <Text style={styles.buttonText}>Special Menu</Text>
+          <Text style={styles.buttonText}>{t('lang_special_menu')}</Text>
         </TouchableOpacity>
         {/* Phần nút xem hết */}
         <TouchableOpacity style={styles.viewAllButton}>
-          <Text style={styles.buttonText}>See All</Text>
+          {/* <Text style={styles.buttonText}>See All</Text> */}
         </TouchableOpacity>
       </View>
       {/* Các khối ảnh và tiêu đề */}
@@ -116,7 +116,7 @@ const HomeDetails = () => {
       {/* Phần Ưu đãi */}
       <View style={styles.promotionContainer}>
         <Text style={styles.promotionText}>
-          Ưu đãi nạp tiền cực khủng lên đến 30.000.000đ
+        {t('title_home_promotions')}
         </Text>
       </View>
       <View style={styles.additionalContainer}>

@@ -4,19 +4,25 @@ import Icon from 'react-native-vector-icons/FontAwesome'; // Import Icon từ th
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../routers/AuthContext';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
+//Begin Import many languages
 import { useTranslation } from 'react-i18next';
+import '../i18n/i18n';
+//End Import many languages
 
 const Footer = () => {
+  
     const navigation = useNavigation();
-    const { t } = useTranslation();
+    
     const { isLoading, isLogin,isMenu,permission,logout } = useContext(AuthContext);
-    // const logOuts = async() => {
-    //   try {
-    //      logout();
-    //   } catch (error) {
-    //       console.error('Error logging out:', error);
-    //   }
-    // };
+    
+    //Begin Import many languages
+  const { t, i18n } = useTranslation();
+
+  const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+  };
+  //End Import many languages
     return (
         <View style={styles.footer}>
         <View style={styles.iconContainer}>
@@ -29,7 +35,7 @@ const Footer = () => {
         <View style={styles.iconContainer}>
               <TouchableOpacity style={styles.iconLink} onPress={() => navigation.navigate('Transac')}>
               <Icon name="sticky-note" style={styles.iconFooter} color="white" />
-            <Text style={styles.text}>Giao dịch</Text>
+            <Text style={styles.text}>{t("lang_transaction_history")}</Text>
                 </TouchableOpacity>
         </View>}
         {/* <View style={styles.iconContainer}>
@@ -42,7 +48,7 @@ const Footer = () => {
          {isLogin && permission && (permission.includes('ADMIN') || permission.includes('MANAGE') || permission.includes('STAFF')) && (
           <TouchableOpacity style={styles.iconLink} onPress={() => navigation.navigate('ManageMonitor')}>
           <Icon name="bars" style={styles.iconFooter} color="white" />
-          <Text style={styles.text}>Quản lý</Text>
+          <Text style={styles.text}>{t("lang_manage_footer")}</Text>
           </TouchableOpacity>
         )}
         {/* <View style={styles.iconContainer}>
@@ -56,7 +62,7 @@ const Footer = () => {
         {isLogin &&
                 <TouchableOpacity style={styles.iconLink} onPress={() => navigation.navigate('EditCustomer',{userInfo:null})}>
                     <Icon name="user" style={styles.iconFooter} color="white" />
-                    <Text style={styles.text}>Thông tin</Text>
+                    <Text style={styles.text}>{t("lang_my_info_footer")}</Text>
                 </TouchableOpacity>}
                 
         </View>
@@ -73,7 +79,7 @@ const Footer = () => {
         
                 <TouchableOpacity style={styles.iconLink} onPress={() => navigation.navigate('Login')}>
                     <Icon name="sign-in" style={styles.iconFooter} color="white" />
-                    <Text style={styles.text}>{t('login')}</Text>
+                    <Text style={styles.text}>{t('lang_login')}</Text>
                 </TouchableOpacity>
         </View>}
         </View>

@@ -10,6 +10,7 @@ import { formatCurrency,processString } from '../default/part/MoneyFomart';
 import ConfirmBox from '../default/part/ConfirmBox';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format, toDate } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 
 const RegisterDetails = () => {
   const navigation = useNavigation();
@@ -30,7 +31,7 @@ const RegisterDetails = () => {
   const [isConfirmVisible, setConfirmVisible] = useState(false);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date());
-
+  const { t, i18n } = useTranslation();
   //const numbers = ['1', '2', '3', '4', '5','6', '7', '8', '9', '10','11', '12', '13', '14', '15'];
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
@@ -191,7 +192,7 @@ const RegisterDetails = () => {
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1,height:hp('140%')}}>
       <View style={styles.containerTitle}>
-                    <Text style={styles.textDesign}>Thêm người dùng</Text>
+                    <Text style={styles.textDesign}>{t("lang_user_add")}</Text>
                 </View>
                 <View style={styles.containerContent}>
                   <View>

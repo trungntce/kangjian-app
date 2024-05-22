@@ -24,6 +24,7 @@ import { useNavigation } from '@react-navigation/native';
 import ConfirmBox from "../../default/part/ConfirmBox";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format, toDate } from 'date-fns';
+import { useTranslation } from 'react-i18next';
 
 const EditCustomerDetails = () => {
   const { isLoading, isLogin, isMenu, permission, logout } =
@@ -47,6 +48,7 @@ const EditCustomerDetails = () => {
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date());
 
+  const { t, i18n } = useTranslation();
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === 'ios');
@@ -107,9 +109,10 @@ const EditCustomerDetails = () => {
       };
       const result = await updateUser(data);
       if (result) {
-        alertBox("Hoàn thành chỉnh sửa!");
+        
+        alertBox(t('lang_alert_edited'));
       } else {
-        alertBox("Đã có lỗi xảy ra!");
+        alertBox(t('lang_alert_error'));
       }
       setChangeList(!changeList);
     } catch (e) {
@@ -166,10 +169,10 @@ const EditCustomerDetails = () => {
             <View style={styles.headerCus}>
               <View style={styles.infoAcc}>
                 <Text style={styles.textDesign}>
-                  Xin chào: <Text style={styles.textDesignSub}>{username}</Text>
+                  {t("lang_welcome")}: <Text style={styles.textDesignSub}>{username}</Text>
                 </Text>
                 <Text style={styles.textDesign}>
-                  Số dư của bạn:{" "}
+                  {t("lang_account_balance")}:{" "}
                   <Text style={styles.textDesignSub}>{formatCurrency(availableBalance, 'vi-VN', 'VND')}</Text>
                 </Text>
               </View>
@@ -180,7 +183,7 @@ const EditCustomerDetails = () => {
                 style={styles.buttonhisContainer}
                 onPress={() => navigation.navigate('Transac')}
               >
-                <Text style={styles.buttonHis}>Lịch sử giao dịch</Text>
+                <Text style={styles.buttonHis}>{t("lang_transaction_history")}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.buttonhisContainer,styles.containerSignOut]}
@@ -191,11 +194,11 @@ const EditCustomerDetails = () => {
                     style={styles.iconFooter}
                     color="black"
                   />
-                <Text style={styles.buttonHis}>Đăng xuất</Text>
+                <Text style={styles.buttonHis}>{t("lang_logout")}</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.containerTitle}>
-              <Text style={styles.textDesign}>Thông tin của tôi</Text>
+              <Text style={styles.textDesign}>{t("lang_my_info")}</Text>
             </View>
             <View style={styles.containerContent}>
               <View>
@@ -203,7 +206,7 @@ const EditCustomerDetails = () => {
                   <Icon name="user" style={styles.icon} />
                   <TextInput
                     style={styles.input}
-                    placeholder="Tên đăng nhập"
+                    placeholder={t('lang_my_fullName')}
                     onChangeText={(text) => setUsername(text)}
                     value={username}
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -213,7 +216,7 @@ const EditCustomerDetails = () => {
                   <Icon name="phone" style={styles.icon} />
                   <TextInput
                     style={styles.input}
-                    placeholder="Số điện thoại"
+                    placeholder={t("lang_user_login")}
                     onChangeText={(text) => setPhoneNumber(text)}
                     value={phoneNumber}
                     readOnly
@@ -224,7 +227,7 @@ const EditCustomerDetails = () => {
                   <Icon name="envelope" style={styles.icon} />
                   <TextInput
                     style={styles.input}
-                    placeholder="abc@gmail.com"
+                    placeholder="kangjian@gmail.com"
                     onChangeText={(text) => setEmail(text)}
                     value={email}
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -237,7 +240,7 @@ const EditCustomerDetails = () => {
                   />
                   <TextInput
                     style={styles.input}
-                    placeholder="Địa chỉ"
+                    placeholder={t("lang_my_address")}
                     onChangeText={(text) => setAddress(text)}
                     value={address}
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -250,7 +253,7 @@ const EditCustomerDetails = () => {
                   >
                     <TextInput
                       style={styles.input}
-                      placeholder="Ngày tháng năm sinh (vd: DD/MM/YYYY)"
+                      placeholder={t("lang_my_birthday")}
                       readOnly
                       value={birthdate}
                       underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -269,7 +272,7 @@ const EditCustomerDetails = () => {
                   <Icon name="id-card" style={styles.icon} />
                   <TextInput
                     style={styles.input}
-                    placeholder="Căn cước công dân"
+                    placeholder={t("lang_my_cccd")}
                     onChangeText={(text) => setIdCard(text)}
                     value={idCard}
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -279,7 +282,7 @@ const EditCustomerDetails = () => {
                   <Icon name="id-card" style={styles.icon} />
                   <TextInput
                     style={styles.input}
-                    placeholder="Số thẻ"
+                    placeholder={t("lang_card_no")}
                     onChangeText={(text) => setCardNo(text)}
                     value={cardNo}
                     readOnly
@@ -325,7 +328,7 @@ const EditCustomerDetails = () => {
                       )}
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.cardTypeButton}>
-                      <Text style={styles.cardText}>VIP3</Text>
+                      <Text style={styles.cardText}>VIP</Text>
                       {cardType === "3" && (
                         <Icon
                           name="dot-circle-o"
@@ -348,7 +351,7 @@ const EditCustomerDetails = () => {
                     style={styles.button}
                     onPress={changeInfo}
                   >
-                    <Text style={styles.buttonText}>Sửa thông tin</Text>
+                    <Text style={styles.buttonText}>{t("lang_edit_information")}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
@@ -356,13 +359,13 @@ const EditCustomerDetails = () => {
           </ScrollView>
           <ConfirmBox
                 visible={isConfirmVisible}
-                message="Bạn có muốn sửa thông tin?"
+                message={t("lang_alert_edit_question")}
                 onConfirm={handleConfirm}
                 onCancel={handleCancel}
           />
            <ConfirmBox
                 visible={isConfirmLogout}
-                message="Bạn có muốn đăng xuất?"
+                message={t("lang_alert_logout_question")}
                 onConfirm={handleConfirmLogout}
                 onCancel={handleCancelLogout}
           />

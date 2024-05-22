@@ -1,7 +1,9 @@
 import React from 'react';
 import { View, Modal, Text, Button, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 const ConfirmBox = ({ visible, title, message, onCancel, onConfirm }) => {
+  const { t, i18n } = useTranslation();
   return (
     <Modal
       transparent={true}
@@ -14,8 +16,8 @@ const ConfirmBox = ({ visible, title, message, onCancel, onConfirm }) => {
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.message}>{message}</Text>
           <View style={styles.buttonContainer}>
-            <Button title="Không" onPress={onCancel} />
-            <Button title="Có" onPress={onConfirm} />
+            <Button title={t("lang_alert_no")} onPress={onCancel} />
+            <Button title={t("lang_alert_yes")} onPress={onConfirm} />
           </View>
         </View>
       </View>

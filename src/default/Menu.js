@@ -5,13 +5,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from '../routers/AuthContext';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
+import { useTranslation } from 'react-i18next';
 const Menu = ({ visible, onClose }) => {
   const { logout,isLogin,isMenu } = useContext(AuthContext);
   const navigation = useNavigation();
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
-
+  const { t, i18n } = useTranslation();
   const logOuts = async() => {
     try {
        logout();
@@ -60,7 +60,7 @@ const Menu = ({ visible, onClose }) => {
               <View>
              
               <TouchableOpacity onPress={() => navigation.navigate('ListCustomer')}>
-                    <Text>Danh sách khách hàng</Text>
+                    <Text>{t("lang_user_list")}</Text>
               </TouchableOpacity>
               <TouchableOpacity onPress={() => navigation.navigate('Register')}>
                     <Text>Thêm thành viên</Text>
@@ -72,7 +72,7 @@ const Menu = ({ visible, onClose }) => {
               }
               {!isLogin &&
               <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-                    <Text>Đăng nhập</Text>
+                    <Text>{t('lang_login')}</Text>
               </TouchableOpacity>
               }
             </View>

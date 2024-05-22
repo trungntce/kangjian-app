@@ -26,7 +26,10 @@ const LoginDetails = () => {
   const [password, setPassword] = useState("");
   const [notify, setNotify] = useState(false);
   const [textNotice, setTextNotice] = useState("");
-  const { t } = useTranslation();
+  
+  //Begin Import many languages
+  const { t, i18n } = useTranslation();
+  //End Import many languages
 
   const checkValue = () => {
     if (!username.trim() || !password.trim()) {
@@ -86,7 +89,7 @@ const LoginDetails = () => {
             contentContainerStyle={{ flexGrow: 1, height: hp("100%") }}
           >
             <View style={styles.container}>
-              <Text style={styles.title}>{t('login')}</Text>
+              <Text style={styles.title}>{t('lang_login')}</Text>
               <View style={styles.inputWrapper}>
                 <Icon
                   name="user"
@@ -96,7 +99,7 @@ const LoginDetails = () => {
                 />
                 <TextInput
                   style={styles.input}
-                  placeholder="Tên đăng nhập"
+                  placeholder={t('lang_user_login')}
                   onChangeText={(text) => setUsername(text)}
                   value={username}
                   underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -111,7 +114,7 @@ const LoginDetails = () => {
                 />
                 <TextInput
                   style={styles.input}
-                  placeholder="Mật khẩu"
+                  placeholder={t('lang_password_login')}
                   secureTextEntry={true}
                   onChangeText={(text) => setPassword(text)}
                   value={password}
@@ -124,7 +127,7 @@ const LoginDetails = () => {
                 </View>
               )}
               <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                <Text style={styles.buttonText}>Đăng nhập</Text>
+                <Text style={styles.buttonText}>{t('lang_login')}</Text>
               </TouchableOpacity>
               <View style={styles.bottomLinks}>
                 {/* <TouchableOpacity onPress={handleForgotPassword}>
