@@ -4,7 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import en from './en.json';
 import vi from './vi.json';
-import cn from './zh.json';
+import zh from './zh.json';
 
 const languageDetector = {
   type: 'languageDetector',
@@ -28,7 +28,8 @@ i18n
   .use(languageDetector)
   .use(initReactI18next)
   .init({
-    fallbackLng: 'en',
+    compatibilityJSON: 'v3',
+    fallbackLng: 'vi',
     debug: true,
     resources: {
       en: {

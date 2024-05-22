@@ -18,11 +18,6 @@ import { useNavigation } from "@react-navigation/native";
 
 //Begin Import many languages
 import { useTranslation } from 'react-i18next';
-// Import polyfill
-import '@formatjs/intl-pluralrules/polyfill';
-import '@formatjs/intl-pluralrules/locale-data/en';
-import '@formatjs/intl-pluralrules/locale-data/vi';
-import '@formatjs/intl-pluralrules/locale-data/zh'; // Tiếng Trung Quốc (zh là mã ISO 639-1 cho tiếng Trung Quốc)
 import '../../../i18n/i18n';
 //End Import many languages
 
