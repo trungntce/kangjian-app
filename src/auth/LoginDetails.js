@@ -41,7 +41,7 @@ const LoginDetails = () => {
     try {
       setLoading(true);
       if (!checkValue()) {
-        setTextNotice("Vui lòng nhập đầy đủ thông tin");
+        setTextNotice("Tài khoản hoặc mật khẩu không đúng!");
         setNotify(true);
         return;
       }
@@ -50,7 +50,7 @@ const LoginDetails = () => {
         login(res.result.token, res.result.expiration);
         permiss(res.result.permissions);
       } else {
-        setTextNotice("Thông tin không chính xác");
+        setTextNotice("Tài khoản hoặc mật khẩu không đúng!");
         setNotify(true);
         return;
       }

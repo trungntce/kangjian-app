@@ -10,6 +10,7 @@ const HistoryTransacDetails = ({transacInfo}) => {
   const [type,setType] = useState(transacInfo ? transacInfo.transactionTypeName : '');
   const [phoneNumber,setPhoneNumber] = useState(transacInfo ? transacInfo.phoneNumber : '');
   const [fullName,setFullName] = useState(transacInfo ? transacInfo.fullName : '');
+  const [cardNo,setCardNo] = useState(transacInfo ? transacInfo.cardNo : '');
   return (
     <>
     <KeyboardAvoidingView
@@ -30,6 +31,10 @@ const HistoryTransacDetails = ({transacInfo}) => {
                 <View style={[styles.itemList]}>
                     <Text style={[styles.title]}>Loại giao dịch</Text>
                     <Text style={[styles.value]}>{type}</Text>
+                </View>
+                <View style={[styles.itemList]}>
+                    <Text style={[styles.title]}>Số thẻ</Text>
+                    <Text style={[styles.value]}>{cardNo}</Text>
                 </View>
                 <View style={[styles.itemList]}>
                     <Text style={[styles.title]}>Số điện thoại</Text>

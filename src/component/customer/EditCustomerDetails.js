@@ -21,6 +21,9 @@ import { alertBox } from "../../default/part/Notify";
 import { AuthContext } from "../../routers/AuthContext";
 import { formatCurrency } from "../../default/part/MoneyFomart";
 import { useNavigation } from '@react-navigation/native';
+import ConfirmBox from "../../default/part/ConfirmBox";
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { format, toDate } from 'date-fns';
 
 const EditCustomerDetails = () => {
   const { isLoading, isLogin, isMenu, permission, logout } =
@@ -39,6 +42,20 @@ const EditCustomerDetails = () => {
   const [cardNo, setCardNo] = useState("");
   const [availableBalance, setAvailableBalance] = useState("");
   const navigation = useNavigation();
+  const [isConfirmVisible, setConfirmVisible] = useState(false);
+  const [isConfirmLogout, setConfirmLogout] = useState(false);
+  const [show, setShow] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setBirthdate(format(currentDate, 'yyyy/MM/dd'));
+  };
+  const showDatepicker = () => {
+    setShow(!show);
+  };
+
 
   useEffect(()=>{
       if(permission == null){
@@ -107,6 +124,30 @@ const EditCustomerDetails = () => {
     }
   };
 
+  const changeInfo = () => {
+    setConfirmVisible(true);
+  }
+  const handleConfirm = () => {
+    handleUpdate();
+    setConfirmVisible(false);
+  };
+
+  const handleCancel = () => {
+    setConfirmVisible(false);
+  };
+
+  const confirmLogout = () => {
+    setConfirmLogout(true);
+  }
+  const handleConfirmLogout = () => {
+    logOuts();
+    setConfirmLogout(false);
+  };
+
+  const handleCancelLogout = () => {
+    setConfirmLogout(false);
+  };
+
   return (
     <>
       {loading ? (
@@ -132,26 +173,25 @@ const EditCustomerDetails = () => {
                   <Text style={styles.textDesignSub}>{formatCurrency(availableBalance, 'vi-VN', 'VND')}</Text>
                 </Text>
               </View>
-              <View>
-                <TouchableOpacity
-                  style={styles.containerSignOut}
-                  onPress={logOuts}
-                >
-                  <Icon
-                    name="sign-out"
-                    style={styles.iconFooter}
-                    color="black"
-                  />
-                  <Text style={styles.btnsignOut}>Đăng xuất</Text>
-                </TouchableOpacity>
-              </View>
+             
             </View>
-            <View>
+            <View style={[styles.containerbottom]}>
               <TouchableOpacity
                 style={styles.buttonhisContainer}
                 onPress={() => navigation.navigate('Transac')}
               >
                 <Text style={styles.buttonHis}>Lịch sử giao dịch</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.buttonhisContainer,styles.containerSignOut]}
+                onPress={confirmLogout}
+              >
+                <Icon
+                    name="sign-out"
+                    style={styles.iconFooter}
+                    color="black"
+                  />
+                <Text style={styles.buttonHis}>Đăng xuất</Text>
               </TouchableOpacity>
             </View>
             <View style={styles.containerTitle}>
@@ -203,15 +243,27 @@ const EditCustomerDetails = () => {
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
                 </View>
-                <View style={styles.inputWrapper}>
+                <View style={[styles.inputWrapper,styles.datecontai]}>
                   <Icon name="calendar" style={styles.icon} />
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Ngày tháng năm sinh (vd: DD/MM/YYYY)"
-                    onChangeText={(text) => setBirthdate(text)}
-                    value={birthdate}
-                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
-                  />
+                  <TouchableOpacity
+                    onPress={showDatepicker}
+                  >
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Ngày tháng năm sinh (vd: DD/MM/YYYY)"
+                      readOnly
+                      value={birthdate}
+                      underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                    />
+                  </TouchableOpacity>
+                  {show && (
+                    <DateTimePicker
+                      value={date}
+                      mode="date"
+                      display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                      onChange={onChange}
+                    />
+                )}
                 </View>
                 <View style={styles.inputWrapper}>
                   <Icon name="id-card" style={styles.icon} />
@@ -294,7 +346,7 @@ const EditCustomerDetails = () => {
                 <View>
                   <TouchableOpacity
                     style={styles.button}
-                    onPress={handleUpdate}
+                    onPress={changeInfo}
                   >
                     <Text style={styles.buttonText}>Sửa thông tin</Text>
                   </TouchableOpacity>
@@ -302,6 +354,18 @@ const EditCustomerDetails = () => {
               </View>
             </View>
           </ScrollView>
+          <ConfirmBox
+                visible={isConfirmVisible}
+                message="Bạn có muốn sửa thông tin?"
+                onConfirm={handleConfirm}
+                onCancel={handleCancel}
+          />
+           <ConfirmBox
+                visible={isConfirmLogout}
+                message="Bạn có muốn đăng xuất?"
+                onConfirm={handleConfirmLogout}
+                onCancel={handleCancelLogout}
+          />
         </KeyboardAvoidingView>
       )}
     </>
@@ -311,6 +375,11 @@ const EditCustomerDetails = () => {
 const styles = StyleSheet.create({
   containerScroll: {
     height: hp("75%"),
+  },
+  containerbottom:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    padding:wp('3%')
   },
   designReadonly:{
     opacity:wp('0.1%')
@@ -351,8 +420,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
-    width: wp("37%"),
-    marginLeft: wp("4%"),
+    padding:wp('2%')
   },
   containerSignOut: {
     // width:wp('30%'),
@@ -458,6 +526,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: wp("4%"),
   },
+  datecontai:{
+    paddingBottom:wp('4%')
+  }
 });
 
 export default EditCustomerDetails;

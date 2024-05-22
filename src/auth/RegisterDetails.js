@@ -6,6 +6,10 @@ import { useNavigation } from '@react-navigation/native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { alertBox } from '../default/part/Notify';
 import { getNumberCard,getPromotion,addUserWithCard} from '../api/API';
+import { formatCurrency,processString } from '../default/part/MoneyFomart';
+import ConfirmBox from '../default/part/ConfirmBox';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { format, toDate } from 'date-fns';
 
 const RegisterDetails = () => {
   const navigation = useNavigation();
@@ -15,7 +19,7 @@ const RegisterDetails = () => {
   const [birthdate, setBirthdate] = useState('');
   const [idCard, setIdCard] = useState('');
   const [cardType, setCardType] = useState('0');
-  const [selectedNumber, setSelectedNumber] = useState(''); // Thêm state cho số được chọn
+  const [selectedNumber, setSelectedNumber] = useState('0'); // Thêm state cho số được chọn
   const [showNumberOptions, setShowNumberOptions] = useState(false);
   const [email, setEmail] = useState('');
   const [address, setAddress] = useState('');
@@ -23,8 +27,24 @@ const RegisterDetails = () => {
   const [money,setMoney] = useState('0');
   const [totalMoney, setTotalMoney] = useState('0');
   const [cardKey, setCardKey] = useState(0);
+  const [isConfirmVisible, setConfirmVisible] = useState(false);
+  const [show, setShow] = useState(false);
+  const [date, setDate] = useState(new Date());
 
   //const numbers = ['1', '2', '3', '4', '5','6', '7', '8', '9', '10','11', '12', '13', '14', '15'];
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setBirthdate(format(currentDate, 'yyyy/MM/dd'));
+  };
+  const showDatepicker = () => {
+    setShow(!show);
+  };
+
+  const setTextMoney = (text) =>{
+    const textNumber = isNaN(parseInt(processString(text))) ? 0 :parseInt(processString(text));
+    setMoney(textNumber);
+  }
   const toggleNumberOptions = () => {
     setShowNumberOptions(!showNumberOptions);
   };
@@ -79,8 +99,40 @@ const RegisterDetails = () => {
     }
   };
 
+  const check = () => {
+    if(!username.trim()){
+      return false;
+    }
+    if(!password.trim()){
+      return false;
+    }
+    if(!phoneNumber.trim()){
+      return false;
+    }
+    if(!email.trim()){
+      return false;
+    }
+    if(!address.trim()){
+      return false;
+    }
+    if(!birthdate.trim()){
+      return false;
+    }
+    if(!idCard.trim()){
+      return false;
+    }
+    if(parseInt(selectedNumber) == 0){
+      return false;
+    }
+    if(parseInt(totalMoney) == 0){
+      return false;
+    }
+    return true;
+  }
+
   const handleRegister = async() => {
     try{
+     
       const data = {
         fullName:username,
         phoneNumber:phoneNumber,
@@ -104,6 +156,31 @@ const RegisterDetails = () => {
     }catch(e){
       console.log(e);
     }
+  };
+
+  const handleConfirm = () => {
+    // Xử lý logic khi người dùng xác nhận
+    
+    handleRegister();
+   setConfirmVisible(false);
+  
+  };
+
+  
+  const handleQuestion = () => {
+    // Xử lý logic khi người dùng xác nhận
+    if(!check()){
+      alertBox('Nhập đầy đủ thông tin!');
+      return;
+    }
+    setConfirmVisible(true);
+  
+  };
+
+  const handleCancel = () => {
+    // Xử lý logic khi người dùng hủy
+    console.log('Cancelled');
+    setConfirmVisible(false);
   };
 
   return (
@@ -144,6 +221,7 @@ const RegisterDetails = () => {
                               <TextInput
                                 style={styles.input}
                                 placeholder="Số điện thoại"
+                                keyboardType="numeric"
                                 onChangeText={(text) => setPhoneNumber(text)}
                                 value={phoneNumber}
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -171,19 +249,33 @@ const RegisterDetails = () => {
                         </View>
                         <View style={styles.inputWrapper}>
                               <Icon name="calendar" style={styles.icon} />
+                              <TouchableOpacity
+                    onPress={showDatepicker}
+                  >
                               <TextInput
                                 style={styles.input}
                                 placeholder="Ngày tháng năm sinh (vd: DD/MM/YYYY)"
-                                onChangeText={(text) => setBirthdate(text)}
+                               // onChangeText={(text) => setBirthdate(text)}
                                 value={birthdate}
+                                readOnly
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                               />
+                              </TouchableOpacity>
+                              {show && (
+                    <DateTimePicker
+                      value={date}
+                      mode="date"
+                      display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                      onChange={onChange}
+                    />
+                )}
                         </View>
                         <View style={styles.inputWrapper}>
                               <Icon name="id-card" style={styles.icon} />
                               <TextInput
                                 style={styles.input}
                                 placeholder="Căn cước công dân"
+                                keyboardType="numeric"
                                 onChangeText={(text) => setIdCard(text)}
                                 value={idCard}
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -253,8 +345,9 @@ const RegisterDetails = () => {
                                 <TextInput
                                    style={[styles.inputMoneySub,styles.designMoney]}
                                   placeholder="Mini Money"
-                                  onChangeText={(text) => setMoney(text)}
-                                  value={money}
+                                  onChangeText={(text) => setTextMoney(text)}
+                                  keyboardType="numeric"
+                                  value={formatCurrency(money, 'vi-VN', 'VND')}
                                   underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                                 />
                               </View>
@@ -272,7 +365,7 @@ const RegisterDetails = () => {
                               <TextInput
                                 style={[styles.input,styles.designMoney]}
                                 placeholder="############"
-                                value={totalMoney}
+                                value={formatCurrency(totalMoney, 'vi-VN', 'VND')}
                                 readOnly
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                               />
@@ -281,13 +374,19 @@ const RegisterDetails = () => {
                     <TouchableOpacity style={[styles.button,styles.buttonReset]} onPress={handleReset}>
                         <Text style={[styles.buttonText,styles.resetText]}>Reset</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={handleRegister}>
+                    <TouchableOpacity style={styles.button} onPress={handleQuestion}>
                         <Text style={styles.buttonText} >Hoàn thành</Text>
                     </TouchableOpacity>
                     </View>
                   </View>
                 </View>
       </ScrollView>
+      <ConfirmBox
+        visible={isConfirmVisible}
+        message="Bạn có muốn thêm thành viên?"
+        onConfirm={handleConfirm}
+        onCancel={handleCancel}
+      />
       </KeyboardAvoidingView>
     </>
   );
@@ -412,7 +511,7 @@ const styles = StyleSheet.create({
   },
   inputMoneySub:{
     marginLeft:wp('2%'),
-    width:wp('30%'),
+    width:wp('35%'),
   },
   input: {
     height: hp('5%'),

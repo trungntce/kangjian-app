@@ -5,7 +5,7 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { getCardActive,getPromotion,addDeposit } from '../../../api/API';
 import ConfirmBox from '../../../default/part/ConfirmBox';
 import { alertBox } from '../../../default/part/Notify';
-import { formatCurrency } from '../../../default/part/MoneyFomart';
+import { formatCurrency,processString } from '../../../default/part/MoneyFomart';
 
 const DepositDetails = () => {
 
@@ -24,6 +24,10 @@ const DepositDetails = () => {
   const [fullName, setFullName] = useState('');
   
 
+  const setTextMoney = (text) =>{
+    const textNumber = isNaN(parseInt(processString(text))) ? 0 :parseInt(processString(text));
+    setMoney(textNumber);
+  }
   const selectNumber = (number,cardType,idCard,minimount,phone,name,iduser) => {
     setCardType(cardType);
     setSelectedNumber(number);
@@ -58,8 +62,7 @@ const DepositDetails = () => {
 
   const totalCount = async() => {
     try{
-      const result = await getPromotion(money);
-      
+      const result = await getPromotion(parseInt(money));
       if(result){
         setTotalMoney(result+'');
       }
@@ -67,7 +70,24 @@ const DepositDetails = () => {
       console.log(e);
     }
   };
-
+  const check = () => {
+      if(!idUser){
+        return false;
+      }
+      if(!phoneNumber.trim()){
+          return false;
+      }
+      if(parseInt(cardType) == 0){
+          return false;
+      }
+      if(parseInt(money) == 0){
+          return false;
+      }
+      if(parseInt(totalMoney) == 0){
+        return false;
+      }
+      return true;
+  }
   const handleUpdate = async() => {
     try{
       // setConfirmVisible(false);
@@ -105,7 +125,10 @@ const DepositDetails = () => {
   
   const handleQuestion = () => {
     // Xử lý logic khi người dùng xác nhận
-    
+    if(!check()){
+      alertBox('Nhập đầy đủ thông tin!');
+      return;
+    }
     setConfirmVisible(true);
   
   };
@@ -215,8 +238,9 @@ const DepositDetails = () => {
                                 <TextInput
                                   style={[styles.inputMoneySub,styles.designMoney]}
                                   placeholder="Mini Money"
-                                  onChangeText={(text) => setMoney(text)}
-                                  value={money}
+                                  onChangeText={(text) => setTextMoney(text)}
+                                  keyboardType="numeric"
+                                  value={formatCurrency(money, 'vi-VN', 'VND')}
                                   underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                                 />
                               </View>
@@ -252,7 +276,7 @@ const DepositDetails = () => {
       </ScrollView>
       <ConfirmBox
         visible={isConfirmVisible}
-        message="Bạn có muốn lưu?"
+        message="Bạn có muốn nạp tiền?"
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />

@@ -5,13 +5,15 @@ import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-nat
 import { useNavigation } from '@react-navigation/native';
 import { getListUsers } from '../../../api/API';
 import { deleteUser } from '../../../api/API';
-import { confirmBox } from '../../../default/part/Notify';
+import ConfirmBox from '../../../default/part/ConfirmBox';
 
 const ListCustomerDetails = () => {
     const navigation = useNavigation();
     const [listItem, setListItem] = useState([]);
     const [changeList, setChangeList] = useState(true);
     const [loading, setLoading] = useState(false);
+    const [isConfirmVisible, setConfirmVisible] = useState(false);
+    const [idremove, setIdRemove] = useState(-1);
 
     useEffect(()=>{
       try{
@@ -41,10 +43,19 @@ const ListCustomerDetails = () => {
           setChangeList(!changeList);
         }
     }
-
-    const handlerConfirm = (phone) =>{
-      //confirmBox("Bạn có muốn xóa ?", handleRemove(phone));
+    const remove = (data) => {
+      setIdRemove(data);
+      setConfirmVisible(true);
     }
+    const handleConfirm = () => {
+      handleRemove(idremove);
+      setConfirmVisible(false);
+    };
+  
+    const handleCancel = () => {
+      
+      setConfirmVisible(false);
+    };
 
     return (
         <>
@@ -71,14 +82,21 @@ const ListCustomerDetails = () => {
                         <TouchableOpacity onPress={() => navigation.navigate('DisplayCustomer',{phone:item.phoneNumber})}>
                             <Icon name="edit"  style={[styles.icon,styles.iconblue]} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleRemove(item.phoneNumber)}>
+                        <TouchableOpacity onPress={() => remove(item.phoneNumber)}>
                             <Icon name="trash" style={styles.icon} />
                         </TouchableOpacity>
                         
                     </View>
                 </View>
             ))}
-        </ScrollView></View>   )}
+        </ScrollView>
+        <ConfirmBox
+                visible={isConfirmVisible}
+                message="Bạn có muốn xóa?"
+                onConfirm={handleConfirm}
+                onCancel={handleCancel}
+            />
+        </View>   )}
         </>
     );
 };

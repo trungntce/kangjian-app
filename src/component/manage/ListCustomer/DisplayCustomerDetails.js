@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'; // Import Icon từ th
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { getPersonal,getUserByPhone } from '../../../api/API';
 import { alertBox } from '../../../default/part/Notify';
+import { formatCurrency } from '../../../default/part/MoneyFomart';
 
 
 const DisplayCustomerDetails = ({phone}) => {
@@ -205,7 +206,7 @@ const DisplayCustomerDetails = ({phone}) => {
                           <TextInput
                             style={styles.input}
                             placeholder="Số thẻ"
-                            value={availableBalance}
+                            value={formatCurrency(availableBalance, 'vi-VN', 'VND')}
                             readOnly
                             underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                           />
@@ -223,6 +224,14 @@ const DisplayCustomerDetails = ({phone}) => {
 const styles = StyleSheet.create({
     containerScroll:{
       height:hp('75%')
+    },
+    loadingContainer: {
+      justifyContent: "center",
+      height: hp("70%"),
+    },
+    loadingText: {
+      marginLeft: 10,
+      textAlign: "center",
     },
     headerCus:{
       paddingLeft:wp('3%'),
