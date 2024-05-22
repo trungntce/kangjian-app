@@ -4,9 +4,11 @@ import Icon from 'react-native-vector-icons/FontAwesome'; // Import Icon từ th
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from '../routers/AuthContext';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+import { useTranslation } from 'react-i18next';
 
 const Footer = () => {
     const navigation = useNavigation();
+    const { t } = useTranslation();
     const { isLoading, isLogin,isMenu,permission,logout } = useContext(AuthContext);
     // const logOuts = async() => {
     //   try {
@@ -20,7 +22,7 @@ const Footer = () => {
         <View style={styles.iconContainer}>
               <TouchableOpacity style={styles.iconLink} onPress={() => navigation.navigate('Home')}>
               <Icon name="home" style={styles.iconFooter} color="white" />
-            <Text style={styles.text}>Home</Text>
+            <Text style={styles.text}>{t("home")}</Text>
                 </TouchableOpacity>
         </View>
         {isLogin &&
@@ -71,7 +73,7 @@ const Footer = () => {
         
                 <TouchableOpacity style={styles.iconLink} onPress={() => navigation.navigate('Login')}>
                     <Icon name="sign-in" style={styles.iconFooter} color="white" />
-                    <Text style={styles.text}>Đăng nhập</Text>
+                    <Text style={styles.text}>{t('login')}</Text>
                 </TouchableOpacity>
         </View>}
         </View>

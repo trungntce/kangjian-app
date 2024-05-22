@@ -24,7 +24,7 @@ import '../../../i18n/i18n';
 const HomeDetails = () => {
   const navigation = useNavigation();
   const [listService, setListService] = useState([]);
-
+  const { t, i18n } = useTranslation();
   const primaryURL = "http://66.42.48.193:8000"; // Đường dẫn hình ảnh
   
   
@@ -53,11 +53,9 @@ const HomeDetails = () => {
     }
   };
 //Begin Import many languages
-  const { t, i18n } = useTranslation();
+  
 
-  const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-  };
+ 
   //End Import many languages
 
   return (
@@ -65,9 +63,7 @@ const HomeDetails = () => {
     <View style={styles.container}>
       <View style={styles.aboutusHeader}>
         
-        <Button title="Trung Quốc" onPress={() => changeLanguage('zh')} />
-        <Button title="Tiếng Việt" onPress={() => changeLanguage('vi')} />
-        <Text>{t('welcome_message')}</Text>
+      
         <View style={styles.searchContainer}>
           <Ionicons name="search" style={styles.searchIcon} color="#724929" />
           <TextInput

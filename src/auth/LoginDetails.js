@@ -17,6 +17,7 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
+import { useTranslation } from 'react-i18next';
 
 const LoginDetails = () => {
   const { login, permiss } = useContext(AuthContext);
@@ -25,6 +26,7 @@ const LoginDetails = () => {
   const [password, setPassword] = useState("");
   const [notify, setNotify] = useState(false);
   const [textNotice, setTextNotice] = useState("");
+  const { t } = useTranslation();
 
   const checkValue = () => {
     if (!username.trim() || !password.trim()) {
@@ -84,7 +86,7 @@ const LoginDetails = () => {
             contentContainerStyle={{ flexGrow: 1, height: hp("100%") }}
           >
             <View style={styles.container}>
-              <Text style={styles.title}>Đăng nhập</Text>
+              <Text style={styles.title}>{t('login')}</Text>
               <View style={styles.inputWrapper}>
                 <Icon
                   name="user"
