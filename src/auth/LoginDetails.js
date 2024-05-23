@@ -64,7 +64,7 @@ const LoginDetails = () => {
         setNotify(true);
         return;
       }
-      reset();
+
       setNotify(false);
     } catch (e) {
       console.log(e);

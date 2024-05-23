@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
         color:'#724929'
     },
     text:{
-        fontSize:wp('4%'),
+        fontSize:wp('3%'),
         color:'#724929',
         fontWeight:'bold'
     }
