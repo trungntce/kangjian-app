@@ -13,6 +13,8 @@ import { format, toDate } from 'date-fns';
 import { useTranslation } from 'react-i18next';
 
 const RegisterDetails = () => {
+
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -31,7 +33,7 @@ const RegisterDetails = () => {
   const [isConfirmVisible, setConfirmVisible] = useState(false);
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date());
-  const { t, i18n } = useTranslation();
+
   //const numbers = ['1', '2', '3', '4', '5','6', '7', '8', '9', '10','11', '12', '13', '14', '15'];
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
