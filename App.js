@@ -9,7 +9,7 @@ export default function App() {
   return (
     <AuthProvider>
       <SafeAreaView style={{ flex: 1, backgroundColor: '#724929' }}>
-        <StatusBar/> 
+        {/* <StatusBar/>  */}
         <Router />
       </SafeAreaView>
     </AuthProvider>

@@ -1,6 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AppState } from "react-native";
+import i18n from "../i18n/i18n";
+
+
 
 export const AuthContext = createContext();
 
@@ -27,6 +30,8 @@ export const AuthProvider = ({ children }) => {
     const handleAppStateChange = (nextAppState) => {
       if (nextAppState === "background") {
         // Call the signOut function when the app moves to the background
+        setLanguage(false);
+        i18n.changeLanguage('vi');
         logout();
       }
     };

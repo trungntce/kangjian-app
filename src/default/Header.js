@@ -19,14 +19,15 @@ import { useTranslation } from "react-i18next";
 import i18n from "../i18n/i18n";
 
 const Header = () => {
-  const { isLogin, permission,language,changeLange } = useContext(AuthContext);
+  const { isLogin, permission, language, changeLange } =
+    useContext(AuthContext);
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const { t, i18n } = useTranslation();
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
-
+ 
   const languageChange = (idl, li) => {
     i18n.changeLanguage(li);
     changeLange(idl);

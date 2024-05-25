@@ -4,10 +4,10 @@
     "slug": "kangjian-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/kangjian.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/kangjian.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -26,7 +26,7 @@
       "package": "com.trungntce.kangjianapp"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/kangjian.png"
     },
     "extra": {
       "eas": {

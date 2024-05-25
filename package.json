@@ -5,8 +5,8 @@
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
-    "ios": "expo start --ios",
-    "web": "expo start --web"
+    "ios": "expo start --ios"
+    
   },
   "dependencies": {
     "@formatjs/intl-pluralrules": "^5.2.14",
