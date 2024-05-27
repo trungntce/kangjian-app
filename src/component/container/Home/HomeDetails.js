@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  ScrollView,
   Button,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // Import Ionicons từ thư viện vector icons
@@ -17,8 +18,8 @@ import { getServiceshort } from "../../../api/API";
 import { useNavigation } from "@react-navigation/native";
 
 //Begin Import many languages
-import { useTranslation } from 'react-i18next';
-import '../../../i18n/i18n';
+import { useTranslation } from "react-i18next";
+import "../../../i18n/i18n";
 //End Import many languages
 
 const HomeDetails = () => {
@@ -26,15 +27,13 @@ const HomeDetails = () => {
   const [listService, setListService] = useState([]);
   const { t, i18n } = useTranslation();
   const primaryURL = "http://66.42.48.193:8000"; // Đường dẫn hình ảnh
-  
-  
+
   //Gọi hàm lấy danh sách dịch vụ <gọi 1 lần>
   useEffect(() => {
     getSV();
   }, []);
 
-
-  // Lấy danh sách dịch vụ 
+  // Lấy danh sách dịch vụ
   const getSV = async () => {
     try {
       const result = await getServiceshort();
@@ -47,94 +46,123 @@ const HomeDetails = () => {
   };
   const selectService = () => {
     try {
-     setModalService(true);
+      setModalService(true);
     } catch (e) {
       console.log(e);
     }
   };
-//Begin Import many languages
-  
+  //Begin Import many languages
 
- 
   //End Import many languages
 
   return (
     <>
-    <View style={styles.container}>
-      <View style={styles.aboutusHeader}>
-        
-      
-        <View style={styles.searchContainer}>
-          <Ionicons name="search" style={styles.searchIcon} color="#724929" />
-          <TextInput
-            style={styles.searchInput}
-            placeholder={t('lang_search_home')}
-            placeholderTextColor="#000000" // Màu đen cho placeholder
+      <View style={styles.container}>
+        <View style={styles.aboutusHeader}>
+          <View style={styles.searchContainer}>
+            <Ionicons name="search" style={styles.searchIcon} color="#724929" />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Tìm kiếm..."
+              placeholderTextColor="#000000" // Màu đen cho placeholder
+            />
+          </View>
+          <Image
+            source={require("../../../assets/img/massage.png")} // Đường dẫn đến hình ảnh của bạn
+            style={styles.image}
           />
         </View>
-        <Image
-          source={require("../../../assets/img/massage.png")} // Đường dẫn đến hình ảnh của bạn
-          style={styles.image}
-        />
-      </View>
-      {/* Phần nút menu và nút xem hết */}
-      <View style={styles.contentContainer}>
-        {/* Phần nút menu */}
-        <TouchableOpacity style={styles.menuButton}>
-          <Text style={styles.buttonText}>{t('lang_special_menu')}</Text>
-        </TouchableOpacity>
-        {/* Phần nút xem hết */}
-        <TouchableOpacity style={styles.viewAllButton}>
-          {/* <Text style={styles.buttonText}>See All</Text> */}
-        </TouchableOpacity>
-      </View>
-      {/* Các khối ảnh và tiêu đề */}
-      <View style={styles.blocksContainer}>
-        {Object.keys(listService).map((key,index) => {
-          const sv = listService[key];
-          if (sv.useYn) {
-            return (
-              <TouchableOpacity
-                  style={styles.block} 
-                  key={sv.idService}
-                  onPress={() => navigation.navigate('ServiceMonitor',{ service:sv.idService,info:sv })}
-              >
-                  <View>
-                    <Image
-                      //  source={require('../../../assets/img/massageItem1.png')} // Đường dẫn đến hình ảnh của bạn
-                      source={{ uri: primaryURL + sv.imageUrl }}
-                      style={styles.blockImage}
-                    />
-                    <Text style={styles.title}>{sv.serviceName}</Text>
-                  </View>
+        <View>
+          <ScrollView
+            style={styles.scrollContainer}
+            horizontal={false}
+            pagingEnabled={false}
+            showsVerticalScrollIndicator={true}
+          >
+            {/* Phần nút menu và nút xem hết */}
+            <View style={styles.contentContainer}>
+              {/* Phần nút menu */}
+              <TouchableOpacity style={styles.menuButton}>
+                <Text style={styles.buttonText}>Special Menu</Text>
               </TouchableOpacity>
-            );
-          }
-          return null;
-        })}
+              {/* Phần nút xem hết */}
+              <TouchableOpacity style={styles.viewAllButton}>
+                <Text style={styles.buttonText}>See All</Text>
+              </TouchableOpacity>
+            </View>
+            {/* Các khối ảnh và tiêu đề */}
+
+            <View style={styles.blocksContainer}>
+              {Object.keys(listService).map((key, index) => {
+                const sv = listService[key];
+                if (sv.useYn) {
+                  return (
+                    <TouchableOpacity
+                      style={styles.block}
+                      key={sv.idService}
+                      onPress={() =>
+                        navigation.navigate("ServiceMonitor", {
+                          service: sv.idService,
+                          info: sv,
+                        })
+                      }
+                    >
+                      <View>
+                        <Image
+                          //  source={require('../../../assets/img/massageItem1.png')} // Đường dẫn đến hình ảnh của bạn
+                          source={{ uri: primaryURL + sv.imageUrl }}
+                          style={styles.blockImage}
+                        />
+                        <Text style={styles.title}>{sv.serviceName}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }
+                return null;
+              })}
+            </View>
+            {/* Phần Ưu đãi */}
+            <View style={styles.promotionContainer}>
+              <Text style={styles.promotionText}>
+                <Text style={styles.promotionTextDes}>
+                  Ưu đãi nạp tiền cực khủng{" "}
+                </Text>{" "}
+                lên đến{" "}
+                <Text style={styles.promotionTextMoney}>30.000.000đ</Text>
+              </Text>
+            </View>
+            <View style={styles.additionalContainer}>
+              <Image
+                source={require("../../../assets/img/card/platium.png")} // Đường dẫn đến hình ảnh của bạn
+                style={styles.additionalImage}
+              />
+              <Image
+                source={require("../../../assets/img/card/gold.png")} // Đường dẫn đến hình ảnh của bạn
+                style={styles.additionalImage}
+              />
+              <Image
+                source={require("../../../assets/img/card/vip1.png")} // Đường dẫn đến hình ảnh của bạn
+                style={styles.additionalImage}
+              />
+            </View>
+            <View style={styles.additionalContainer}>
+              <Image
+                source={require("../../../assets/img/card/platiumback.png")} // Đường dẫn đến hình ảnh của bạn
+                style={styles.additionalImage}
+              />
+              <Image
+                source={require("../../../assets/img/card/goldback.png")} // Đường dẫn đến hình ảnh của bạn
+                style={styles.additionalImage}
+              />
+              <Image
+                source={require("../../../assets/img/card/vip1back.png")} // Đường dẫn đến hình ảnh của bạn
+                style={styles.additionalImage}
+              />
+            </View>
+            
+          </ScrollView>
+        </View>
       </View>
-      {/* Phần Ưu đãi */}
-      <View style={styles.promotionContainer}>
-        <Text style={styles.promotionText}>
-        {t('title_home_promotions')}
-        </Text>
-      </View>
-      <View style={styles.additionalContainer}>
-        <Image
-          source={require("../../../assets/img/gold.png")} // Đường dẫn đến hình ảnh của bạn
-          style={styles.additionalImage}
-        />
-        <Image
-          source={require("../../../assets/img/platiumno.png")} // Đường dẫn đến hình ảnh của bạn
-          style={styles.additionalImage}
-        />
-        <Image
-          source={require("../../../assets/img/simplecard.png")} // Đường dẫn đến hình ảnh của bạn
-          style={styles.additionalImage}
-        />
-      </View>
-      
-    </View>
     </>
   );
 };
@@ -150,6 +178,9 @@ const styles = StyleSheet.create({
     backgroundColor: "#724929", // Màu nền cho phần header
     marginBottom: wp("15%"),
     height: hp("24%"),
+  },
+  scrollContainer: {
+    height:wp('100%')
   },
   searchIcon: {
     fontSize: wp("7%"),
@@ -218,8 +249,16 @@ const styles = StyleSheet.create({
   promotionText: {
     fontWeight: "bold",
     fontSize: wp("4%"),
-    color: "#724929",
+    color: "black",
     textAlign: "center",
+  },
+  promotionTextMoney: {
+    fontSize: wp("7%"),
+    color: "#CC9900",
+  },
+  promotionTextDes: {
+    fontSize: wp("5%"),
+    color: "#CC9900",
   },
   additionalContainer: {
     flexDirection: "row",
@@ -231,7 +270,6 @@ const styles = StyleSheet.create({
     width: "32%",
     aspectRatio: 2, // Thiết lập tỷ lệ khung hình là 1:1 (tùy chỉnh theo nhu cầu)
     resizeMode: "cover",
-    borderRadius: 10,
   },
 });
 
