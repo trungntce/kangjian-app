@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { alertBox } from '../default/part/Notify';
 import { getNumberCard,getPromotion,addUserWithCard} from '../api/API';
-import { formatCurrency,processString } from '../default/part/MoneyFomart';
+import { formatCurrency,processString,processStringT } from '../default/part/MoneyFomart';
 import ConfirmBox from '../default/part/ConfirmBox';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { format, toDate } from 'date-fns';
@@ -45,7 +45,7 @@ const RegisterDetails = () => {
   };
 
   const setTextMoney = (text) =>{
-    const textNumber = isNaN(parseInt(processString(text))) ? 0 :parseInt(processString(text));
+    const textNumber = isNaN(parseInt(processStringT(text))) ? 0 :parseInt(processStringT(text));
     setMoney(textNumber);
   }
   const toggleNumberOptions = () => {
@@ -165,7 +165,7 @@ const RegisterDetails = () => {
     // Xử lý logic khi người dùng xác nhận
     
     handleRegister();
-   setConfirmVisible(false);
+    setConfirmVisible(false);
   
   };
 
@@ -350,7 +350,7 @@ const RegisterDetails = () => {
                                   placeholder="Mini Money"
                                   onChangeText={(text) => setTextMoney(text)}
                                   keyboardType="numeric"
-                                  value={formatCurrency(money, 'vi-VN', 'VND')}
+                                  value={money.toLocaleString()}
                                   underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                                 />
                               </View>

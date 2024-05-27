@@ -16,4 +16,17 @@ export const formatCurrency = (value, locale = 'en-US', currency = 'USD') => {
     
     return stringWithoutDots;
   };
+
+ export const formatNumber = (num) => {
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+};
+export const processStringT = (input) => {
+  // Loại bỏ ký tự cuối cùng
+
   
+  // Loại bỏ tất cả dấu chấm
+  const stringWithoutDots = input.replace(/\./g, '');
+
+  
+  return stringWithoutDots;
+};

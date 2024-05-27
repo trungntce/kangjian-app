@@ -22,6 +22,7 @@ import { alertBox } from "../../../default/part/Notify";
 import {
   formatCurrency,
   processString,
+  processStringT
 } from "../../../default/part/MoneyFomart";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../../routers/AuthContext";
@@ -45,9 +46,9 @@ const DepositDetails = () => {
   const [fullName, setFullName] = useState("");
 
   const setTextMoney = (text) => {
-    const textNumber = isNaN(parseInt(processString(text)))
+    const textNumber = isNaN(parseInt(processStringT(text)))
       ? 0
-      : parseInt(processString(text));
+      : parseInt(processStringT(text));
     setMoney(textNumber);
   };
   const selectNumber = (
@@ -310,7 +311,7 @@ const DepositDetails = () => {
                   placeholder="Mini Money"
                   onChangeText={(text) => setTextMoney(text)}
                   keyboardType="numeric"
-                  value={formatCurrency(money, "vi-VN", "VND")}
+                  value={money.toLocaleString()}
                   underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                 />
               </View>
