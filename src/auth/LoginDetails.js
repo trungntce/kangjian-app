@@ -45,7 +45,7 @@ const LoginDetails = () => {
   const handleLogin = async () => {
     try {
       if (!checkValue()) {
-        setTextNotice("Tài khoản hoặc mật khẩu không đúng!");
+        setTextNotice(t("lang_login_incorrect"));
         setNotify(true);
         return;
       }
@@ -55,18 +55,19 @@ const LoginDetails = () => {
           login(res.result.token, res.result.expiration);
           permiss(res.result.permissions);
         } else {
-          setTextNotice("Tài khoản hoặc mật khẩu không đúng!");
+          setTextNotice(t("lang_login_incorrect"));
           setNotify(true);
           return;
         }
       } else {
-        setTextNotice("Tài khoản hoặc mật khẩu không đúng!");
+        setTextNotice(t("lang_login_incorrect"));
         setNotify(true);
         return;
       }
 
       setNotify(false);
     } catch (e) {
+      setTextNotice(e);
       console.log(e);
     }
   };

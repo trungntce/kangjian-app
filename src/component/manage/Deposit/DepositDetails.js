@@ -26,8 +26,10 @@ import {
 } from "../../../default/part/MoneyFomart";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../../routers/AuthContext";
+import { useTranslation } from 'react-i18next';
 
 const DepositDetails = () => {
+  const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   const { isLoading, isLogin, isMenu, permission, logout } =
     useContext(AuthContext);
@@ -133,9 +135,9 @@ const DepositDetails = () => {
       const result = await addDeposit(data);
       if (result) {
         //console.log(result)
-        alertBox("Hoàn thành chỉnh sửa!");
+        alertBox(t("lang_complete"));
       } else {
-        alertBox("Đã có lỗi xảy ra!");
+        alertBox(t("lang_alert_error"));
       }
     } catch (e) {
       console.log(e);
@@ -152,7 +154,7 @@ const DepositDetails = () => {
   const handleQuestion = () => {
     // Xử lý logic khi người dùng xác nhận
     if (!check()) {
-      alertBox("Nhập đầy đủ thông tin!");
+      alertBox(t("lang_complete_input"));
       return;
     }
     setConfirmVisible(true);
@@ -170,7 +172,7 @@ const DepositDetails = () => {
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1, height: hp("100%") }}>
         <View style={styles.containerTitle}>
-          <Text style={styles.textDesign}>Nạp tiền</Text>
+          <Text style={styles.textDesign}>{t("lang_topup")}</Text>
         </View>
         {isLogin && permission && permission.includes("ADMIN") && (
           <View style={styles.containerSetup}>
@@ -178,7 +180,7 @@ const DepositDetails = () => {
               style={styles.setupuudai}
               onPress={() => navigation.navigate("Promotion")}
             >
-              <Text style={styles.buttonText}>Cài đặt ưu đãi</Text>
+              <Text style={styles.buttonText}>{t("lang_offer_settings")}</Text>
             </TouchableOpacity>
           </View>
         )}
@@ -229,7 +231,7 @@ const DepositDetails = () => {
               <Icon name="user" style={styles.icon} />
               <TextInput
                 style={styles.input}
-                placeholder="Tên đăng nhập"
+                placeholder={t("lang_user_fullName")}
                 readOnly
                 value={fullName}
                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -239,7 +241,7 @@ const DepositDetails = () => {
               <Icon name="phone" style={styles.icon} />
               <TextInput
                 style={styles.input}
-                placeholder="Số điện thoại"
+                placeholder={t("lang_user_login")}
                 readOnly
                 value={phoneNumber}
                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -284,7 +286,7 @@ const DepositDetails = () => {
                   )}
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.cardTypeButton}>
-                  <Text style={styles.cardText}>VIP3</Text>
+                  <Text style={styles.cardText}>VIP</Text>
                   {cardType === "3" && (
                     <Icon
                       name="dot-circle-o"
@@ -305,7 +307,7 @@ const DepositDetails = () => {
 
             <View style={styles.inputWrapper}>
               <View style={styles.inputMoney}>
-                <Text style={styles.inputTextMoney}>Số tiền</Text>
+                <Text style={styles.inputTextMoney}>{t("lang_amount")}</Text>
                 <TextInput
                   style={[styles.inputMoneySub, styles.designMoney]}
                   placeholder="Mini Money"
@@ -322,12 +324,12 @@ const DepositDetails = () => {
                   style={styles.buttonTotal}
                   onPress={totalCount}
                 >
-                  <Text style={styles.buttonTextTotal}>Nhận ưu đãi</Text>
+                  <Text style={styles.buttonTextTotal}>{t("lang_get_offer")}</Text>
                 </TouchableOpacity>
               </View>
             </View>
             <View style={styles.inputWrapper}>
-              <Text style={styles.inputTextMoney}>Tổng tiền</Text>
+              <Text style={styles.inputTextMoney}>{t("lang_total_amount")}</Text>
               <TextInput
                 style={[styles.input, styles.designMoney]}
                 placeholder="############"
@@ -338,10 +340,10 @@ const DepositDetails = () => {
             </View>
             <View style={styles.buttonContainer}>
               <TouchableOpacity style={[styles.button, styles.buttonReset]}>
-                <Text style={[styles.buttonText, styles.resetText]}>Reset</Text>
+                <Text style={[styles.buttonText, styles.resetText]}>{t("lang_reset")}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={handleQuestion}>
-                <Text style={styles.buttonText}>Hoàn thành</Text>
+                <Text style={styles.buttonText}>{t("lang_complete")}</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -349,7 +351,7 @@ const DepositDetails = () => {
       </ScrollView>
       <ConfirmBox
         visible={isConfirmVisible}
-        message="Bạn có muốn nạp tiền?"
+        message={t("lang_alert_topup_question")}
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />

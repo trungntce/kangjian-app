@@ -151,10 +151,10 @@ const RegisterDetails = () => {
       };
       const result = await addUserWithCard(data);
       if(result){
-        alertBox('Đăng ký thành công');
+        alertBox(t("lang_sign_up_success"));
         navigation.navigate('DisplayCustomer',{phone:phoneNumber})
       }else{
-        alertBox('Đăng ký không thành công');
+        alertBox(t("lang_sign_up_failed"));
       }
     }catch(e){
       console.log(e);
@@ -173,7 +173,7 @@ const RegisterDetails = () => {
   const handleQuestion = () => {
     // Xử lý logic khi người dùng xác nhận
     if(!check()){
-      alertBox('Nhập đầy đủ thông tin!');
+      alertBox(t("lang_complete_input"));
       return;
     }
     setConfirmVisible(true);
@@ -202,7 +202,7 @@ const RegisterDetails = () => {
                               <Icon name="user" style={styles.icon} />
                               <TextInput
                                 style={styles.input}
-                                placeholder="Tên đăng nhập"
+                                placeholder={t("lang_user_fullName")}
                                 onChangeText={(text) => setUsername(text)}
                                 value={username}
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -212,7 +212,7 @@ const RegisterDetails = () => {
                               <Icon name="lock" style={styles.icon} />
                               <TextInput
                                 style={styles.input}
-                                placeholder="Mật khẩu"
+                                placeholder={t("lang_password_login")}
                                 secureTextEntry={true}
                                 onChangeText={(text) => setPassword(text)}
                                 value={password}
@@ -223,7 +223,7 @@ const RegisterDetails = () => {
                               <Icon name="phone" style={styles.icon} />
                               <TextInput
                                 style={styles.input}
-                                placeholder="Số điện thoại"
+                                placeholder={t("lang_user_login")}
                                 keyboardType="numeric"
                                 onChangeText={(text) => setPhoneNumber(text)}
                                 value={phoneNumber}
@@ -234,7 +234,7 @@ const RegisterDetails = () => {
                               <Icon name="envelope" style={styles.icon} />
                               <TextInput
                                 style={styles.input}
-                                placeholder="abc@gmail.com"
+                                placeholder="kangjian@gmail.com"
                                 onChangeText={(text) => setEmail(text)}
                                 value={email}
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -244,7 +244,7 @@ const RegisterDetails = () => {
                               <Icon name="map-marker" style={[styles.icon,styles.iconMap]}  />
                               <TextInput
                                 style={styles.input}
-                                placeholder="Địa chỉ"
+                                placeholder= {t("lang_my_address")}
                                 onChangeText={(text) => setAddress(text)}
                                 value={address}
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -257,7 +257,7 @@ const RegisterDetails = () => {
                   >
                               <TextInput
                                 style={styles.input}
-                                placeholder="Ngày tháng năm sinh (vd: DD/MM/YYYY)"
+                                placeholder={t("lang_my_birthday")}
                                // onChangeText={(text) => setBirthdate(text)}
                                 value={birthdate}
                                 readOnly
@@ -277,7 +277,7 @@ const RegisterDetails = () => {
                               <Icon name="id-card" style={styles.icon} />
                               <TextInput
                                 style={styles.input}
-                                placeholder="Căn cước công dân"
+                                placeholder={t("lang_my_cccd")}
                                 keyboardType="numeric"
                                 onChangeText={(text) => setIdCard(text)}
                                 value={idCard}
@@ -308,7 +308,7 @@ const RegisterDetails = () => {
                                             style={styles.cardTypeButton}
                                         
                                           >
-                                            <Text style={styles.cardText}>VIP3</Text>
+                                            <Text style={styles.cardText}>VIP</Text>
                                             {cardType === '3' && <Icon name="dot-circle-o" style={styles.iconCard} color="#724929" />}
                                             {cardType !== '3' && <Icon name="circle-o" style={styles.iconCard} color="#724929" />}
                                           </TouchableOpacity>
@@ -344,7 +344,7 @@ const RegisterDetails = () => {
                         )}</View>
                         <View style={styles.inputWrapper}>
                               <View style={styles.inputMoney}>
-                                <Text style={styles.inputTextMoney}>Số tiền</Text>
+                                <Text style={styles.inputTextMoney}>{t("lang_amount")}</Text>
                                 <TextInput
                                    style={[styles.inputMoneySub,styles.designMoney]}
                                   placeholder="Mini Money"
@@ -359,12 +359,12 @@ const RegisterDetails = () => {
                         <View style={styles.inputWrapperCus}>
                         <View style={styles.totalcontainer}>
                                   <TouchableOpacity style={styles.buttonTotal} onPress={totalCount}>
-                                        <Text style={styles.buttonTextTotal}>Nhận ưu đãi</Text>
+                                        <Text style={styles.buttonTextTotal}>{t("lang_get_offer")}</Text>
                                   </TouchableOpacity>
                               </View>
                         </View>
                         <View style={styles.inputWrapper}>
-                              <Text style={styles.inputTextMoney}>Tổng tiền</Text>
+                              <Text style={styles.inputTextMoney}>{t("lang_total_amount")}</Text>
                               <TextInput
                                 style={[styles.input,styles.designMoney]}
                                 placeholder="############"
@@ -375,10 +375,10 @@ const RegisterDetails = () => {
                         </View>
                     <View style={styles.buttonContainer}>
                     <TouchableOpacity style={[styles.button,styles.buttonReset]} onPress={handleReset}>
-                        <Text style={[styles.buttonText,styles.resetText]}>Reset</Text>
+                        <Text style={[styles.buttonText,styles.resetText]}>{t("lang_reset")}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={handleQuestion}>
-                        <Text style={styles.buttonText} >Hoàn thành</Text>
+                        <Text style={styles.buttonText} >{t("lang_complete")}</Text>
                     </TouchableOpacity>
                     </View>
                   </View>
@@ -386,7 +386,7 @@ const RegisterDetails = () => {
       </ScrollView>
       <ConfirmBox
         visible={isConfirmVisible}
-        message="Bạn có muốn thêm thành viên?"
+        message={t("lang_add_member")}
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />
