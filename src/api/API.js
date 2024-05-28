@@ -205,24 +205,35 @@ const deleteUser = async (phone) =>{
 
 // Đăng nhập vào hệ thống
 const loginScreen = async(username, password)=>{
-    try {
-        const data = {
-          username: username,
-          password: password
-        };
-        const response = await axios.post(`${BASE_URL}/authenticate`, data, {
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        });
-        if(!response.data){
-            return false;
-        }
-        
-        return response.data;
-      } catch (error) {
-        return false;
-      }
+  try {
+    const data = {
+      username: username,
+      password: password
+    };
+  
+    const response = await fetch(`${BASE_URL}/authenticate`, {
+      method:"POST",
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+  
+    // Kiểm tra nếu yêu cầu thành công và có dữ liệu phản hồi
+    if (response.ok) {
+      // Xử lý dữ liệu phản hồi ở đây nếu cần
+      
+      return response.json(); // Trả về true nếu yêu cầu thành công
+    } else {
+      // Xử lý nếu yêu cầu không thành công
+      console.error('Request failed with status:', response.status);
+      return false; // Trả về false nếu yêu cầu không thành công
+    }
+  } catch (error) {
+    // Xử lý lỗi nếu có
+    console.error('An error occurred:', error);
+    return false; // Trả về false nếu có lỗi xảy ra
+  }
 }
 
 const getNumberCard = async ()=>{

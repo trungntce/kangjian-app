@@ -175,6 +175,10 @@ const EditCustomerDetails = () => {
                   {t("lang_account_balance")}:{" "}
                   <Text style={styles.textDesignSub}>{formatCurrency(availableBalance, 'vi-VN', 'VND')}</Text>
                 </Text>
+                <Text style={styles.textDesign}>
+                  {t("lang_account_balance")}:{" "}
+                  <Text style={styles.textDesignSub}>{permission}</Text>
+                </Text>
               </View>
              
             </View>

@@ -229,7 +229,7 @@ const TransacDetails = () => {
                   <View style={[styles.historyItem, itemStyle]}>
                     <View style={[styles.itemLeft]}>
                       <Text style={[styles.itemText]}>{ts.editedDate}</Text>
-                      <Text style={[styles.itemText]}>{ts.fullName}</Text>
+                      <Text style={[styles.itemText]}>{ts.cardNo}</Text>
                     </View>
                     <View style={[styles.itemRight]}>
                       {ts.transactionType == "1" ? (

@@ -64,7 +64,6 @@ const DepositDetails = () => {
   ) => {
     setCardType(cardType);
     setSelectedNumber(number);
-    setMoney(minimount + "");
     setCardKey(idCard);
     setPhoneNumber(phone);
     setFullName(name);
