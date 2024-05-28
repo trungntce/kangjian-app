@@ -7,7 +7,7 @@ import ConfirmBox from '../../../default/part/ConfirmBox';
 import { alertBox } from '../../../default/part/Notify';
 import { useNavigation } from '@react-navigation/native';
 import { formatCurrency } from '../../../default/part/MoneyFomart';
-
+import { useTranslation } from 'react-i18next';
 const PayDetails = () => {
   const navigation = useNavigation();
   const [isVisible, setIsVisible] = useState(false);
@@ -31,7 +31,7 @@ const PayDetails = () => {
   const [idRef,setIdRef] = useState('');
   const [idUser,setIdUser] = useState('');
   const [idCard,setIdCard] = useState('');
-  
+  const { t, i18n } = useTranslation();
   
   const selectService = (nameS,timeS,moneyS,idP,idR) => {
     setServiceName(nameS);
@@ -99,10 +99,10 @@ const PayDetails = () => {
       };
       const result = await updatePayment(data);
       if(result){
-        alertBox("Hoàn thành chỉnh sửa!")
+        alertBox(t("lang_complete"))
         navigation.navigate('Transac')
       }else{
-        alertBox("Đã có lỗi xảy ra!")
+        alertBox(t("lang_alert_error"))
       }
     }catch(e){
       console.log(e);
@@ -145,7 +145,7 @@ const PayDetails = () => {
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1,height:hp('100%')}}>
                 <View style={styles.containerTitle}>
-                    <Text style={styles.textDesign}>Thanh toán</Text>
+                    <Text style={styles.textDesign}>{t("lang_payment")}</Text>
                 </View>
                 
                 <View style={styles.containerContent}>
@@ -184,7 +184,7 @@ const PayDetails = () => {
                                 style={styles.input}
                                 value={serviceTime}
                                 readOnly
-                                placeholder="Số phút"
+                                placeholder={t("lang_number_of_minutes")}
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                               />
                         </View>
@@ -195,7 +195,7 @@ const PayDetails = () => {
                                 style={styles.input}
                                 value={formatCurrency(serviceMoney, 'vi-VN', 'VND')}
                                 readOnly
-                                placeholder="Số tiền"
+                                placeholder={t("lang_amount")}
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                               />
                         </View>
@@ -230,7 +230,7 @@ const PayDetails = () => {
                               <Icon name="user" style={styles.icon} />
                               <TextInput
                                 style={styles.input}
-                                placeholder="Tên đăng nhập"
+                                placeholder={t("lang_user_fullName")}
                                 value={fullName}
                                 readOnly
                                 underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
@@ -240,7 +240,7 @@ const PayDetails = () => {
                               <Icon name="phone" style={styles.icon} />
                               <TextInput
                                 style={styles.input}
-                                placeholder="Số điện thoại"
+                                placeholder={t("lang_user_login")}
                                 onChangeText={(text) => setPhoneNumber(text)}
                                 value={phoneNumber}
                                 readOnly
@@ -271,7 +271,7 @@ const PayDetails = () => {
                                             style={styles.cardTypeButton}
                                         
                                           >
-                                            <Text style={styles.cardText}>VIP3</Text>
+                                            <Text style={styles.cardText}>VIP</Text>
                                             {cardType === '3' && <Icon name="dot-circle-o" style={styles.iconCard} color="#724929" />}
                                             {cardType !== '3' && <Icon name="circle-o" style={styles.iconCard} color="#724929" />}
                                           </TouchableOpacity>
@@ -280,7 +280,7 @@ const PayDetails = () => {
                         
                       
                         <View style={styles.inputWrapper}>
-                              <Text style={styles.inputTextMoney}>Số dư</Text>
+                              <Text style={styles.inputTextMoney}>{t("lang_account_balance")}</Text>
                               <TextInput
                                 style={[styles.input,styles.inputMoneys]}
                                 placeholder="############"
@@ -291,10 +291,10 @@ const PayDetails = () => {
                         </View>
                     <View style={styles.buttonContainer}>
                     <TouchableOpacity style={[styles.button,styles.buttonReset]}>
-                        <Text style={[styles.buttonText,styles.resetText]}>Reset</Text>
+                        <Text style={[styles.buttonText,styles.resetText]}>{t("lang_reset")}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={updatePay}>
-                        <Text style={styles.buttonText} >Hoàn thành</Text>
+                        <Text style={styles.buttonText} >{t("lang_complete")}</Text>
                     </TouchableOpacity>
                     </View>
                   </View>
@@ -303,7 +303,7 @@ const PayDetails = () => {
     </KeyboardAvoidingView>
         <ConfirmBox
         visible={isConfirmVisible}
-        message="Bạn có muốn lưu?"
+        message={t("lang_alert_topup_question")}
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />

@@ -83,11 +83,11 @@ const HomeDetails = () => {
             <View style={styles.contentContainer}>
               {/* Phần nút menu */}
               <TouchableOpacity style={styles.menuButton}>
-                <Text style={styles.buttonText}>Special Menu</Text>
+                <Text style={styles.buttonText}>{t("lang_special_menu")}</Text>
               </TouchableOpacity>
               {/* Phần nút xem hết */}
               <TouchableOpacity style={styles.viewAllButton}>
-                <Text style={styles.buttonText}>See All</Text>
+                {/* <Text style={styles.buttonText}>See All</Text> */}
               </TouchableOpacity>
             </View>
             {/* Các khối ảnh và tiêu đề */}
@@ -125,10 +125,8 @@ const HomeDetails = () => {
             <View style={styles.promotionContainer}>
               <Text style={styles.promotionText}>
                 <Text style={styles.promotionTextDes}>
-                  Ưu đãi nạp tiền cực khủng{" "}
-                </Text>{" "}
-                lên đến{" "}
-                <Text style={styles.promotionTextMoney}>30.000.000đ</Text>
+                 {t("title_home_promotions")}
+                </Text>{" "}                
               </Text>
             </View>
             <View style={styles.additionalContainer}>

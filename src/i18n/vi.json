@@ -41,8 +41,20 @@
   "lang_alert_delete_question":"Bạn có muốn xóa?",
   "lang_loading":"Đang tải dữ liệu...",
   "lang_user_info":"Thông tin tài khoản",
-  "lang_user_fullName":"Họ và tên"
-  
+  "lang_user_fullName":"Họ và tên",
+  "lang_login_incorrect":"Tài khoản hoặc mật khẩu không đúng!",
+  "lang_sign_up_success":"Đăng ký thành công",
+  "lang_sign_up_failed":"Đăng ký không thành công",
+  "lang_complete_input":"Vui lòng nhập đầy đủ thông tin!",
+  "lang_amount":"Số tiền",
+  "lang_get_offer":"Nhận ưu đãi",
+  "lang_total_amount":"Tổng tiền",
+  "lang_reset":"Làm mới",
+  "lang_complete":"Hoàn thành",
+  "lang_add_member":"Bạn có muốn thêm thành viên?",
+  "lang_offer_settings":"Cài đặt ưu đãi",
+  "lang_alert_topup_question":"Bạn có muốn nạp tiền không?",
+  "lang_number_of_minutes":"Số phút"
   
   
 }

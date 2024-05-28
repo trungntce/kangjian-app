@@ -41,5 +41,18 @@
   "lang_alert_delete_question":"是否要删除？",
   "lang_loading":"加载中...",
   "lang_user_info":"帐户信息",
-  "lang_user_fullName":"名字和姓氏"
+  "lang_user_fullName":"名字和姓氏",
+  "lang_login_incorrect":"账号或密码错误！",
+  "lang_sign_up_success":"注册成功",
+  "lang_sign_up_failed":"注册失败",
+  "lang_complete_input":"请输入完整信息！",
+  "lang_amount":"金钱数额",
+  "lang_get_offer":"获取优惠",
+  "lang_total_amount":"总金额",
+  "lang_reset":"重置",
+  "lang_complete":"发送需求",
+  "lang_add_member":"您要添加成员吗？",
+  "lang_offer_settings":"优惠设置",
+  "lang_alert_topup_question":"您要充值吗？",
+  "lang_number_of_minutes":"分钟数"
 }
