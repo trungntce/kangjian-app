@@ -81,6 +81,7 @@ const PayDetails = () => {
         alertBox(t("lang_complete_input"));
         return;
       }
+      
       setConfirmVisible(true);
     }catch(e){
       console.log(e);
@@ -145,18 +146,6 @@ const PayDetails = () => {
       return false;
     }
     if (!phoneNumber.trim()) {
-      return false;
-    }
-    if (!selectedNumber.trim()) {
-      return false;
-    }
-    if (!idCard.trim()) {
-      return false;
-    }
-    if (!idPricing.trim()) {
-      return false;
-    }
-    if (!idRef.trim()) {
       return false;
     }
     if (parseInt(serviceMoney) == 0) {

@@ -577,6 +577,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     flex: 1,
+    
   },
   dropdownItem: {
     paddingVertical: 10,
