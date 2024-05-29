@@ -569,12 +569,11 @@ const styles = StyleSheet.create({
   dropdownContainer: {
     position: 'absolute',
     width: '100%',
-    maxHeight: 230, // Đặt chiều cao tối đa cho dropdown
     backgroundColor: '#724929',
     elevation: 5,
     borderRadius: 5,
     zIndex:2,
-    top:wp('8%'),
+    top:wp('-10%'),
   },
   dropdown: {
     flex: 1,
