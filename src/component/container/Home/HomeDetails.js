@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     height: hp("24%"),
   },
   scrollContainer: {
-    height:wp('100%')
+    height:wp('80%')
   },
   searchIcon: {
     fontSize: wp("7%"),

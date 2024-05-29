@@ -77,7 +77,10 @@ const PayDetails = () => {
 
   const updatePay = async() => {
     try{
-
+      if (!check()) {
+        alertBox(t("lang_complete_input"));
+        return;
+      }
       setConfirmVisible(true);
     }catch(e){
       console.log(e);
@@ -126,6 +129,7 @@ const PayDetails = () => {
 
   const handleConfirm = () => {
     // Xử lý logic khi người dùng xác nhận
+    
     handleUpdate();
     setConfirmVisible(false);
     
@@ -136,6 +140,44 @@ const PayDetails = () => {
     console.log('Cancelled');
     setConfirmVisible(false);
   };
+  const check = () => {
+    if (!idUser) {
+      return false;
+    }
+    if (!phoneNumber.trim()) {
+      return false;
+    }
+    if (!selectedNumber.trim()) {
+      return false;
+    }
+    if (!idCard.trim()) {
+      return false;
+    }
+    if (!idPricing.trim()) {
+      return false;
+    }
+    if (!idRef.trim()) {
+      return false;
+    }
+    if (parseInt(serviceMoney) == 0) {
+      return false;
+    }
+   
+    return true;
+  };
+  const handleReset = () => {
+    setServiceName("");
+    setServiceTime("");
+    setServiceMoney("");
+    setSelectedNumber("");
+    setIdCard("");
+    setFullName("");
+    setPhoneNumber("");
+    setCardType("");
+    setIdPricing("");
+    setIdRef("");
+    setAvailableBalance(0);
+  }
 
   return (
     <>
@@ -290,7 +332,7 @@ const PayDetails = () => {
                               />
                         </View>
                     <View style={styles.buttonContainer}>
-                    <TouchableOpacity style={[styles.button,styles.buttonReset]}>
+                    <TouchableOpacity style={[styles.button,styles.buttonReset]} onPress={handleReset}>
                         <Text style={[styles.buttonText,styles.resetText]}>{t("lang_reset")}</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.button} onPress={updatePay}>

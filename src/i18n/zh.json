@@ -54,5 +54,6 @@
   "lang_add_member":"您要添加成员吗？",
   "lang_offer_settings":"优惠设置",
   "lang_alert_topup_question":"您要充值吗？",
-  "lang_number_of_minutes":"分钟数"
+  "lang_number_of_minutes":"分钟数",
+  "lang_role":"使用权"
 }

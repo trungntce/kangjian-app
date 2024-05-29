@@ -18,6 +18,7 @@ import {
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 import { useTranslation } from "react-i18next";
+import { useRoute } from "@react-navigation/native";
 
 const LoginDetails = () => {
   const { login, permiss } = useContext(AuthContext);

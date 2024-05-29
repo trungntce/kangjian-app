@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
     height: hp("12%"), // Header chiếm 20% chiều cao của màn hình
     backgroundColor: "#724929",
     paddingHorizontal: 10,
+    paddingTop:wp('4%')
   },
   containerItemL: {
     flexDirection: "row",

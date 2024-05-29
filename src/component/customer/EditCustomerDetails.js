@@ -176,7 +176,7 @@ const EditCustomerDetails = () => {
                   <Text style={styles.textDesignSub}>{formatCurrency(availableBalance, 'vi-VN', 'VND')}</Text>
                 </Text>
                 <Text style={styles.textDesign}>
-                  {t("lang_account_balance")}:{" "}
+                  {t("lang_role")}:{" "}
                   <Text style={styles.textDesignSub}>{permission}</Text>
                 </Text>
               </View>

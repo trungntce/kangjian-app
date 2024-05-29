@@ -35,7 +35,7 @@ const ServiceMonitorDetails = ({ service,info }) => {
           style={styles.image}
         />
         <Text style={[styles.des]}>
-          {info.description.substring(4)}
+          {info.description}
         </Text>
         {/* <Text>{service.content}</Text> */}
         <View style={[styles.add]}>

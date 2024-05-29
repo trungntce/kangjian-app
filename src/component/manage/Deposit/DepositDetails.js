@@ -164,6 +164,17 @@ const DepositDetails = () => {
     console.log("Cancelled");
     setConfirmVisible(false);
   };
+
+  const handleReset = () => {
+    //setNumbers([]);
+    setIdUser(false);
+    setSelectedNumber("");
+    setFullName("");
+    setPhoneNumber("");
+    setCardType("0");
+    setMoney('0');
+    setTotalMoney(0);
+  }
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -338,7 +349,7 @@ const DepositDetails = () => {
               />
             </View>
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={[styles.button, styles.buttonReset]}>
+              <TouchableOpacity style={[styles.button, styles.buttonReset]} onPress={handleReset}>
                 <Text style={[styles.buttonText, styles.resetText]}>{t("lang_reset")}</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={handleQuestion}>
