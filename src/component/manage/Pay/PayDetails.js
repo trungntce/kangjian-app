@@ -523,7 +523,7 @@ const styles = StyleSheet.create({
     zIndex:2
   },
   dropdown: {
-    height:wp('90%')
+    flex:1
   },
   dropdownItem: {
     paddingVertical: 10,

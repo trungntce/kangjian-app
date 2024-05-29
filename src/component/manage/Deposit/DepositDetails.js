@@ -548,7 +548,8 @@ const styles = StyleSheet.create({
   dropdownContainer: {
     position: "absolute",
     width: "100%",
-    maxHeight: 230, // Đặt chiều cao tối đa cho dropdown
+    // Đặt chiều cao tối đa cho dropdown
+    //height:hp('100%'),
     backgroundColor: "#724929",
     elevation: 5,
     borderRadius: 5,
@@ -557,6 +558,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     flex: 1,
+    height:hp('50%')
   },
   dropdownItem: {
     paddingVertical: 10,

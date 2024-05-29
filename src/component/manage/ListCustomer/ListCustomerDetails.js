@@ -81,7 +81,7 @@ const ListCustomerDetails = () => {
           <Text style={styles.titleCustomer}>{t("lang_user_list_title")}</Text>
           <View>
             <ScrollView style={styles.scrollView}>
-              <View style={styles.searchContainer}>
+              {/* <View style={styles.searchContainer}>
                 <View style={styles.searchContainerItem}>
                   <Icon name="user" style={[styles.icon, styles.iconsearch]} />
                   <TextInput
@@ -113,7 +113,7 @@ const ListCustomerDetails = () => {
                     <Text style={styles.buttonText}>Tìm kiếm</Text>
                   </TouchableOpacity>
                 </View>
-              </View>
+              </View> */}
               {listItem.map((item, index) => (
                 <View key={index} style={styles.container}>
                   {/* Phần 1: Hiển thị tên và số điện thoại */}
