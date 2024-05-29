@@ -68,7 +68,7 @@ const HomeDetails = () => {
             />
           </View>
           <Image
-            source={require("../../../assets/img/massage.png")} // Đường dẫn đến hình ảnh của bạn
+            source={require("../../../assets/img/spa.png")} // Đường dẫn đến hình ảnh của bạn
             style={styles.image}
           />
         </View>
