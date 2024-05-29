@@ -63,7 +63,7 @@ const HomeDetails = () => {
             <Ionicons name="search" style={styles.searchIcon} color="#724929" />
             <TextInput
               style={styles.searchInput}
-              placeholder="Tìm kiếm..."
+              placeholder={t("lang_search_home")}
               placeholderTextColor="#000000" // Màu đen cho placeholder
             />
           </View>
