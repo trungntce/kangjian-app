@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet,KeyboardAvoidingView,ScrollView, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet,KeyboardAvoidingView,ScrollView, Platform,Pressable,Modal } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import Icon từ thư viện
 import { addUser } from '../api/API';
 import { useNavigation } from '@react-navigation/native';
@@ -321,27 +321,8 @@ const RegisterDetails = () => {
                           {/* Giá trị số được chọn */}
                           <Text style={styles.selectedNumber}>{selectedNumber}</Text>
                         </TouchableOpacity>
-                        {showNumberOptions && (
-                          <View style={styles.dropdownContainer}>
-                              <ScrollView style={styles.dropdown}>
-                                {Object.keys(numbers).map((key) => {
-                                      const num = numbers[key];
-                                      if (num.useYn) {
-                                        return (
-                                          <TouchableOpacity
-                                          key={num.idCard}
-                                          style={styles.dropdownItem}
-                                          onPress={() => selectNumber(num.cardNo,num.cardType,num.idCard,num.minimumAmount)}
-                                        >
-                                          <Text style={styles.optionText}>{num.cardNo}</Text>
-                                        </TouchableOpacity>
-                                        );
-                                      }
-                                      return null;
-                                  })}
-                              </ScrollView>
-                          </View>
-                        )}</View>
+                       
+                        </View>
                         <View style={styles.inputWrapper}>
                               <View style={styles.inputMoney}>
                                 <Text style={styles.inputTextMoney}>{t("lang_amount")}</Text>
@@ -390,6 +371,35 @@ const RegisterDetails = () => {
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showNumberOptions}
+        onRequestClose={toggleNumberOptions}
+        showsVerticalScrollIndicator={false}
+      >
+        <Pressable style={styles.modalBackground} onPress={toggleNumberOptions}>
+          <View style={styles.modalContainer}>
+            <ScrollView style={[styles.scrollcontainer]}>
+            {Object.keys(numbers).map((key) => {
+                                      const num = numbers[key];
+                                      if (num.useYn) {
+                                        return (
+                                          <TouchableOpacity
+                                          key={num.idCard}
+                                          style={styles.dropdownItem}
+                                          onPress={() => selectNumber(num.cardNo,num.cardType,num.idCard,num.minimumAmount)}
+                                        >
+                                          <Text style={styles.optionText}>{num.cardNo}</Text>
+                                        </TouchableOpacity>
+                                        );
+                                      }
+                                      return null;
+                                  })}
+            </ScrollView>
+          </View>
+        </Pressable>
+      </Modal>
       </KeyboardAvoidingView>
     </>
   );
@@ -594,7 +604,26 @@ const styles = StyleSheet.create({
     fontSize:wp('3%'),
     marginBottom:wp('1%'),
     marginLeft:wp('3%')
-  }
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContainer: {
+    width: wp("80%"),
+    backgroundColor: "#724929",
+    padding: 20,
+    borderRadius: 10,
+  },
+  modalText: {
+    fontSize: wp("4%"),
+    marginBottom: 10,
+  },
+  scrollcontainer: {
+    height: wp("80%"),
+  },
 });
 
 export default RegisterDetails;

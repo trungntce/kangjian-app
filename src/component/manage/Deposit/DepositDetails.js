@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
+  Pressable
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Import Icon từ thư viện
 import {
@@ -206,37 +207,7 @@ const DepositDetails = () => {
               {/* Giá trị số được chọn */}
               <Text style={styles.selectedNumber}>{selectedNumber}</Text>
             </TouchableOpacity>
-            {showNumberOptions && (
-              <View style={styles.dropdownContainer}>
-                <ScrollView style={styles.dropdown}>
-                  {Object.keys(numbers).map((key) => {
-                    const num = numbers[key];
-                    if (num.useYn) {
-                      return (
-                        <TouchableOpacity
-                          key={num.idCard}
-                          style={styles.dropdownItem}
-                          onPress={() =>
-                            selectNumber(
-                              num.cardNo,
-                              num.cardType,
-                              num.idCard,
-                              num.availableBalance,
-                              num.phoneNumber,
-                              num.fullName,
-                              num.idUser
-                            )
-                          }
-                        >
-                          <Text style={styles.optionText}>{num.cardNo}</Text>
-                        </TouchableOpacity>
-                      );
-                    }
-                    return null;
-                  })}
-                </ScrollView>
-              </View>
-            )}
+           
             <View style={styles.inputWrapper}>
               <Icon name="user" style={styles.icon} />
               <TextInput
@@ -365,6 +336,48 @@ const DepositDetails = () => {
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />
+        <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showNumberOptions}
+        onRequestClose={toggleNumberOptions}
+        showsVerticalScrollIndicator={false}
+      >
+        <Pressable
+          style={styles.modalBackground}
+          onPress={toggleNumberOptions}
+        >
+          <View style={styles.modalContainer}>
+            <ScrollView style={[styles.scrollcontainer]}>
+            {Object.keys(numbers).map((key) => {
+                    const num = numbers[key];
+                    if (num.useYn) {
+                      return (
+                        <TouchableOpacity
+                          key={num.idCard}
+                          style={styles.dropdownItem}
+                          onPress={() =>
+                            selectNumber(
+                              num.cardNo,
+                              num.cardType,
+                              num.idCard,
+                              num.availableBalance,
+                              num.phoneNumber,
+                              num.fullName,
+                              num.idUser
+                            )
+                          }
+                        >
+                          <Text style={styles.optionText}>{num.cardNo}</Text>
+                        </TouchableOpacity>
+                      );
+                    }
+                    return null;
+                  })}
+            </ScrollView>
+          </View>
+        </Pressable>
+      </Modal>
     </KeyboardAvoidingView>
   );
 };
@@ -574,6 +587,25 @@ const styles = StyleSheet.create({
   },
   selectedNumber: {
     fontSize: wp("3%"),
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContainer: {
+    width: wp("80%"),
+    backgroundColor: "#724929",
+    padding: 20,
+    borderRadius: 10,
+  },
+  modalText: {
+    fontSize: wp("4%"),
+    marginBottom: 10,
+  },
+  scrollcontainer: {
+    height: wp("80%"),
   },
 });
 
