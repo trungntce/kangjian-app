@@ -56,5 +56,11 @@
   "lang_alert_topup_question":"Bạn có muốn nạp tiền không?",
   "lang_number_of_minutes":"Số phút",
   "lang_role":"Quyền sử dụng",
-  "lang_alert_pay_question":"Bạn có muốn thanh toán không?"
+  "lang_alert_pay_question":"Bạn có muốn thanh toán không?",
+  "lang_label_change_pass":"Đổi mật khẩu",
+  "lang_label_cancel":"Hủy",
+  "lang_label_pass_new": "Mật khẩu mới",
+  "lang_label_pass_moment":"Mật khẩu hiện tại",
+  "lang_label_repeat_pass":"Nhập lại mật khẩu mới",
+  "lang_label_change":"Thay đổi"
 }

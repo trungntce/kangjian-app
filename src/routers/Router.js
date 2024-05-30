@@ -18,6 +18,7 @@ import Transac from "../component/transac/Transac";
 import HistoryTransac from "../component/transac/HistoryTransac";
 import ServiceMonitor from "../component/container/ServiceMonitor/ServiceMonitor";
 import Promotion from "../component/manage/Promotion/Promotion";
+import ChangePass from "../component/customer/ChangePass/ChangePass";
 import { AuthContext } from "./AuthContext"; // Đảm bảo đường dẫn chính xác
 
 const Stack = createStackNavigator();
@@ -105,6 +106,11 @@ const Router = () => {
         component={Promotion}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="ChangePass"
+        component={ChangePass}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 
@@ -113,11 +119,6 @@ const Router = () => {
       <Stack.Screen
         name="Login"
         component={Login}
-        options={{ headerShown: false }}
-      />
-      <Stack.Screen
-        name="Register"
-        component={Register}
         options={{ headerShown: false }}
       />
       <Stack.Screen

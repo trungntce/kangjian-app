@@ -56,5 +56,11 @@
   "lang_alert_topup_question":"您要充值吗？",
   "lang_number_of_minutes":"分钟数",
   "lang_role":"使用权",
-  "lang_alert_pay_question":"你想付款吗?"
+  "lang_alert_pay_question":"你想付款吗?",
+  "lang_label_change_pass":"更改密码",
+  "lang_label_cancel":"取消",
+  "lang_label_pass_new":"新密码",
+  "lang_label_pass_moment":"当前密码",
+  "lang_label_repeat_pass":"重复输入新密码",
+  "lang_label_change":"改变"
 }

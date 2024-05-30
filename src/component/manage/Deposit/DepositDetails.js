@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
   Platform,
-  Pressable
+  Pressable,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Import Icon từ thư viện
 import {
@@ -23,11 +23,11 @@ import { alertBox } from "../../../default/part/Notify";
 import {
   formatCurrency,
   processString,
-  processStringT
+  processStringT,
 } from "../../../default/part/MoneyFomart";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../../routers/AuthContext";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const DepositDetails = () => {
   const { t, i18n } = useTranslation();
@@ -173,9 +173,9 @@ const DepositDetails = () => {
     setFullName("");
     setPhoneNumber("");
     setCardType("0");
-    setMoney('0');
+    setMoney("0");
     setTotalMoney(0);
-  }
+  };
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -207,7 +207,7 @@ const DepositDetails = () => {
               {/* Giá trị số được chọn */}
               <Text style={styles.selectedNumber}>{selectedNumber}</Text>
             </TouchableOpacity>
-           
+
             <View style={styles.inputWrapper}>
               <Icon name="user" style={styles.icon} />
               <TextInput
@@ -231,13 +231,19 @@ const DepositDetails = () => {
             <View style={styles.inputWrapper}>
               <Icon name="id-card" style={styles.icon} />
               <View style={styles.cardTypeContainer}>
-                <TouchableOpacity style={styles.cardTypeButton}>
-                  <Text style={styles.cardText}>GOLD</Text>
+                <TouchableOpacity  style={[
+                      styles.cardTypeButton,
+                      cardType === "1" ? styles.cardTypeButtonDes : "",
+                    ]}>
+                  <Text style={[
+                        styles.cardText,
+                        cardType === "1" ? styles.cardTextDes : "",
+                      ]}>GOLD</Text>
                   {/* Chọn kiểu radiobox theo giá trị của cardType */}
                   {cardType === "1" && (
                     <Icon
                       name="dot-circle-o"
-                      style={styles.iconCard}
+                      style={[styles.iconCard, styles.iconCardChoose]}
                       color="#724929"
                     />
                   )}
@@ -249,12 +255,18 @@ const DepositDetails = () => {
                     />
                   )}
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.cardTypeButton}>
-                  <Text style={styles.cardText}>PLATIUM</Text>
+                <TouchableOpacity  style={[
+                      styles.cardTypeButton,
+                      cardType === "2" ? styles.cardTypeButtonDes : "",
+                    ]}>
+                  <Text  style={[
+                        styles.cardText,
+                        cardType === "2" ? styles.cardTextDes : "",
+                      ]}>PLATIUM</Text>
                   {cardType === "2" && (
                     <Icon
                       name="dot-circle-o"
-                      style={styles.iconCard}
+                      style={[styles.iconCard, styles.iconCardChoose]}
                       color="#724929"
                     />
                   )}
@@ -266,12 +278,18 @@ const DepositDetails = () => {
                     />
                   )}
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.cardTypeButton}>
-                  <Text style={styles.cardText}>VIP</Text>
+                <TouchableOpacity style={[
+                      styles.cardTypeButton,
+                      cardType === "3" ? styles.cardTypeButtonDes : "",
+                    ]}>
+                  <Text style={[
+                        styles.cardText,
+                        cardType === "3" ? styles.cardTextDes : "",
+                      ]}>VIP</Text>
                   {cardType === "3" && (
                     <Icon
                       name="dot-circle-o"
-                      style={styles.iconCard}
+                      style={[styles.iconCard, styles.iconCardChoose]}
                       color="#724929"
                     />
                   )}
@@ -305,12 +323,16 @@ const DepositDetails = () => {
                   style={styles.buttonTotal}
                   onPress={totalCount}
                 >
-                  <Text style={styles.buttonTextTotal}>{t("lang_get_offer")}</Text>
+                  <Text style={styles.buttonTextTotal}>
+                    {t("lang_get_offer")}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
             <View style={styles.inputWrapper}>
-              <Text style={styles.inputTextMoney}>{t("lang_total_amount")}</Text>
+              <Text style={styles.inputTextMoney}>
+                {t("lang_total_amount")}
+              </Text>
               <TextInput
                 style={[styles.input, styles.designMoney]}
                 placeholder="############"
@@ -320,8 +342,13 @@ const DepositDetails = () => {
               />
             </View>
             <View style={styles.buttonContainer}>
-              <TouchableOpacity style={[styles.button, styles.buttonReset]} onPress={handleReset}>
-                <Text style={[styles.buttonText, styles.resetText]}>{t("lang_reset")}</Text>
+              <TouchableOpacity
+                style={[styles.button, styles.buttonReset]}
+                onPress={handleReset}
+              >
+                <Text style={[styles.buttonText, styles.resetText]}>
+                  {t("lang_reset")}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.button} onPress={handleQuestion}>
                 <Text style={styles.buttonText}>{t("lang_complete")}</Text>
@@ -336,44 +363,41 @@ const DepositDetails = () => {
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />
-        <Modal
+      <Modal
         animationType="slide"
         transparent={true}
         visible={showNumberOptions}
         onRequestClose={toggleNumberOptions}
         showsVerticalScrollIndicator={false}
       >
-        <Pressable
-          style={styles.modalBackground}
-          onPress={toggleNumberOptions}
-        >
+        <Pressable style={styles.modalBackground} onPress={toggleNumberOptions}>
           <View style={styles.modalContainer}>
             <ScrollView style={[styles.scrollcontainer]}>
-            {Object.keys(numbers).map((key) => {
-                    const num = numbers[key];
-                    if (num.useYn) {
-                      return (
-                        <TouchableOpacity
-                          key={num.idCard}
-                          style={styles.dropdownItem}
-                          onPress={() =>
-                            selectNumber(
-                              num.cardNo,
-                              num.cardType,
-                              num.idCard,
-                              num.availableBalance,
-                              num.phoneNumber,
-                              num.fullName,
-                              num.idUser
-                            )
-                          }
-                        >
-                          <Text style={styles.optionText}>{num.cardNo}</Text>
-                        </TouchableOpacity>
-                      );
-                    }
-                    return null;
-                  })}
+              {Object.keys(numbers).map((key) => {
+                const num = numbers[key];
+                if (num.useYn) {
+                  return (
+                    <TouchableOpacity
+                      key={num.idCard}
+                      style={styles.dropdownItem}
+                      onPress={() =>
+                        selectNumber(
+                          num.cardNo,
+                          num.cardType,
+                          num.idCard,
+                          num.availableBalance,
+                          num.phoneNumber,
+                          num.fullName,
+                          num.idUser
+                        )
+                      }
+                    >
+                      <Text style={styles.optionText}>{num.cardNo}</Text>
+                    </TouchableOpacity>
+                  );
+                }
+                return null;
+              })}
             </ScrollView>
           </View>
         </Pressable>
@@ -571,7 +595,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     flex: 1,
-    height:hp('50%')
+    height: hp("50%"),
   },
   dropdownItem: {
     paddingVertical: 10,
@@ -606,6 +630,15 @@ const styles = StyleSheet.create({
   },
   scrollcontainer: {
     height: wp("80%"),
+  },
+  cardTypeButtonDes: {
+    backgroundColor: "#724929",
+  },
+  cardTextDes: {
+    color: "white",
+  },
+  iconCardChoose: {
+    color: "white",
   },
 });
 

@@ -268,13 +268,25 @@ const PayDetails = () => {
               <View style={styles.inputWrapper}>
                 <Icon name="id-card" style={styles.icon} />
                 <View style={styles.cardTypeContainer}>
-                  <TouchableOpacity style={styles.cardTypeButton}>
-                    <Text style={styles.cardText}>GOLD</Text>
+                  <TouchableOpacity
+                    style={[
+                      styles.cardTypeButton,
+                      cardType === "1" ? styles.cardTypeButtonDes : "",
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.cardText,
+                        cardType === "1" ? styles.cardTextDes : "",
+                      ]}
+                    >
+                      GOLD
+                    </Text>
                     {/* Chọn kiểu radiobox theo giá trị của cardType */}
                     {cardType === "1" && (
                       <Icon
                         name="dot-circle-o"
-                        style={styles.iconCard}
+                        style={[styles.iconCard, styles.iconCardChoose]}
                         color="#724929"
                       />
                     )}
@@ -286,12 +298,24 @@ const PayDetails = () => {
                       />
                     )}
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.cardTypeButton}>
-                    <Text style={styles.cardText}>PLATIUM</Text>
+                  <TouchableOpacity
+                    style={[
+                      styles.cardTypeButton,
+                      cardType === "2" ? styles.cardTypeButtonDes : "",
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.cardText,
+                        cardType === "2" ? styles.cardTextDes : "",
+                      ]}
+                    >
+                      PLATIUM
+                    </Text>
                     {cardType === "2" && (
                       <Icon
                         name="dot-circle-o"
-                        style={styles.iconCard}
+                        style={[styles.iconCard, styles.iconCardChoose]}
                         color="#724929"
                       />
                     )}
@@ -303,12 +327,24 @@ const PayDetails = () => {
                       />
                     )}
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.cardTypeButton}>
-                    <Text style={styles.cardText}>VIP</Text>
+                  <TouchableOpacity
+                    style={[
+                      styles.cardTypeButton,
+                      cardType === "3" ? styles.cardTypeButtonDes : "",
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.cardText,
+                        cardType === "3" ? styles.cardTextDes : "",
+                      ]}
+                    >
+                      VIP
+                    </Text>
                     {cardType === "3" && (
                       <Icon
                         name="dot-circle-o"
-                        style={styles.iconCard}
+                        style={[styles.iconCard, styles.iconCardChoose]}
                         color="#724929"
                       />
                     )}
@@ -571,6 +607,15 @@ const styles = StyleSheet.create({
     borderColor: "#724929",
     borderRadius: 5,
     marginRight: wp("2%"),
+  },
+  cardTypeButtonDes: {
+    backgroundColor: "#724929",
+  },
+  cardTextDes: {
+    color: "white",
+  },
+  iconCardChoose: {
+    color: "white",
   },
   cardTypeText: {
     color: "#724929",
