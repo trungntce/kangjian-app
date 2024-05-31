@@ -21,6 +21,7 @@ import { getListPromotion, updatePromotion } from "../../../api/API";
 import ConfirmBox from "../../../default/part/ConfirmBox";
 import { formatCurrency } from "../../../default/part/MoneyFomart";
 import { alertBox } from "../../../default/part/Notify";
+import { useTranslation } from "react-i18next";
 
 const PromotionDetails = () => {
   const [loading, setLoading] = useState(false);
@@ -31,6 +32,7 @@ const PromotionDetails = () => {
   const [idTopup, setIdTopUp] = useState(0);
   const [status, setStatus] = useState(false);
   const [isConfirmVisible, setConfirmVisible] = useState(false);
+  const { t, i18n } = useTranslation();
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -123,11 +125,16 @@ const PromotionDetails = () => {
       {loading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0000ff" />
-          <Text style={styles.loadingText}>Đang tải dữ liệu...</Text>
+          <Text style={styles.loadingText}>{t("lang_loading")}</Text>
         </View>
       ) : (
         <View>
           <Text style={styles.titleCustomer}>Danh sách ưu đãi nạp tiền</Text>
+          <View style={[styles.buttonContainer]}>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Thêm ưu đãi</Text>
+            </TouchableOpacity>
+          </View>
           <ScrollView style={styles.scrollView}>
             {listItem.map((item, index) => (
               <View key={index} style={styles.container}>
@@ -191,7 +198,7 @@ const PromotionDetails = () => {
                       style={styles.button}
                       onPress={handleQuestion}
                     >
-                      <Text style={styles.buttonText}>Hoàn thành</Text>
+                      <Text style={styles.buttonText}>{t("lang_complete")}</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
@@ -232,12 +239,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     width: "70%",
   },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    paddingRight: wp("3%"),
+  },
   button: {
     backgroundColor: "#724929",
-    width: "45%",
+    width: "35%",
     height: wp("12%"),
     borderRadius: 5,
     justifyContent: "center",
+
     alignItems: "center",
     marginBottom: wp("1%"),
     marginTop: wp("1%"),

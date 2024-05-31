@@ -8,6 +8,9 @@ import {
   TouchableOpacity,
   ScrollView,
   Button,
+  TouchableWithoutFeedback,
+  Pressable,
+  Modal,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons"; // Import Ionicons từ thư viện vector icons
 import {
@@ -22,16 +25,45 @@ import { useTranslation } from "react-i18next";
 import "../../../i18n/i18n";
 //End Import many languages
 
+const getImageSource = (imageName) => {
+  switch (imageName) {
+    case "1":
+      return require("../../../assets/img/card/platium.png");
+    case "2":
+      return require("../../../assets/img/card/gold.png");
+    case "3":
+      return require("../../../assets/img/card/vip1.png");
+    case "4":
+      return require("../../../assets/img/card/platiumback.png");
+    case "5":
+      return require("../../../assets/img/card/goldback.png");
+    case "6":
+      return require("../../../assets/img/card/vip1back.png");
+    default:
+      return null;
+  }
+};
+
 const HomeDetails = () => {
   const navigation = useNavigation();
   const [listService, setListService] = useState([]);
   const { t, i18n } = useTranslation();
   const primaryURL = "http://66.42.48.193:8000"; // Đường dẫn hình ảnh
+  const [linkImg, setLinkImg] = useState('1');
+  const [modalVisible, setModalVisible] = useState(false);
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
 
   //Gọi hàm lấy danh sách dịch vụ <gọi 1 lần>
   useEffect(() => {
     getSV();
   }, []);
+
+  const handlePress = (text) => {
+    setLinkImg(text);
+    toggleModal();
+  };
 
   // Lấy danh sách dịch vụ
   const getSV = async () => {
@@ -125,41 +157,65 @@ const HomeDetails = () => {
             <View style={styles.promotionContainer}>
               <Text style={styles.promotionText}>
                 <Text style={styles.promotionTextDes}>
-                 {t("title_home_promotions")}
-                </Text>{" "}                
+                  {t("title_home_promotions")}
+                </Text>{" "}
               </Text>
             </View>
             <View style={styles.additionalContainer}>
-              <Image
-                source={require("../../../assets/img/card/platium.png")} // Đường dẫn đến hình ảnh của bạn
-                style={styles.additionalImage}
-              />
-              <Image
-                source={require("../../../assets/img/card/gold.png")} // Đường dẫn đến hình ảnh của bạn
-                style={styles.additionalImage}
-              />
-              <Image
-                source={require("../../../assets/img/card/vip1.png")} // Đường dẫn đến hình ảnh của bạn
-                style={styles.additionalImage}
-              />
+              <TouchableWithoutFeedback onPress={() => handlePress("1")}>
+                <Image
+                  source={require("../../../assets/img/card/platium.png")} // Đường dẫn đến hình ảnh của bạn
+                  style={styles.additionalImage}
+                />
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => handlePress("2")}>
+                <Image
+                  source={require("../../../assets/img/card/gold.png")} // Đường dẫn đến hình ảnh của bạn
+                  style={styles.additionalImage}
+                />
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => handlePress("3")}>
+                <Image
+                  source={require("../../../assets/img/card/vip1.png")} // Đường dẫn đến hình ảnh của bạn
+                  style={styles.additionalImage}
+                />
+              </TouchableWithoutFeedback>
             </View>
             <View style={styles.additionalContainer}>
-              <Image
-                source={require("../../../assets/img/card/platiumback.png")} // Đường dẫn đến hình ảnh của bạn
-                style={styles.additionalImage}
-              />
-              <Image
-                source={require("../../../assets/img/card/goldback.png")} // Đường dẫn đến hình ảnh của bạn
-                style={styles.additionalImage}
-              />
-              <Image
-                source={require("../../../assets/img/card/vip1back.png")} // Đường dẫn đến hình ảnh của bạn
-                style={styles.additionalImage}
-              />
+              <TouchableWithoutFeedback onPress={() => handlePress("4")}>
+                <Image
+                  source={require("../../../assets/img/card/platiumback.png")} // Đường dẫn đến hình ảnh của bạn
+                  style={styles.additionalImage}
+                />
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => handlePress("5")}>
+                <Image
+                  source={require("../../../assets/img/card/goldback.png")} // Đường dẫn đến hình ảnh của bạn
+                  style={styles.additionalImage}
+                />
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={() => handlePress("6")}>
+                <Image
+                  source={require("../../../assets/img/card/vip1back.png")} // Đường dẫn đến hình ảnh của bạn
+                  style={styles.additionalImage}
+                />
+              </TouchableWithoutFeedback>
             </View>
-            
           </ScrollView>
         </View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={toggleModal}
+        >
+          <Pressable style={styles.modalBackground} onPress={toggleModal}>
+            <Image
+              source={getImageSource(linkImg)} // Đường dẫn đến hình ảnh của bạn
+              style={styles.additionalImageModal}
+            />
+          </Pressable>
+        </Modal>
       </View>
     </>
   );
@@ -178,7 +234,7 @@ const styles = StyleSheet.create({
     height: hp("24%"),
   },
   scrollContainer: {
-    height:wp('100%')
+    height: wp("100%"),
   },
   searchIcon: {
     fontSize: wp("7%"),
@@ -268,6 +324,18 @@ const styles = StyleSheet.create({
     width: "32%",
     aspectRatio: 2, // Thiết lập tỷ lệ khung hình là 1:1 (tùy chỉnh theo nhu cầu)
     resizeMode: "cover",
+  },
+  additionalImageModal: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain",
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.2)",
+    padding: 20,
   },
 });
 
