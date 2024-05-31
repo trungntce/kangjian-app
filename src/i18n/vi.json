@@ -62,5 +62,11 @@
   "lang_label_pass_new": "Mật khẩu mới",
   "lang_label_pass_moment":"Mật khẩu hiện tại",
   "lang_label_repeat_pass":"Nhập lại mật khẩu mới",
-  "lang_label_change":"Thay đổi"
+  "lang_label_change":"Thay đổi",
+  "lang_promotion":"Ưu đãi",
+  "lang_add_promotion":"Thêm ưu đãi",
+  "lang_question_update":"Bạn có muốn chỉnh sửa",
+  "lang_phone_number":"Số điện thoại",
+  "lang_type_transac":"Loại giao dịch",
+  "lang_time_transac":"Thời gian giao dịch"
 }

@@ -62,5 +62,11 @@
   "lang_label_pass_new":"新密码",
   "lang_label_pass_moment":"当前密码",
   "lang_label_repeat_pass":"重复输入新密码",
-  "lang_label_change":"改变"
+  "lang_label_change":"改变",
+  "lang_promotion":"晋升",
+  "lang_add_promotion":"更多促销活动",
+  "lang_question_update":"您想编辑吗?",
+  "lang_phone_number":"电话号码",
+  "lang_type_transac":"交易类型",
+  "lang_time_transac":"交易时间"
 }

@@ -3,7 +3,7 @@ import { Modal, View, Text, TouchableOpacity, StyleSheet,Alert } from 'react-nat
 
 export const alertBox = (message) => {
     Alert.alert(
-        'Thông báo',
+        'Notification',
         message,
         [
           {

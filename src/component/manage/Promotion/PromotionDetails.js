@@ -85,9 +85,9 @@ const PromotionDetails = () => {
       if (result) {
         toggleModal();
         setStatus(!status);
-        alertBox("Chỉnh sửa thành công!");
+        alertBox(t("lang_alert_edited"));
       } else {
-        alertBox("Đã có lỗi xảy ra!");
+        alertBox(t("lang_alert_error"));
       }
     } catch (e) {
       console.log(e);
@@ -129,10 +129,10 @@ const PromotionDetails = () => {
         </View>
       ) : (
         <View>
-          <Text style={styles.titleCustomer}>Danh sách ưu đãi nạp tiền</Text>
+          <Text style={styles.titleCustomer}>{t("lang_user_list")}</Text>
           <View style={[styles.buttonContainer]}>
             <TouchableOpacity style={styles.button}>
-              <Text style={styles.buttonText}>Thêm ưu đãi</Text>
+              <Text style={styles.buttonText}>{t("lang_add_promotion")}</Text>
             </TouchableOpacity>
           </View>
           <ScrollView style={styles.scrollView}>
@@ -144,7 +144,7 @@ const PromotionDetails = () => {
                     {formatCurrency(item.topupAmount, "vi-VN", "VND")}
                   </Text>
                   <Text style={styles.phone}>
-                    Ưu đãi:
+                  {t("lang_promotion")}:
                     {formatCurrency(item.promotionalAmount, "vi-VN", "VND")}
                   </Text>
                 </View>
@@ -174,7 +174,7 @@ const PromotionDetails = () => {
               <View style={styles.modalContainer}>
                 <View>
                   <View style={styles.modalItem}>
-                    <Text style={styles.textmodalItem}>Số tiền</Text>
+                    <Text style={styles.textmodalItem}>{t("lang_amount")}</Text>
                     <TextInput
                       placeholder="########"
                       keyboardType="numeric"
@@ -184,7 +184,7 @@ const PromotionDetails = () => {
                     />
                   </View>
                   <View style={styles.modalItem}>
-                    <Text style={styles.textmodalItem}>Ưu đãi</Text>
+                    <Text style={styles.textmodalItem}>{t("lang_promotion")}</Text>
                     <TextInput
                       placeholder="########"
                       keyboardType="numeric"
@@ -207,7 +207,7 @@ const PromotionDetails = () => {
           </Modal>
           <ConfirmBox
             visible={isConfirmVisible}
-            message="Bạn có muốn chỉnh sửa?"
+            message={t("lang_question_update")}
             onConfirm={handleConfirm}
             onCancel={handleCancel}
           />

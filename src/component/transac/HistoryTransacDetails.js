@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import { View, Text, StyleSheet,KeyboardAvoidingView,ScrollView, Platform } from 'react-native';
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { formatCurrency } from '../../default/part/MoneyFomart';
+import { useTranslation } from "react-i18next";
 
 
 const HistoryTransacDetails = ({transacInfo}) => {
@@ -11,6 +12,7 @@ const HistoryTransacDetails = ({transacInfo}) => {
   const [phoneNumber,setPhoneNumber] = useState(transacInfo ? transacInfo.phoneNumber : '');
   const [fullName,setFullName] = useState(transacInfo ? transacInfo.fullName : '');
   const [cardNo,setCardNo] = useState(transacInfo ? transacInfo.cardNo : '');
+  const { t, i18n } = useTranslation();
   return (
     <>
     <KeyboardAvoidingView
@@ -21,27 +23,27 @@ const HistoryTransacDetails = ({transacInfo}) => {
        <View style={[styles.hisContainer]}>
             <View style={[styles.item]}>
                 <View style={[styles.itemList]}>
-                    <Text style={[styles.title]}>Thời gian giao dịch</Text>
+                    <Text style={[styles.title]}>{t("lang_time_transac")}</Text>
                     <Text style={[styles.value]}>{timetransact}</Text>
                 </View>
                 <View style={[styles.itemList]}>
-                    <Text style={[styles.title]}>Số tiền</Text>
+                    <Text style={[styles.title]}>{t("lang_amount")}</Text>
                     <Text style={[styles.value]}>{formatCurrency(money, 'vi-VN', 'VND')}</Text>
                 </View>
                 <View style={[styles.itemList]}>
-                    <Text style={[styles.title]}>Loại giao dịch</Text>
+                    <Text style={[styles.title]}>{t("lang_type_transac")}</Text>
                     <Text style={[styles.value]}>{type}</Text>
                 </View>
                 <View style={[styles.itemList]}>
-                    <Text style={[styles.title]}>Số thẻ</Text>
+                    <Text style={[styles.title]}>{t("lang_card_no")}</Text>
                     <Text style={[styles.value]}>{cardNo}</Text>
                 </View>
                 <View style={[styles.itemList]}>
-                    <Text style={[styles.title]}>Số điện thoại</Text>
+                    <Text style={[styles.title]}>{t("lang_phone_number")}</Text>
                     <Text style={[styles.value]}>{phoneNumber}</Text>
                 </View>
                 <View style={[styles.itemList]}>
-                    <Text style={[styles.title]}>Tên</Text>
+                    <Text style={[styles.title]}>{t("lang_user_fullName")}</Text>
                     <Text style={[styles.value]}>{fullName}</Text>
                 </View>
             </View>
