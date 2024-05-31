@@ -290,7 +290,7 @@ const DisplayCustomerDetails = ({ phone }) => {
                 </View>
                 <View style={styles.containerChangePass}>
                   <TouchableOpacity
-                   onPress={() => navigation.navigate("ChangePass")}
+                   onPress={() => navigation.navigate("ChangePass",{userID:idUser})}
                    style={[styles.contaiChangePass]}
                   >
                     <Text style={[styles.textChangePass]}>{t("lang_label_change_pass")}</Text>

@@ -226,12 +226,12 @@ const loginScreen = async(username, password)=>{
       return response.json(); // Trả về true nếu yêu cầu thành công
     } else {
       // Xử lý nếu yêu cầu không thành công
-      console.error('Request failed with status:', response.status);
+      //console.error('Request failed with status:', response.status);
       return false; // Trả về false nếu yêu cầu không thành công
     }
   } catch (error) {
     // Xử lý lỗi nếu có
-    console.error('An error occurred:', error);
+    //console.error('An error occurred:', error);
     return false; // Trả về false nếu có lỗi xảy ra
   }
 }
@@ -399,8 +399,29 @@ const getTransac = async (data)=>{
   }
 }
 
+const changePass = async(data)=>{
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const response = await fetch(`${BASE_URL}/v1/user/change-password`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if(!response.ok){
+      return false;
+    }
+    //const responseData = await response.json();
+    return true;
+  } catch (error) {
+    console.log('Error inserting data:', error);
+    return false;
+  }
+}
 
 
 
 
-export { loginScreen,getListUsers,getPersonal,updateUser,addUser,deleteUser,getNumberCard,getServiceByID,getListPromotion,updatePromotion,updatePayment,updateUserWithCard,getPromotion,addUserWithCard,getService,getServiceshort,getCardActive,getTransac,addDeposit,getUserByPhone};
+export { loginScreen,getListUsers,changePass,getPersonal,updateUser,addUser,deleteUser,getNumberCard,getServiceByID,getListPromotion,updatePromotion,updatePayment,updateUserWithCard,getPromotion,addUserWithCard,getService,getServiceshort,getCardActive,getTransac,addDeposit,getUserByPhone};

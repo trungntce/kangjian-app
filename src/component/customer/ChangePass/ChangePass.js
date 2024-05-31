@@ -6,12 +6,12 @@ import Footer from '../../../default/Footer';
 import ChangePassDetails from './ChangePassDetails';
 
 const ChangePass= ({route}) => {
-
+  const { userID } = route.params;
   return (
     <>
         <Header />
         <View style={styles.container}>
-            <ChangePassDetails />
+            <ChangePassDetails userID={userID} />
         </View>
         <Footer />
     </>
