@@ -17,7 +17,7 @@ import { changePass } from "../../../api/API";
 import ConfirmBox from "../../../default/part/ConfirmBox";
 import { alertBox } from "../../../default/part/Notify";
 
-export default function ChangePassDetails({ userID }) {
+export default function ChangePassDetails({ userID,page }) {
   const { isLoading, isLogin, isMenu, permission, logout } =
     useContext(AuthContext);
   const { t, i18n } = useTranslation();
@@ -66,7 +66,15 @@ export default function ChangePassDetails({ userID }) {
     };
     const res = await changePass(data);
     if (res) {
-      logout();
+      if(!page){
+        alertBox(t("lang_alert_edited"));
+        logout();
+      }
+      else{
+        alertBox(t("lang_alert_edited"))
+      }
+    }else{
+      alertBox(t("lang_alert_error"))
     }
   };
 
@@ -110,8 +118,7 @@ export default function ChangePassDetails({ userID }) {
         {(isLogin &&
           permission &&
           (permission.includes("ADMIN") ||
-            permission.includes("MANAGE") ||
-            permission.includes("STAFF"))) || (
+            permission.includes("MANAGE") )) || (
           <View style={[styles.changePassItem]}>
             <Icon name="lock" style={styles.icon} />
             <TextInput
@@ -158,7 +165,7 @@ export default function ChangePassDetails({ userID }) {
       </View>
       <ConfirmBox
         visible={isConfirmVisible}
-        message={t("lang_alert_topup_question")}
+        message={t("lang_question_update")}
         onConfirm={handleConfirm}
         onCancel={handleCancel}
       />

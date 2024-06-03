@@ -68,5 +68,6 @@
   "lang_question_update":"Bạn có muốn chỉnh sửa",
   "lang_phone_number":"Số điện thoại",
   "lang_type_transac":"Loại giao dịch",
-  "lang_time_transac":"Thời gian giao dịch"
+  "lang_time_transac":"Thời gian giao dịch",
+  "lang_log_money":"Số tiền của bạn không đủ!"
 }

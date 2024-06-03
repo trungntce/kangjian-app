@@ -108,6 +108,10 @@ const PayDetails = () => {
         alertBox(t("lang_complete_input"));
         return;
       }
+      if (!checkMoney()) {
+        alertBox(t("lang_log_money"));
+        return;
+      }
 
       setConfirmVisible(true);
     } catch (e) {
@@ -175,9 +179,16 @@ const PayDetails = () => {
     if (parseInt(serviceMoney) == 0) {
       return false;
     }
+    
 
     return true;
   };
+  const checkMoney = () => {
+    if(parseInt(serviceMoney) > parseInt(availableBalance)){
+      return false;
+    }
+    return true;
+  }
   const handleReset = () => {
     setServiceName("");
     setServiceTime("");

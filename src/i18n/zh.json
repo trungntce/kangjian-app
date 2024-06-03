@@ -68,5 +68,6 @@
   "lang_question_update":"您想编辑吗?",
   "lang_phone_number":"电话号码",
   "lang_type_transac":"交易类型",
-  "lang_time_transac":"交易时间"
+  "lang_time_transac":"交易时间",
+  "lang_log_money":"账户内资金不足!"
 }

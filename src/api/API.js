@@ -410,10 +410,10 @@ const changePass = async(data)=>{
       },
       body: JSON.stringify(data),
     });
-    if(!response.ok){
+    const responseData = await response.json();
+    if(responseData.status == 'BAD_REQUEST'){
       return false;
     }
-    //const responseData = await response.json();
     return true;
   } catch (error) {
     console.log('Error inserting data:', error);
