@@ -303,36 +303,13 @@ const RegisterDetails = () => {
                 <View style={styles.cardTypeContainer}>
                   <TouchableOpacity style={[
                     styles.cardTypeButton,
-                    cardType === "1" ? styles.cardTypeButtonDes : "",
+                    cardType === "2" ? styles.cardTypeButtonDes : "",
                   ]}>
                     <Text style={[
                       styles.cardText,
-                      cardType === "1" ? styles.cardTextDes : "",
+                      cardType === "2" ? styles.cardTextDes : "",
                     ]}>GOLD</Text>
                     {/* Chọn kiểu radiobox theo giá trị của cardType */}
-                    {cardType === "1" && (
-                      <Icon
-                        name="dot-circle-o"
-                        style={[styles.iconCard, styles.iconCardChoose]}
-                        color="#724929"
-                      />
-                    )}
-                    {cardType !== "1" && (
-                      <Icon
-                        name="circle-o"
-                        style={styles.iconCard}
-                        color="#724929"
-                      />
-                    )}
-                  </TouchableOpacity>
-                  <TouchableOpacity style={[
-                    styles.cardTypeButton,
-                    cardType === "2" ? styles.cardTypeButtonDes : "",
-                  ]}>
-                    <Text  style={[
-                      styles.cardText,
-                      cardType === "2" ? styles.cardTextDes : "",
-                    ]}>PLATIUM</Text>
                     {cardType === "2" && (
                       <Icon
                         name="dot-circle-o"
@@ -348,14 +325,14 @@ const RegisterDetails = () => {
                       />
                     )}
                   </TouchableOpacity>
-                  <TouchableOpacity  style={[
+                  <TouchableOpacity style={[
                     styles.cardTypeButton,
                     cardType === "3" ? styles.cardTypeButtonDes : "",
                   ]}>
-                    <Text style={[
+                    <Text  style={[
                       styles.cardText,
                       cardType === "3" ? styles.cardTextDes : "",
-                    ]}>VIP</Text>
+                    ]}>PLATIUM</Text>
                     {cardType === "3" && (
                       <Icon
                         name="dot-circle-o"
@@ -364,6 +341,29 @@ const RegisterDetails = () => {
                       />
                     )}
                     {cardType !== "3" && (
+                      <Icon
+                        name="circle-o"
+                        style={styles.iconCard}
+                        color="#724929"
+                      />
+                    )}
+                  </TouchableOpacity>
+                  <TouchableOpacity  style={[
+                    styles.cardTypeButton,
+                    cardType === "1" ? styles.cardTypeButtonDes : "",
+                  ]}>
+                    <Text style={[
+                      styles.cardText,
+                      cardType === "1" ? styles.cardTextDes : "",
+                    ]}>VIP</Text>
+                    {cardType === "1" && (
+                      <Icon
+                        name="dot-circle-o"
+                        style={[styles.iconCard, styles.iconCardChoose]}
+                        color="#724929"
+                      />
+                    )}
+                    {cardType !== "1" && (
                       <Icon
                         name="circle-o"
                         style={styles.iconCard}

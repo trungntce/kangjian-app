@@ -7,9 +7,10 @@ import {
 } from "react-native-responsive-screen";
 import { getServiceByID } from "../../../api/API";
 import { formatCurrency } from "../../../default/part/MoneyFomart";
+import { URL_BE } from "../../../api/URL";
 
-const ServiceMonitorDetails = ({ service,info }) => {
-  const primaryURL = "http://66.42.48.193:8000";
+const ServiceMonitorDetails = ({ service, info }) => {
+  const primaryURL = URL_BE;
   const [listService, setListService] = useState([]);
   useEffect(() => {
     getSV();
@@ -34,9 +35,7 @@ const ServiceMonitorDetails = ({ service,info }) => {
           source={{ uri: primaryURL + info.imageUrl }} // Đường dẫn đến hình ảnh của bạn
           style={styles.image}
         />
-        <Text style={[styles.des]}>
-          {info.description}
-        </Text>
+        <Text style={[styles.des]}>{info.description}</Text>
         {/* <Text>{service.content}</Text> */}
         <View style={[styles.add]}>
           {Object.keys(listService).map((key, index) => {
@@ -45,7 +44,9 @@ const ServiceMonitorDetails = ({ service,info }) => {
               return (
                 <View style={[styles.item]} key={index}>
                   <Text style={[styles.itemText]}>{sv.duration}min</Text>
-                  <Text style={[styles.itemText]}>{formatCurrency(sv.totalAmount, 'vi-VN', 'VND')}</Text>
+                  <Text style={[styles.itemText]}>
+                    {formatCurrency(sv.totalAmount, "vi-VN", "VND")}
+                  </Text>
                 </View>
               );
             }

@@ -125,6 +125,7 @@ export default function ChangePassDetails({ userID,page }) {
               style={styles.input}
               placeholder={t("lang_label_pass_moment")}
               onChangeText={(text) => setOldPass(text)}
+              secureTextEntry={true}
               value={oldPass}
             />
           </View>
@@ -136,6 +137,7 @@ export default function ChangePassDetails({ userID,page }) {
             style={styles.input}
             placeholder={t("lang_label_pass_new")}
             onChangeText={(text) => setNewPass(text)}
+            secureTextEntry={true}
             value={newPass}
           />
         </View>
@@ -145,6 +147,7 @@ export default function ChangePassDetails({ userID,page }) {
             style={styles.input}
             placeholder={t("lang_label_repeat_pass")}
             onChangeText={(text) => setRepeatPass(text)}
+            secureTextEntry={true}
             value={repeatPass}
           />
         </View>

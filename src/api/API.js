@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const BASE_URL = 'http://66.42.48.193:8000/api';
+import { URL_API } from './URL';
+const BASE_URL = URL_API;
 
 // const insertData = async (data) => {
 //   try {
@@ -42,6 +43,23 @@ const updateUser = async (data) =>{
   try {
     const token = await AsyncStorage.getItem('token');
     const response = await fetch(`${BASE_URL}/v1/user/personal`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
+    });
+    return response;
+  } catch (error) {
+    console.log('Error inserting data:', error);
+    return false;
+  }
+}
+const editUser = async (data) =>{
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const response = await fetch(`${BASE_URL}/v1/user`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -424,4 +442,4 @@ const changePass = async(data)=>{
 
 
 
-export { loginScreen,getListUsers,changePass,getPersonal,updateUser,addUser,deleteUser,getNumberCard,getServiceByID,getListPromotion,updatePromotion,updatePayment,updateUserWithCard,getPromotion,addUserWithCard,getService,getServiceshort,getCardActive,getTransac,addDeposit,getUserByPhone};
+export { loginScreen,getListUsers,changePass,editUser,getPersonal,updateUser,addUser,deleteUser,getNumberCard,getServiceByID,getListPromotion,updatePromotion,updatePayment,updateUserWithCard,getPromotion,addUserWithCard,getService,getServiceshort,getCardActive,getTransac,addDeposit,getUserByPhone};

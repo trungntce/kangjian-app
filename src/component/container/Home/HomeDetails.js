@@ -23,6 +23,7 @@ import { useNavigation } from "@react-navigation/native";
 //Begin Import many languages
 import { useTranslation } from "react-i18next";
 import "../../../i18n/i18n";
+import { URL_BE } from "../../../api/URL";
 //End Import many languages
 
 const getImageSource = (imageName) => {
@@ -48,8 +49,8 @@ const HomeDetails = () => {
   const navigation = useNavigation();
   const [listService, setListService] = useState([]);
   const { t, i18n } = useTranslation();
-  const primaryURL = "http://66.42.48.193:8000"; // Đường dẫn hình ảnh
-  const [linkImg, setLinkImg] = useState('1');
+  const primaryURL = URL_BE; // Đường dẫn hình ảnh
+  const [linkImg, setLinkImg] = useState("1");
   const [modalVisible, setModalVisible] = useState(false);
   const toggleModal = () => {
     setModalVisible(!modalVisible);
@@ -105,12 +106,7 @@ const HomeDetails = () => {
           />
         </View>
         <View>
-          <ScrollView
-            style={styles.scrollContainer}
-            horizontal={false}
-            pagingEnabled={false}
-            showsVerticalScrollIndicator={true}
-          >
+          <ScrollView style={styles.scrollContainer}>
             {/* Phần nút menu và nút xem hết */}
             <View style={styles.contentContainer}>
               {/* Phần nút menu */}
@@ -234,7 +230,7 @@ const styles = StyleSheet.create({
     height: hp("24%"),
   },
   scrollContainer: {
-    height: wp("100%"),
+    height: hp("52%"),
   },
   searchIcon: {
     fontSize: wp("7%"),

@@ -20,11 +20,11 @@ import { getPersonal, updateUser } from "../../api/API";
 import { alertBox } from "../../default/part/Notify";
 import { AuthContext } from "../../routers/AuthContext";
 import { formatCurrency } from "../../default/part/MoneyFomart";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import ConfirmBox from "../../default/part/ConfirmBox";
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { format, toDate } from 'date-fns';
-import { useTranslation } from 'react-i18next';
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { format, toDate } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 const EditCustomerDetails = () => {
   const { isLoading, isLogin, isMenu, permission, logout } =
@@ -51,19 +51,18 @@ const EditCustomerDetails = () => {
   const { t, i18n } = useTranslation();
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setBirthdate(format(currentDate, 'yyyy/MM/dd'));
+    setShow(Platform.OS === "ios");
+    setBirthdate(format(currentDate, "yyyy/MM/dd"));
   };
   const showDatepicker = () => {
     setShow(!show);
   };
 
-
-  useEffect(()=>{
-      if(permission == null){
-        logout();
-      }
-  },[]);
+  useEffect(() => {
+    if (permission == null) {
+      logout();
+    }
+  }, []);
   useEffect(() => {
     try {
       getPersonals();
@@ -109,10 +108,9 @@ const EditCustomerDetails = () => {
       };
       const result = await updateUser(data);
       if (result) {
-        
-        alertBox(t('lang_alert_edited'));
+        alertBox(t("lang_alert_edited"));
       } else {
-        alertBox(t('lang_alert_error'));
+        alertBox(t("lang_alert_error"));
       }
       setChangeList(!changeList);
     } catch (e) {
@@ -129,7 +127,7 @@ const EditCustomerDetails = () => {
 
   const changeInfo = () => {
     setConfirmVisible(true);
-  }
+  };
   const handleConfirm = () => {
     handleUpdate();
     setConfirmVisible(false);
@@ -141,7 +139,7 @@ const EditCustomerDetails = () => {
 
   const confirmLogout = () => {
     setConfirmLogout(true);
-  }
+  };
   const handleConfirmLogout = () => {
     logOuts();
     setConfirmLogout(false);
@@ -169,35 +167,35 @@ const EditCustomerDetails = () => {
             <View style={styles.headerCus}>
               <View style={styles.infoAcc}>
                 <Text style={styles.textDesign}>
-                  {t("lang_welcome")}: <Text style={styles.textDesignSub}>{username}</Text>
+                  {t("lang_welcome")}:{" "}
+                  <Text style={styles.textDesignSub}>{username}</Text>
                 </Text>
                 <Text style={styles.textDesign}>
                   {t("lang_account_balance")}:{" "}
-                  <Text style={styles.textDesignSub}>{formatCurrency(availableBalance, 'vi-VN', 'VND')}</Text>
+                  <Text style={styles.textDesignSub}>
+                    {formatCurrency(availableBalance, "vi-VN", "VND")}
+                  </Text>
                 </Text>
                 <Text style={styles.textDesign}>
                   {t("lang_role")}:{" "}
                   <Text style={styles.textDesignSub}>{permission}</Text>
                 </Text>
               </View>
-             
             </View>
             <View style={[styles.containerbottom]}>
               <TouchableOpacity
                 style={styles.buttonhisContainer}
-                onPress={() => navigation.navigate('Transac')}
+                onPress={() => navigation.navigate("Transac")}
               >
-                <Text style={styles.buttonHis}>{t("lang_transaction_history")}</Text>
+                <Text style={styles.buttonHis}>
+                  {t("lang_transaction_history")}
+                </Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.buttonhisContainer,styles.containerSignOut]}
+                style={[styles.buttonhisContainer, styles.containerSignOut]}
                 onPress={confirmLogout}
               >
-                <Icon
-                    name="sign-out"
-                    style={styles.iconFooter}
-                    color="black"
-                  />
+                <Icon name="sign-out" style={styles.iconFooter} color="black" />
                 <Text style={styles.buttonHis}>{t("lang_logout")}</Text>
               </TouchableOpacity>
             </View>
@@ -210,13 +208,13 @@ const EditCustomerDetails = () => {
                   <Icon name="user" style={styles.icon} />
                   <TextInput
                     style={styles.input}
-                    placeholder={t('lang_my_fullName')}
+                    placeholder={t("lang_my_fullName")}
                     onChangeText={(text) => setUsername(text)}
                     value={username}
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
                 </View>
-                <View style={[styles.inputWrapper,styles.designReadonly]}>
+                <View style={[styles.inputWrapper, styles.designReadonly]}>
                   <Icon name="phone" style={styles.icon} />
                   <TextInput
                     style={styles.input}
@@ -250,11 +248,9 @@ const EditCustomerDetails = () => {
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
                 </View>
-                <View style={[styles.inputWrapper,styles.datecontai]}>
+                <View style={[styles.inputWrapper, styles.datecontai]}>
                   <Icon name="calendar" style={styles.icon} />
-                  <TouchableOpacity
-                    onPress={showDatepicker}
-                  >
+                  <TouchableOpacity onPress={showDatepicker}>
                     <TextInput
                       style={styles.input}
                       placeholder={t("lang_my_birthday")}
@@ -267,10 +263,10 @@ const EditCustomerDetails = () => {
                     <DateTimePicker
                       value={date}
                       mode="date"
-                      display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                      display={Platform.OS === "ios" ? "spinner" : "default"}
                       onChange={onChange}
                     />
-                )}
+                  )}
                 </View>
                 <View style={styles.inputWrapper}>
                   <Icon name="id-card" style={styles.icon} />
@@ -282,7 +278,7 @@ const EditCustomerDetails = () => {
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
                 </View>
-                <View style={[styles.inputWrapper,styles.designReadonly]}>
+                <View style={[styles.inputWrapper, styles.designReadonly]}>
                   <Icon name="id-card" style={styles.icon} />
                   <TextInput
                     style={styles.input}
@@ -293,41 +289,24 @@ const EditCustomerDetails = () => {
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
                 </View>
-                <View style={[styles.inputWrapper,styles.designReadonly]}>
+                <View style={[styles.inputWrapper, styles.designReadonly]}>
                   <Icon name="id-card" style={styles.icon} />
                   <View style={styles.cardTypeContainer}>
-                    <TouchableOpacity style={[
-                    styles.cardTypeButton,
-                    cardType === "1" ? styles.cardTypeButtonDes : "",
-                  ]}>
-                      <Text  style={[
-                      styles.cardText,
-                      cardType === "1" ? styles.cardTextDes : "",
-                    ]}>GOLD</Text>
+                    <TouchableOpacity
+                      style={[
+                        styles.cardTypeButton,
+                        cardType === "2" ? styles.cardTypeButtonDes : "",
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.cardText,
+                          cardType === "2" ? styles.cardTextDes : "",
+                        ]}
+                      >
+                        GOLD
+                      </Text>
                       {/* Chọn kiểu radiobox theo giá trị của cardType */}
-                      {cardType === "1" && (
-                        <Icon
-                          name="dot-circle-o"
-                          style={[styles.iconCard, styles.iconCardChoose]}
-                          color="#724929"
-                        />
-                      )}
-                      {cardType !== "1" && (
-                        <Icon
-                          name="circle-o"
-                          style={styles.iconCard}
-                          color="#724929"
-                        />
-                      )}
-                    </TouchableOpacity>
-                    <TouchableOpacity  style={[
-                    styles.cardTypeButton,
-                    cardType === "2" ? styles.cardTypeButtonDes : "",
-                  ]}>
-                      <Text style={[
-                      styles.cardText,
-                      cardType === "2" ? styles.cardTextDes : "",
-                    ]}>PLATIUM</Text>
                       {cardType === "2" && (
                         <Icon
                           name="dot-circle-o"
@@ -343,14 +322,20 @@ const EditCustomerDetails = () => {
                         />
                       )}
                     </TouchableOpacity>
-                    <TouchableOpacity  style={[
-                    styles.cardTypeButton,
-                    cardType === "3" ? styles.cardTypeButtonDes : "",
-                  ]}>
-                      <Text style={[
-                      styles.cardText,
-                      cardType === "3" ? styles.cardTextDes : "",
-                    ]}>VIP</Text>
+                    <TouchableOpacity
+                      style={[
+                        styles.cardTypeButton,
+                        cardType === "3" ? styles.cardTypeButtonDes : "",
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.cardText,
+                          cardType === "3" ? styles.cardTextDes : "",
+                        ]}
+                      >
+                        PLATIUM
+                      </Text>
                       {cardType === "3" && (
                         <Icon
                           name="dot-circle-o"
@@ -366,38 +351,83 @@ const EditCustomerDetails = () => {
                         />
                       )}
                     </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.cardTypeButton,
+                        cardType === "1" ? styles.cardTypeButtonDes : "",
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.cardText,
+                          cardType === "1" ? styles.cardTextDes : "",
+                        ]}
+                      >
+                        VIP
+                      </Text>
+                      {cardType === "1" && (
+                        <Icon
+                          name="dot-circle-o"
+                          style={[styles.iconCard, styles.iconCardChoose]}
+                          color="#724929"
+                        />
+                      )}
+                      {cardType !== "1" && (
+                        <Icon
+                          name="circle-o"
+                          style={styles.iconCard}
+                          color="#724929"
+                        />
+                      )}
+                    </TouchableOpacity>
                   </View>
                 </View>
-                <View>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={changeInfo}
-                  >
-                    <Text style={styles.buttonText}>{t("lang_edit_information")}</Text>
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.containerChangePass}>
-                  <TouchableOpacity
-                   onPress={() => navigation.navigate("ChangePass",{userID:idUser,page:false})}
-                   style={[styles.contaiChangePass]}
-                  >
-                    <Text style={[styles.textChangePass]}>{t("lang_label_change_pass")}</Text>
-                  </TouchableOpacity>
-                </View>
+                {isLogin &&
+                  permission &&
+                  (permission.includes("ADMIN") ||
+                    permission.includes("MANAGE")) && (
+                    <View>
+                      <TouchableOpacity
+                        style={styles.button}
+                        onPress={changeInfo}
+                      >
+                        <Text style={styles.buttonText}>
+                          {t("lang_edit_information")}
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  )}
+                {isLogin && permission && permission.includes("ADMIN") && (
+                  <View style={styles.containerChangePass}>
+                    <TouchableOpacity
+                      onPress={() =>
+                        navigation.navigate("ChangePass", {
+                          userID: idUser,
+                          page: false,
+                        })
+                      }
+                      style={[styles.contaiChangePass]}
+                    >
+                      <Text style={[styles.textChangePass]}>
+                        {t("lang_label_change_pass")}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                )}
               </View>
             </View>
           </ScrollView>
           <ConfirmBox
-                visible={isConfirmVisible}
-                message={t("lang_alert_edit_question")}
-                onConfirm={handleConfirm}
-                onCancel={handleCancel}
+            visible={isConfirmVisible}
+            message={t("lang_alert_edit_question")}
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
           />
-           <ConfirmBox
-                visible={isConfirmLogout}
-                message={t("lang_alert_logout_question")}
-                onConfirm={handleConfirmLogout}
-                onCancel={handleCancelLogout}
+          <ConfirmBox
+            visible={isConfirmLogout}
+            message={t("lang_alert_logout_question")}
+            onConfirm={handleConfirmLogout}
+            onCancel={handleCancelLogout}
           />
         </KeyboardAvoidingView>
       )}
@@ -409,13 +439,13 @@ const styles = StyleSheet.create({
   containerScroll: {
     height: hp("75%"),
   },
-  containerbottom:{
-    flexDirection:'row',
-    justifyContent:'space-between',
-    padding:wp('3%')
+  containerbottom: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: wp("3%"),
   },
-  designReadonly:{
-    opacity:wp('0.1%')
+  designReadonly: {
+    opacity: wp("0.1%"),
   },
   loadingContainer: {
     justifyContent: "center",
@@ -453,7 +483,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     justifyContent: "center",
     alignItems: "center",
-    padding:wp('2%')
+    padding: wp("2%"),
   },
   containerSignOut: {
     // width:wp('30%'),
@@ -559,8 +589,8 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: wp("4%"),
   },
-  datecontai:{
-    paddingBottom:wp('4%')
+  datecontai: {
+    paddingBottom: wp("4%"),
   },
   cardTypeButtonDes: {
     backgroundColor: "#724929",
@@ -571,14 +601,14 @@ const styles = StyleSheet.create({
   iconCardChoose: {
     color: "white",
   },
-  containerChangePass:{
-    alignItems:'center',
-    marginTop:wp('4%')
+  containerChangePass: {
+    alignItems: "center",
+    marginTop: wp("4%"),
   },
-  textChangePass:{
-    color:'blue',
-    fontWeight:'bold'
-  }
+  textChangePass: {
+    color: "blue",
+    fontWeight: "bold",
+  },
 });
 
 export default EditCustomerDetails;

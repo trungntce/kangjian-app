@@ -231,38 +231,21 @@ const DepositDetails = () => {
             <View style={styles.inputWrapper}>
               <Icon name="id-card" style={styles.icon} />
               <View style={styles.cardTypeContainer}>
-                <TouchableOpacity  style={[
-                      styles.cardTypeButton,
-                      cardType === "1" ? styles.cardTypeButtonDes : "",
-                    ]}>
-                  <Text style={[
-                        styles.cardText,
-                        cardType === "1" ? styles.cardTextDes : "",
-                      ]}>GOLD</Text>
+                <TouchableOpacity
+                  style={[
+                    styles.cardTypeButton,
+                    cardType === "2" ? styles.cardTypeButtonDes : "",
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.cardText,
+                      cardType === "2" ? styles.cardTextDes : "",
+                    ]}
+                  >
+                    GOLD
+                  </Text>
                   {/* Chọn kiểu radiobox theo giá trị của cardType */}
-                  {cardType === "1" && (
-                    <Icon
-                      name="dot-circle-o"
-                      style={[styles.iconCard, styles.iconCardChoose]}
-                      color="#724929"
-                    />
-                  )}
-                  {cardType !== "1" && (
-                    <Icon
-                      name="circle-o"
-                      style={styles.iconCard}
-                      color="#724929"
-                    />
-                  )}
-                </TouchableOpacity>
-                <TouchableOpacity  style={[
-                      styles.cardTypeButton,
-                      cardType === "2" ? styles.cardTypeButtonDes : "",
-                    ]}>
-                  <Text  style={[
-                        styles.cardText,
-                        cardType === "2" ? styles.cardTextDes : "",
-                      ]}>PLATIUM</Text>
                   {cardType === "2" && (
                     <Icon
                       name="dot-circle-o"
@@ -278,14 +261,20 @@ const DepositDetails = () => {
                     />
                   )}
                 </TouchableOpacity>
-                <TouchableOpacity style={[
-                      styles.cardTypeButton,
-                      cardType === "3" ? styles.cardTypeButtonDes : "",
-                    ]}>
-                  <Text style={[
-                        styles.cardText,
-                        cardType === "3" ? styles.cardTextDes : "",
-                      ]}>VIP</Text>
+                <TouchableOpacity
+                  style={[
+                    styles.cardTypeButton,
+                    cardType === "3" ? styles.cardTypeButtonDes : "",
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.cardText,
+                      cardType === "3" ? styles.cardTextDes : "",
+                    ]}
+                  >
+                    PLATIUM
+                  </Text>
                   {cardType === "3" && (
                     <Icon
                       name="dot-circle-o"
@@ -294,6 +283,35 @@ const DepositDetails = () => {
                     />
                   )}
                   {cardType !== "3" && (
+                    <Icon
+                      name="circle-o"
+                      style={styles.iconCard}
+                      color="#724929"
+                    />
+                  )}
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[
+                    styles.cardTypeButton,
+                    cardType === "1" ? styles.cardTypeButtonDes : "",
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.cardText,
+                      cardType === "1" ? styles.cardTextDes : "",
+                    ]}
+                  >
+                    VIP
+                  </Text>
+                  {cardType === "1" && (
+                    <Icon
+                      name="dot-circle-o"
+                      style={[styles.iconCard, styles.iconCardChoose]}
+                      color="#724929"
+                    />
+                  )}
+                  {cardType !== "1" && (
                     <Icon
                       name="circle-o"
                       style={styles.iconCard}

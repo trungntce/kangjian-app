@@ -6,7 +6,9 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  TouchableWithoutFeedback,
   ActivityIndicator,
+  Platform,
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome"; // Import Icon từ thư viện
 import {
@@ -18,6 +20,10 @@ import { alertBox } from "../../../default/part/Notify";
 import { formatCurrency } from "../../../default/part/MoneyFomart";
 import { useTranslation } from "react-i18next";
 import { useNavigation } from '@react-navigation/native';
+import { editUser } from "../../../api/API";
+import ConfirmBox from "../../../default/part/ConfirmBox";
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { format, toDate } from 'date-fns';
 
 const DisplayCustomerDetails = ({ phone }) => {
   const [idUser, setIdUser] = useState(-1);
@@ -37,7 +43,18 @@ const DisplayCustomerDetails = ({ phone }) => {
   const { t, i18n } = useTranslation();
   const navigation = useNavigation();
   // const [secureTextEntry, setSecureTextEntry] = useState(true);
+  const [isConfirmVisible, setConfirmVisible] = useState(false);
+  const [show, setShow] = useState(false);
+  const [date, setDate] = useState(new Date());
 
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === 'ios');
+    setBirthdate(format(currentDate, 'yyyy/MM/dd'));
+  };
+  const showDatepicker = () => {
+    setShow(!show);
+  };
   useEffect(() => {
     try {
       if (phone) {
@@ -71,7 +88,39 @@ const DisplayCustomerDetails = ({ phone }) => {
       setLoading(false);
     }
   };
+  const changeInfo = () => {
+    setConfirmVisible(true);
+  }
+  const handleConfirm = () => {
+    handleUpdate();
+    setConfirmVisible(false);
+  };
 
+  const handleCancel = () => {
+    setConfirmVisible(false);
+  };
+  const handleUpdate = async () => {
+    try {
+      const data = {
+        idUser: idUser,
+        fullName: username,
+        cccd: idCard,
+        email: email,
+        address: address,
+        birthday: birthdate,
+        phoneNumber: phoneNumber,
+      };
+      const result = await editUser(data);
+      if (result) {
+        
+        alertBox(t('lang_alert_edited'));
+      } else {
+        alertBox(t('lang_alert_error'));
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   // const handleUpdate = async() => {
   //   try{
   //     const data = {
@@ -110,17 +159,18 @@ const DisplayCustomerDetails = ({ phone }) => {
             </View>
             <View style={styles.containerContent}>
               <View>
-                <View style={styles.inputWrapper}>
+                <View style={[styles.inputWrapper,styles.designReadonly]}>
                   <Icon name="user" style={styles.icon} />
                   <TextInput
                     style={styles.input}
                     placeholder={t("lang_user_fullName")}
                     onChangeText={(text) => setUsername(text)}
                     value={username}
+                    readOnly
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
                 </View>
-                <View style={styles.inputWrapper}>
+                <View style={[styles.inputWrapper,styles.designReadonly]}>
                   <Icon name="phone" style={styles.icon} />
                   <TextInput
                     style={styles.input}
@@ -153,17 +203,27 @@ const DisplayCustomerDetails = ({ phone }) => {
                     value={address}
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
-                </View>
+                </View><TouchableOpacity  onPress={() => showDatepicker()}>
                 <View style={styles.inputWrapper}>
+                  
                   <Icon name="calendar" style={styles.icon} />
                   <TextInput
                     style={styles.input}
                     placeholder={t("lang_my_birthday")}
-                    onChangeText={(text) => setBirthdate(text)}
+                    //onChangeText={(text) => setBirthdate(text)}
                     value={birthdate}
+                    readOnly
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
-                </View>
+                </View></TouchableOpacity>
+                {show && (
+                    <DateTimePicker
+                      value={date}
+                      mode="date"
+                      display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                      onChange={onChange}
+                    />
+                )}
                 <View style={styles.inputWrapper}>
                   <Icon name="id-card" style={styles.icon} />
                   <TextInput
@@ -191,36 +251,6 @@ const DisplayCustomerDetails = ({ phone }) => {
                     <TouchableOpacity
                       style={[
                         styles.cardTypeButton,
-                        cardType === "1" ? styles.cardTypeButtonDes : "",
-                      ]}
-                    >
-                      <Text
-                        style={[
-                          styles.cardText,
-                          cardType === "1" ? styles.cardTextDes : "",
-                        ]}
-                      >
-                        GOLD
-                      </Text>
-                      {/* Chọn kiểu radiobox theo giá trị của cardType */}
-                      {cardType === "1" && (
-                        <Icon
-                          name="dot-circle-o"
-                          style={[styles.iconCard, styles.iconCardChoose]}
-                          color="#724929"
-                        />
-                      )}
-                      {cardType !== "1" && (
-                        <Icon
-                          name="circle-o"
-                          style={styles.iconCard}
-                          color="#724929"
-                        />
-                      )}
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      style={[
-                        styles.cardTypeButton,
                         cardType === "2" ? styles.cardTypeButtonDes : "",
                       ]}
                     >
@@ -230,8 +260,9 @@ const DisplayCustomerDetails = ({ phone }) => {
                           cardType === "2" ? styles.cardTextDes : "",
                         ]}
                       >
-                        PLATIUM
+                        GOLD
                       </Text>
+                      {/* Chọn kiểu radiobox theo giá trị của cardType */}
                       {cardType === "2" && (
                         <Icon
                           name="dot-circle-o"
@@ -259,7 +290,7 @@ const DisplayCustomerDetails = ({ phone }) => {
                           cardType === "3" ? styles.cardTextDes : "",
                         ]}
                       >
-                        VIP
+                        PLATIUM
                       </Text>
                       {cardType === "3" && (
                         <Icon
@@ -269,6 +300,35 @@ const DisplayCustomerDetails = ({ phone }) => {
                         />
                       )}
                       {cardType !== "3" && (
+                        <Icon
+                          name="circle-o"
+                          style={styles.iconCard}
+                          color="#724929"
+                        />
+                      )}
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.cardTypeButton,
+                        cardType === "1" ? styles.cardTypeButtonDes : "",
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.cardText,
+                          cardType === "1" ? styles.cardTextDes : "",
+                        ]}
+                      >
+                        VIP
+                      </Text>
+                      {cardType === "1" && (
+                        <Icon
+                          name="dot-circle-o"
+                          style={[styles.iconCard, styles.iconCardChoose]}
+                          color="#724929"
+                        />
+                      )}
+                      {cardType !== "1" && (
                         <Icon
                           name="circle-o"
                           style={styles.iconCard}
@@ -288,6 +348,14 @@ const DisplayCustomerDetails = ({ phone }) => {
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
                 </View>
+                <View>
+                  <TouchableOpacity
+                    style={styles.button}
+                    onPress={changeInfo}
+                  >
+                    <Text style={styles.buttonText}>{t("lang_edit_information")}</Text>
+                  </TouchableOpacity>
+                </View>
                 <View style={styles.containerChangePass}>
                   <TouchableOpacity
                    onPress={() => navigation.navigate("ChangePass",{userID:idUser,page:true})}
@@ -299,6 +367,12 @@ const DisplayCustomerDetails = ({ phone }) => {
               </View>
             </View>
           </ScrollView>
+          <ConfirmBox
+                visible={isConfirmVisible}
+                message={t("lang_alert_edit_question")}
+                onConfirm={handleConfirm}
+                onCancel={handleCancel}
+          />
         </View>
       )}
     </>
@@ -307,7 +381,7 @@ const DisplayCustomerDetails = ({ phone }) => {
 
 const styles = StyleSheet.create({
   containerScroll: {
-    height: hp("85%"),
+    height: hp("80%"),
   },
   loadingContainer: {
     justifyContent: "center",
@@ -442,6 +516,9 @@ const styles = StyleSheet.create({
   textChangePass: {
     color: "blue",
     fontWeight: "bold",
+  },
+  designReadonly:{
+    opacity:wp('0.1%')
   },
 });
 

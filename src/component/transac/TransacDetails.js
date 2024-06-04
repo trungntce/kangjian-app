@@ -90,9 +90,8 @@ const TransacDetails = () => {
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
     >
-      <ScrollView contentContainerStyle={{ flexGrow: 1, height: hp("400%") }}>
+      <ScrollView style={[styles.scrollContainer]}>
         <View style={[styles.containerSearch]}>
           <View style={[styles.titleContainer]}>
             <Text style={[styles.title]}>{t("lang_lookup_transactions")}</Text>
@@ -269,6 +268,9 @@ const styles = StyleSheet.create({
   selectedDateText: {
     marginTop: 20,
     fontSize: 18,
+  },
+  scrollContainer:{
+    height:'90%'
   },
   containerSearch: {
     alignItems: "center",

@@ -282,36 +282,6 @@ const PayDetails = () => {
                   <TouchableOpacity
                     style={[
                       styles.cardTypeButton,
-                      cardType === "1" ? styles.cardTypeButtonDes : "",
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.cardText,
-                        cardType === "1" ? styles.cardTextDes : "",
-                      ]}
-                    >
-                      GOLD
-                    </Text>
-                    {/* Chọn kiểu radiobox theo giá trị của cardType */}
-                    {cardType === "1" && (
-                      <Icon
-                        name="dot-circle-o"
-                        style={[styles.iconCard, styles.iconCardChoose]}
-                        color="#724929"
-                      />
-                    )}
-                    {cardType !== "1" && (
-                      <Icon
-                        name="circle-o"
-                        style={styles.iconCard}
-                        color="#724929"
-                      />
-                    )}
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.cardTypeButton,
                       cardType === "2" ? styles.cardTypeButtonDes : "",
                     ]}
                   >
@@ -321,8 +291,9 @@ const PayDetails = () => {
                         cardType === "2" ? styles.cardTextDes : "",
                       ]}
                     >
-                      PLATIUM
+                      GOLD
                     </Text>
+                    {/* Chọn kiểu radiobox theo giá trị của cardType */}
                     {cardType === "2" && (
                       <Icon
                         name="dot-circle-o"
@@ -350,7 +321,7 @@ const PayDetails = () => {
                         cardType === "3" ? styles.cardTextDes : "",
                       ]}
                     >
-                      VIP
+                      PLATIUM
                     </Text>
                     {cardType === "3" && (
                       <Icon
@@ -360,6 +331,35 @@ const PayDetails = () => {
                       />
                     )}
                     {cardType !== "3" && (
+                      <Icon
+                        name="circle-o"
+                        style={styles.iconCard}
+                        color="#724929"
+                      />
+                    )}
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[
+                      styles.cardTypeButton,
+                      cardType === "1" ? styles.cardTypeButtonDes : "",
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.cardText,
+                        cardType === "1" ? styles.cardTextDes : "",
+                      ]}
+                    >
+                      VIP
+                    </Text>
+                    {cardType === "1" && (
+                      <Icon
+                        name="dot-circle-o"
+                        style={[styles.iconCard, styles.iconCardChoose]}
+                        color="#724929"
+                      />
+                    )}
+                    {cardType !== "1" && (
                       <Icon
                         name="circle-o"
                         style={styles.iconCard}
