@@ -126,6 +126,10 @@ const EditCustomerDetails = () => {
   };
 
   const changeInfo = () => {
+    if (!check()) {
+      alertBox(t("lang_complete_input"));
+      return;
+    }
     setConfirmVisible(true);
   };
   const handleConfirm = () => {
@@ -147,6 +151,31 @@ const EditCustomerDetails = () => {
 
   const handleCancelLogout = () => {
     setConfirmLogout(false);
+  };
+  const check = () => {
+    if (!idUser) {
+      return false;
+    }
+    if (!phoneNumber.trim()) {
+      return false;
+    }
+    if (!username.trim()) {
+      return false;
+    }
+    if (!idCard.trim()) {
+      return false;
+    }
+    if (!email.trim()) {
+      return false;
+    }
+    if (!birthdate.trim()) {
+      return false;
+    }
+    if (!address.trim()) {
+      return false;
+    }
+
+    return true;
   };
 
   return (
@@ -382,38 +411,30 @@ const EditCustomerDetails = () => {
                     </TouchableOpacity>
                   </View>
                 </View>
-                {isLogin &&
-                  permission &&
-                  (permission.includes("ADMIN") ||
-                    permission.includes("MANAGE")) && (
-                    <View>
-                      <TouchableOpacity
-                        style={styles.button}
-                        onPress={changeInfo}
-                      >
-                        <Text style={styles.buttonText}>
-                          {t("lang_edit_information")}
-                        </Text>
-                      </TouchableOpacity>
-                    </View>
-                  )}
-                {isLogin && permission && permission.includes("ADMIN") && (
-                  <View style={styles.containerChangePass}>
-                    <TouchableOpacity
-                      onPress={() =>
-                        navigation.navigate("ChangePass", {
-                          userID: idUser,
-                          page: false,
-                        })
-                      }
-                      style={[styles.contaiChangePass]}
-                    >
-                      <Text style={[styles.textChangePass]}>
-                        {t("lang_label_change_pass")}
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                )}
+
+                <View>
+                  <TouchableOpacity style={styles.button} onPress={changeInfo}>
+                    <Text style={styles.buttonText}>
+                      {t("lang_edit_information")}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.containerChangePass}>
+                  <TouchableOpacity
+                    onPress={() =>
+                      navigation.navigate("ChangePass", {
+                        userID: idUser,
+                        page: false,
+                      })
+                    }
+                    style={[styles.contaiChangePass]}
+                  >
+                    <Text style={[styles.textChangePass]}>
+                      {t("lang_label_change_pass")}
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </ScrollView>
@@ -472,7 +493,7 @@ const styles = StyleSheet.create({
     flexDirection: "row", // Sắp xếp các phần tử con theo chiều ngang
     justifyContent: "flex-end",
     paddingRight: wp("3%"),
-    flex: 2,
+    flex: 2,  
   },
   infoAcc: {
     flex: 2,

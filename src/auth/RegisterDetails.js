@@ -393,7 +393,8 @@ const RegisterDetails = () => {
                 </TouchableOpacity>
               </View>
               <View style={styles.inputWrapper}>
-                <View style={styles.inputMoney}>
+                <View style={[styles.inputMoney,cardType !== "1" ? styles.designReadonly : "",
+                    ]}>
                   <Text style={styles.inputTextMoney}>{t("lang_amount")}</Text>
                   <TextInput
                     style={[styles.inputMoneySub, styles.designMoney]}
@@ -401,6 +402,7 @@ const RegisterDetails = () => {
                     onChangeText={(text) => setTextMoney(text)}
                     keyboardType="numeric"
                     value={money.toLocaleString()}
+                    readOnly={cardType !== '1' ? true : false}
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
                 </View>
@@ -509,6 +511,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: hp("1%"),
     fontSize: wp("4%"),
+  },
+  designReadonly: {
+    opacity: wp("0.1%"),
   },
   buttonContainer: {
     flexDirection: "row",
