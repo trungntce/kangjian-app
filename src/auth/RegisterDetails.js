@@ -146,6 +146,9 @@ const RegisterDetails = () => {
     if (parseInt(selectedNumber) == 0) {
       return false;
     }
+    if (parseInt(money) == 0) {
+      return false;
+    }
     if (parseInt(totalMoney) == 0) {
       return false;
     }
@@ -164,6 +167,7 @@ const RegisterDetails = () => {
         cardType: cardType * 1,
         cardNo: selectedNumber * 1,
         availableBalance: totalMoney * 1,
+        amount:money,
         email: email,
         address: address,
       };
