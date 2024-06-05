@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useCallback } from "react";
 import {
   View,
   Text,
@@ -19,13 +19,14 @@ import {
 import { getTransac } from "../../api/API";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { format, toDate } from "date-fns";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation,useIsFocused } from "@react-navigation/native";
 import { formatCurrency } from "../../default/part/MoneyFomart";
 import { useTranslation } from "react-i18next";
 const TransacDetails = () => {
   const navigation = useNavigation();
   const [listTransac, setListTranSac] = useState([]);
   let index = 0;
+  const isFocused = useIsFocused();
   const [phoneNumber, setPhoneNumber] = useState("");
   const [cardNo, setCardNo] = useState("");
   const [date, setDate] = useState(new Date());
@@ -40,9 +41,9 @@ const TransacDetails = () => {
     const currentDate = selectedDate || date;
     setShow(Platform.OS === "ios");
     if (fill == 1) {
-      setFromDate(format(currentDate, "yyyy/MM/dd")+"T00:00");
+      setFromDate(format(currentDate, "yyyy/MM/dd") + "T00:00");
     } else {
-      setEndDate(format(currentDate, "yyyy/MM/dd")+"T23:59");
+      setEndDate(format(currentDate, "yyyy/MM/dd") + "T23:59");
     }
   };
   const getFromDate = () => {
@@ -60,7 +61,7 @@ const TransacDetails = () => {
 
   useEffect(() => {
     getTransact();
-  }, []);
+  }, [isFocused]);
 
   const getTransact = async () => {
     try {
@@ -77,7 +78,7 @@ const TransacDetails = () => {
       if (cardType.trim() == "2" || cardType.trim() == "1") {
         data += `&transactionType=${cardType}`;
       }
-      console.log(data);
+
       const result = await getTransac(data.substring(1));
       if (result) {
         setListTranSac(result);
@@ -269,8 +270,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
     fontSize: 18,
   },
-  scrollContainer:{
-    height:'90%'
+  scrollContainer: {
+    height: "90%",
   },
   containerSearch: {
     alignItems: "center",

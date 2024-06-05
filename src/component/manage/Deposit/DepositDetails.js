@@ -136,6 +136,7 @@ const DepositDetails = () => {
       if (result) {
         //console.log(result)
         alertBox(t("lang_complete"));
+        navigation.navigate("Transac");
       } else {
         alertBox(t("lang_alert_error"));
       }
