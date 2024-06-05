@@ -69,5 +69,7 @@
   "lang_phone_number":"Số điện thoại",
   "lang_type_transac":"Loại giao dịch",
   "lang_time_transac":"Thời gian giao dịch",
-  "lang_log_money":"Số tiền của bạn không đủ!"
+  "lang_log_money":"Số tiền của bạn không đủ!",
+  "lang_pass_short":"Mật khẩu phải lớn hơn 4 ký tự!",
+  "lang_pass_repeat":"Nhập lại mật khẩu không đúng!"
 }

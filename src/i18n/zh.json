@@ -69,5 +69,7 @@
   "lang_phone_number":"电话号码",
   "lang_type_transac":"交易类型",
   "lang_time_transac":"交易时间",
-  "lang_log_money":"账户内资金不足!"
+  "lang_log_money":"账户内资金不足!",
+  "lang_pass_short":"密码必须大于4个字符！",
+  "lang_pass_repeat":"重新输入错误密码!"
 }

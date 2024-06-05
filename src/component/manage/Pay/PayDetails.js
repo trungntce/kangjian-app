@@ -70,7 +70,7 @@ const PayDetails = () => {
     phoneNumber,
     idUser
   ) => {
-    setCardType(cardType);
+    setCardType(cardType+"");
     setSelectedNumber(number);
     setFullName(fullname);
     setPhoneNumber(phoneNumber);

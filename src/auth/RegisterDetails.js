@@ -72,9 +72,9 @@ const RegisterDetails = () => {
   };
 
   const selectNumber = (number, cardType, idCard, minimount) => {
-    setCardType(cardType);
+    setCardType(cardType+'');
     setSelectedNumber(number);
-    setMoney(minimount + "");
+    setMoney(minimount);
     setCardKey(idCard);
     toggleNumberOptions();
   };

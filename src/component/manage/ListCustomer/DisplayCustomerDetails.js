@@ -19,11 +19,11 @@ import { getPersonal, getUserByPhone } from "../../../api/API";
 import { alertBox } from "../../../default/part/Notify";
 import { formatCurrency } from "../../../default/part/MoneyFomart";
 import { useTranslation } from "react-i18next";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import { editUser } from "../../../api/API";
 import ConfirmBox from "../../../default/part/ConfirmBox";
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { format, toDate } from 'date-fns';
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { format, toDate } from "date-fns";
 
 const DisplayCustomerDetails = ({ phone }) => {
   const [idUser, setIdUser] = useState(-1);
@@ -49,8 +49,8 @@ const DisplayCustomerDetails = ({ phone }) => {
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
-    setBirthdate(format(currentDate, 'yyyy/MM/dd'));
+    setShow(Platform.OS === "ios");
+    setBirthdate(format(currentDate, "yyyy/MM/dd"));
   };
   const showDatepicker = () => {
     setShow(!show);
@@ -80,7 +80,7 @@ const DisplayCustomerDetails = ({ phone }) => {
         setCardNo(res.cardNo + "");
         setCardType(res.cardType + "");
         setIdCard(res.cccd);
-        setAvailableBalance(res.availableBalance ? res.availableBalance:"");
+        setAvailableBalance(res.availableBalance ? res.availableBalance : "");
       }
     } catch (e) {
       console.log(e);
@@ -90,7 +90,7 @@ const DisplayCustomerDetails = ({ phone }) => {
   };
   const changeInfo = () => {
     setConfirmVisible(true);
-  }
+  };
   const handleConfirm = () => {
     handleUpdate();
     setConfirmVisible(false);
@@ -112,10 +112,9 @@ const DisplayCustomerDetails = ({ phone }) => {
       };
       const result = await editUser(data);
       if (result) {
-        
-        alertBox(t('lang_alert_edited'));
+        alertBox(t("lang_alert_edited"));
       } else {
-        alertBox(t('lang_alert_error'));
+        alertBox(t("lang_alert_error"));
       }
     } catch (e) {
       console.log(e);
@@ -159,7 +158,7 @@ const DisplayCustomerDetails = ({ phone }) => {
             </View>
             <View style={styles.containerContent}>
               <View>
-                <View style={[styles.inputWrapper,styles.designReadonly]}>
+                <View style={[styles.inputWrapper, styles.designReadonly]}>
                   <Icon name="user" style={styles.icon} />
                   <TextInput
                     style={styles.input}
@@ -170,7 +169,7 @@ const DisplayCustomerDetails = ({ phone }) => {
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
                 </View>
-                <View style={[styles.inputWrapper,styles.designReadonly]}>
+                <View style={[styles.inputWrapper, styles.designReadonly]}>
                   <Icon name="phone" style={styles.icon} />
                   <TextInput
                     style={styles.input}
@@ -203,26 +202,27 @@ const DisplayCustomerDetails = ({ phone }) => {
                     value={address}
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
-                </View><TouchableOpacity  onPress={() => showDatepicker()}>
-                <View style={styles.inputWrapper}>
-                  
-                  <Icon name="calendar" style={styles.icon} />
-                  <TextInput
-                    style={styles.input}
-                    placeholder={t("lang_my_birthday")}
-                    //onChangeText={(text) => setBirthdate(text)}
-                    value={birthdate}
-                    readOnly
-                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
-                  />
-                </View></TouchableOpacity>
-                {show && (
-                    <DateTimePicker
-                      value={date}
-                      mode="date"
-                      display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-                      onChange={onChange}
+                </View>
+                <TouchableOpacity onPress={() => showDatepicker()}>
+                  <View style={styles.inputWrapper}>
+                    <Icon name="calendar" style={styles.icon} />
+                    <TextInput
+                      style={styles.input}
+                      placeholder={t("lang_my_birthday")}
+                      //onChangeText={(text) => setBirthdate(text)}
+                      value={birthdate}
+                      readOnly
+                      underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                     />
+                  </View>
+                </TouchableOpacity>
+                {show && (
+                  <DateTimePicker
+                    value={date}
+                    mode="date"
+                    display={Platform.OS === "ios" ? "spinner" : "default"}
+                    onChange={onChange}
+                  />
                 )}
                 <View style={styles.inputWrapper}>
                   <Icon name="id-card" style={styles.icon} />
@@ -341,7 +341,7 @@ const DisplayCustomerDetails = ({ phone }) => {
                 <View style={styles.inputWrapper}>
                   <Text>Số dư:</Text>
                   <TextInput
-                    style={styles.input}
+                    style={[styles.input,styles.designMoney]}
                     placeholder={t("lang_card_no")}
                     value={formatCurrency(availableBalance, "vi-VN", "VND")}
                     readOnly
@@ -349,29 +349,35 @@ const DisplayCustomerDetails = ({ phone }) => {
                   />
                 </View>
                 <View>
-                  <TouchableOpacity
-                    style={styles.button}
-                    onPress={changeInfo}
-                  >
-                    <Text style={styles.buttonText}>{t("lang_edit_information")}</Text>
+                  <TouchableOpacity style={styles.button} onPress={changeInfo}>
+                    <Text style={styles.buttonText}>
+                      {t("lang_edit_information")}
+                    </Text>
                   </TouchableOpacity>
                 </View>
                 <View style={styles.containerChangePass}>
                   <TouchableOpacity
-                   onPress={() => navigation.navigate("ChangePass",{userID:idUser,page:true})}
-                   style={[styles.contaiChangePass]}
+                    onPress={() =>
+                      navigation.navigate("ChangePass", {
+                        userID: idUser,
+                        page: true,
+                      })
+                    }
+                    style={[styles.contaiChangePass]}
                   >
-                    <Text style={[styles.textChangePass]}>{t("lang_label_change_pass")}</Text>
+                    <Text style={[styles.textChangePass]}>
+                      {t("lang_label_change_pass")}
+                    </Text>
                   </TouchableOpacity>
                 </View>
               </View>
             </View>
           </ScrollView>
           <ConfirmBox
-                visible={isConfirmVisible}
-                message={t("lang_alert_edit_question")}
-                onConfirm={handleConfirm}
-                onCancel={handleCancel}
+            visible={isConfirmVisible}
+            message={t("lang_alert_edit_question")}
+            onConfirm={handleConfirm}
+            onCancel={handleCancel}
           />
         </View>
       )}
@@ -382,6 +388,11 @@ const DisplayCustomerDetails = ({ phone }) => {
 const styles = StyleSheet.create({
   containerScroll: {
     height: hp("80%"),
+  },
+  designMoney: {
+    fontSize: wp("4%"),
+    fontWeight: "bold",
+    color: "red",
   },
   loadingContainer: {
     justifyContent: "center",
@@ -517,8 +528,8 @@ const styles = StyleSheet.create({
     color: "blue",
     fontWeight: "bold",
   },
-  designReadonly:{
-    opacity:wp('0.1%')
+  designReadonly: {
+    opacity: wp("0.1%"),
   },
 });
 

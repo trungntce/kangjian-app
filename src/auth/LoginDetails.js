@@ -27,6 +27,7 @@ const LoginDetails = () => {
   const [password, setPassword] = useState("");
   const [notify, setNotify] = useState(false);
   const [textNotice, setTextNotice] = useState("");
+  const [showPassword, setShowPassword] = useState(true);
 
   //Begin Import many languages
   const { t, i18n } = useTranslation();
@@ -77,7 +78,7 @@ const LoginDetails = () => {
     // Xử lý logic quên mật khẩu ở đây
     console.log("Forgot password");
   };
-
+ 
   return (
     <>
       {loading ? (
@@ -120,11 +121,21 @@ const LoginDetails = () => {
                 <TextInput
                   style={styles.input}
                   placeholder={t("lang_password_login")}
-                  secureTextEntry={true}
+                  secureTextEntry={showPassword}
                   onChangeText={(text) => setPassword(text)}
                   value={password}
                   underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                 />
+                <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
+                  style={styles.eyeIcon}
+                >
+                  <Icon
+                    name={showPassword ? "eye" : "eye"}
+                    size={20}
+                    color="#724929"
+                  />
+                </TouchableOpacity>
               </View>
               {notify && (
                 <View>

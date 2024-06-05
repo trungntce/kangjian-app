@@ -25,6 +25,9 @@ export default function ChangePassDetails({ userID, page }) {
   const [newPass, setNewPass] = useState("");
   const [repeatPass, setRepeatPass] = useState("");
   const [isConfirmVisible, setConfirmVisible] = useState(false);
+  const [showPassword, setShowPassword] = useState(true);
+  const [showPasswordNew, setShowPasswordNew] = useState(true);
+  const [showPasswordRepeat, setShowPasswordRepeat] = useState(true);
 
   const checkPer = () => {
     if (permission == "ADMIN" || permission == "MANAGE") {
@@ -91,11 +94,11 @@ export default function ChangePassDetails({ userID, page }) {
       return;
     }
     if (!checkLength()) {
-      alertBox(t("lang_complete_input"));
+      alertBox(t("lang_pass_short"));
       return;
     }
     if (!checkCompare()) {
-      alertBox(t("lang_complete_input"));
+      alertBox(t("lang_pass_repeat"));
       return;
     }
     if (!checkPer()) {
@@ -123,9 +126,19 @@ export default function ChangePassDetails({ userID, page }) {
               style={styles.input}
               placeholder={t("lang_label_pass_moment")}
               onChangeText={(text) => setOldPass(text)}
-              secureTextEntry={true}
+              secureTextEntry={showPassword}
               value={oldPass}
             />
+            <TouchableOpacity
+                  onPress={() => setShowPassword(!showPassword)}
+                  style={styles.eyeIcon}
+                >
+                  <Icon
+                    name={showPassword ? "eye" : "eye"}
+                    size={20}
+                    color="#724929"
+                  />
+                </TouchableOpacity>
           </View>
         )}
 
@@ -135,9 +148,19 @@ export default function ChangePassDetails({ userID, page }) {
             style={styles.input}
             placeholder={t("lang_label_pass_new")}
             onChangeText={(text) => setNewPass(text)}
-            secureTextEntry={true}
+            secureTextEntry={showPasswordNew}
             value={newPass}
           />
+          <TouchableOpacity
+                  onPress={() => setShowPasswordNew(!showPasswordNew)}
+                  style={styles.eyeIcon}
+                >
+                  <Icon
+                    name={showPasswordNew ? "eye" : "eye"}
+                    size={20}
+                    color="#724929"
+                  />
+                </TouchableOpacity>
         </View>
         <View style={[styles.changePassItem]}>
           <Icon name="lock" style={styles.icon} />
@@ -145,9 +168,19 @@ export default function ChangePassDetails({ userID, page }) {
             style={styles.input}
             placeholder={t("lang_label_repeat_pass")}
             onChangeText={(text) => setRepeatPass(text)}
-            secureTextEntry={true}
+            secureTextEntry={showPasswordRepeat}
             value={repeatPass}
           />
+          <TouchableOpacity
+                  onPress={() => setShowPasswordRepeat(!showPasswordRepeat)}
+                  style={styles.eyeIcon}
+                >
+                  <Icon
+                    name={showPasswordRepeat ? "eye" : "eye"}
+                    size={20}
+                    color="#724929"
+                  />
+                </TouchableOpacity>
         </View>
         <View style={[styles.button]}>
           <TouchableOpacity
