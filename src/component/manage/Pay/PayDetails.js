@@ -22,6 +22,8 @@ import {
   getPromotion,
   getService,
   updatePayment,
+  getServiceshort,
+  getServiceByID
 } from "../../../api/API";
 import ConfirmBox from "../../../default/part/ConfirmBox";
 import { alertBox } from "../../../default/part/Notify";
@@ -36,6 +38,8 @@ const PayDetails = () => {
   const [numbers, setNumbers] = useState([]);
   const [showNumberOptions, setShowNumberOptions] = useState(false);
   const [showServiceOptions, setShowServiceOptions] = useState(false);
+  const [showFoodOptions, setShowFoodOptions] = useState(false);
+  const [showJuiceOptions, setShowJuiceOptions] = useState(false);
   const [money, setMoney] = useState("0");
   const [totalMoney, setTotalMoney] = useState("0");
   const [cardKey, setCardKey] = useState(0);
@@ -45,6 +49,8 @@ const PayDetails = () => {
   const [listService, setListService] = useState("");
   const [availableBalance, setAvailableBalance] = useState("");
   const [serviceName, setServiceName] = useState("");
+  const [foodName, setFoodName] = useState("");
+  const [juiceName, setJuiceName] = useState("");
   const [serviceTime, setServiceTime] = useState("");
   const [serviceMoney, setServiceMoney] = useState("");
   const [idPricing, setIdPricing] = useState("");
@@ -52,15 +58,79 @@ const PayDetails = () => {
   const [idUser, setIdUser] = useState("");
   const [idCard, setIdCard] = useState("");
   const { t, i18n } = useTranslation();
+  const [human, setHuman] = useState("");
+  const [moneyService, setMoneyService] = useState(0);
+  const [juice, setJuice] = useState([]);
+  const [food, setFood] = useState([]);
+  const [countJuice, setCountJuice] = useState("");
+  const [countFood, setCountFood] = useState("");
+  const [priceJuice,setPriceJuice] = useState(0);
+  const [priceFood,setPriceFood] = useState(0);
+  const [displayPriceJuice,setDisplayPriceJuice] = useState(0);
+  const [displayPriceFood,setDisplayPriceFood] = useState(0);
+  const [allMoney, setAllMoney] = useState("");
+
+  const selectJuice = async (content, idService) => {
+    setJuiceName(content);
+    setCountJuice(1+"");
+    getSV(idService,1);
+    toggleJuiceOptions();
+  };
+  const selectFood = async(content, idService) => {
+    setFoodName(content);
+    setCountFood(1+"");
+    getSV(idService,2);
+    toggleFoodOptions();
+  };
+  useEffect(()=>{
+    setDisplayPriceJuice(priceJuice*countJuice);
+  },[countJuice]);
+  useEffect(()=>{
+    setDisplayPriceFood(priceFood*countFood);
+  },[countFood]);
+  useEffect(()=>{
+    setDisplayPriceJuice(priceJuice);
+  },[priceJuice]);
+  useEffect(()=>{
+    setDisplayPriceFood(priceFood);
+  },[priceFood]);
+  const getSV = async (idS,type) => {
+    try {
+      const result = await getServiceByID(idS);
+      if (result) {
+        if(type == 1){
+          setPriceJuice(result[0].totalAmount);
+        }else{
+          setPriceFood(result[0].totalAmount);
+        }
+       
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(()=>{
+    setAllMoney(parseInt(displayPriceJuice)+parseInt(displayPriceFood)+parseInt(serviceMoney))
+
+  },[displayPriceJuice,displayPriceFood,serviceMoney]);
 
   const selectService = (nameS, timeS, moneyS, idP, idR) => {
     setServiceName(nameS);
     setServiceTime(timeS + "");
-    setServiceMoney(moneyS + "");
+    setServiceMoney(moneyS * human + "");
+    setMoneyService(moneyS);
     setIdRef(idR);
     setIdPricing(idP);
+    setHuman(1 + "");
     toggleServiceOptions();
   };
+
+  useEffect(() => {
+    setServiceMoney(moneyService * human );
+    
+  }, [human]);
+
   const selectNumber = (
     number,
     cardType,
@@ -70,7 +140,7 @@ const PayDetails = () => {
     phoneNumber,
     idUser
   ) => {
-    setCardType(cardType+"");
+    setCardType(cardType + "");
     setSelectedNumber(number);
     setFullName(fullname);
     setPhoneNumber(phoneNumber);
@@ -82,6 +152,12 @@ const PayDetails = () => {
   const toggleNumberOptions = () => {
     setShowNumberOptions(!showNumberOptions);
   };
+  const toggleFoodOptions = () => {
+    setShowFoodOptions(!showFoodOptions);
+  };
+  const toggleJuiceOptions = () => {
+    setShowJuiceOptions(!showJuiceOptions);
+  };
   const toggleServiceOptions = () => {
     setShowServiceOptions(!showServiceOptions);
   };
@@ -90,6 +166,8 @@ const PayDetails = () => {
   }, [money]);
   useEffect(() => {
     getCard();
+    getSVJ();
+    getSVF();
   }, []);
   const getCard = async () => {
     try {
@@ -102,6 +180,26 @@ const PayDetails = () => {
     }
   };
 
+  const getSVJ = async () => {
+    try {
+      const resultJuice = await getServiceshort(3);
+      if (resultJuice) {
+        setJuice(resultJuice);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const getSVF = async () => {
+    try {
+      const resultFood = await getServiceshort(2);
+      if (resultFood) {
+        setFood(resultFood);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
   const updatePay = async () => {
     try {
       if (!check()) {
@@ -127,8 +225,8 @@ const PayDetails = () => {
         cardType: cardType,
         cardNo: selectedNumber,
         idCard: idCard,
-        amount: serviceMoney,
-        totalAmount: serviceMoney,
+        amount: allMoney,
+        totalAmount: allMoney,
         idPricing: idPricing,
         idRef: idRef,
       };
@@ -179,16 +277,15 @@ const PayDetails = () => {
     if (parseInt(serviceMoney) == 0) {
       return false;
     }
-    
 
     return true;
   };
   const checkMoney = () => {
-    if(parseInt(serviceMoney) > parseInt(availableBalance)){
+    if (parseInt(allMoney) > parseInt(availableBalance)) {
       return false;
     }
     return true;
-  }
+  };
   const handleReset = () => {
     setServiceName("");
     setServiceTime("");
@@ -209,195 +306,289 @@ const PayDetails = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        <ScrollView contentContainerStyle={{ flexGrow: 1, height: hp("100%") }}>
-          <View style={styles.containerTitle}>
-            <Text style={styles.textDesign}>{t("lang_payment")}</Text>
-          </View>
+        <View>
+          <ScrollView style={[styles.scrollViewContai]}>
+            <View style={styles.containerTitle}>
+              <Text style={styles.textDesign}>{t("lang_payment")}</Text>
+            </View>
+            <View style={styles.containerContent}>
+              <View>
+                <TouchableOpacity
+                  style={styles.inputWrapper}
+                  onPress={toggleServiceOptions}
+                >
+                  {/* Icon của chọn số */}
+                  <Icon
+                    name="credit-card"
+                    color="#724929"
+                    style={styles.icon}
+                  />
+                  {/* Giá trị số được chọn */}
+                  <Text style={styles.selectedNumber}>{serviceName}</Text>
+                </TouchableOpacity>
 
-          <View style={styles.containerContent}>
-            <View>
-              <TouchableOpacity
-                style={styles.inputWrapper}
-                onPress={toggleServiceOptions}
-              >
-                {/* Icon của chọn số */}
-                <Icon name="credit-card" color="#724929" style={styles.icon} />
-                {/* Giá trị số được chọn */}
-                <Text style={styles.selectedNumber}>{serviceName}</Text>
-              </TouchableOpacity>
+                <View style={styles.inputWrapper}>
+                  <Icon name="clock-o" style={styles.icon} />
+                  <TextInput
+                    style={styles.input}
+                    value={serviceTime}
+                    readOnly
+                    placeholder={t("lang_number_of_minutes")}
+                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Icon name="user" style={styles.icon} />
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => setHuman(text)}
+                    value={human}
+                    keyboardType="numeric"
+                    placeholder={"Nhập số lượng người"}
+                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Icon name="dollar" style={styles.icon} />
+                  <TextInput
+                    style={styles.input}
+                    value={formatCurrency(serviceMoney, "vi-VN", "VND")}
+                    readOnly
+                    placeholder={t("lang_amount")}
+                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                  />
+                </View>
+                <TouchableOpacity
+                  style={styles.inputWrapper}
+                  onPress={toggleFoodOptions}
+                >
+                  {/* Icon của chọn số */}
+                  <Icon
+                    name="birthday-cake"
+                    color="#724929"
+                    style={styles.icon}
+                  />
+                  {/* Giá trị số được chọn */}
+                  <Text style={styles.selectedNumber}>{foodName}</Text>
+                </TouchableOpacity>
+                <View style={styles.inputWrapper}>
+                  <Icon name="plus" style={styles.icon} />
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => setCountFood(text)}
+                    value={countFood}
+                    placeholder={"Nhập số lượng"}
+                    keyboardType="numeric"
+                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Icon name="dollar" style={styles.icon} />
+                  <TextInput
+                    style={styles.input}
+                    value={formatCurrency(displayPriceFood, "vi-VN", "VND")}
+                    readOnly
+                    placeholder={t("lang_amount")}
+                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                  />
+                </View>
+                <TouchableOpacity
+                  style={styles.inputWrapper}
+                  onPress={toggleJuiceOptions}
+                >
+                  {/* Icon của chọn số */}
+                  <Icon name="beer" color="#724929" style={styles.icon} />
+                  {/* Giá trị số được chọn */}
+                  <Text style={styles.selectedNumber}>{juiceName}</Text>
+                </TouchableOpacity>
+                <View style={styles.inputWrapper}>
+                  <Icon name="plus" style={styles.icon} />
+                  <TextInput
+                    style={styles.input}
+                    onChangeText={(text) => setCountJuice(text)}
+                    value={countJuice}
+                    placeholder={"Nhập số lượng"}
+                    keyboardType="numeric"
+                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Icon name="dollar" style={styles.icon} />
+                  <TextInput
+                    style={styles.input}
+                    value={formatCurrency(displayPriceJuice, "vi-VN", "VND")}
+                    readOnly
+                    placeholder={t("lang_amount")}
+                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Text>Tổng tiền</Text>
+                  <TextInput
+                    style={[styles.input, styles.inputMoneys]}
+                    value={formatCurrency(allMoney, "vi-VN", "VND")}
+                    readOnly
+                    placeholder={t("lang_amount")}
+                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                  />
+                </View>
+                <TouchableOpacity
+                  style={styles.inputWrapper}
+                  onPress={toggleNumberOptions}
+                >
+                  {/* Icon của chọn số */}
+                  <Icon
+                    name="credit-card"
+                    color="#724929"
+                    style={styles.icon}
+                  />
+                  {/* Giá trị số được chọn */}
+                  <Text style={styles.selectedNumber}>{selectedNumber}</Text>
+                </TouchableOpacity>
+                <View style={styles.inputWrapper}>
+                  <Icon name="user" style={styles.icon} />
+                  <TextInput
+                    style={styles.input}
+                    placeholder={t("lang_user_fullName")}
+                    value={fullName}
+                    readOnly
+                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Icon name="phone" style={styles.icon} />
+                  <TextInput
+                    style={styles.input}
+                    placeholder={t("lang_user_login")}
+                    onChangeText={(text) => setPhoneNumber(text)}
+                    value={phoneNumber}
+                    readOnly
+                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Icon name="id-card" style={styles.icon} />
+                  <View style={styles.cardTypeContainer}>
+                    <TouchableOpacity
+                      style={[
+                        styles.cardTypeButton,
+                        cardType === "2" ? styles.cardTypeButtonDes : "",
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.cardText,
+                          cardType === "2" ? styles.cardTextDes : "",
+                        ]}
+                      >
+                        GOLD
+                      </Text>
+                      {/* Chọn kiểu radiobox theo giá trị của cardType */}
+                      {cardType === "2" && (
+                        <Icon
+                          name="dot-circle-o"
+                          style={[styles.iconCard, styles.iconCardChoose]}
+                          color="#724929"
+                        />
+                      )}
+                      {cardType !== "2" && (
+                        <Icon
+                          name="circle-o"
+                          style={styles.iconCard}
+                          color="#724929"
+                        />
+                      )}
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.cardTypeButton,
+                        cardType === "3" ? styles.cardTypeButtonDes : "",
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.cardText,
+                          cardType === "3" ? styles.cardTextDes : "",
+                        ]}
+                      >
+                        PLATIUM
+                      </Text>
+                      {cardType === "3" && (
+                        <Icon
+                          name="dot-circle-o"
+                          style={[styles.iconCard, styles.iconCardChoose]}
+                          color="#724929"
+                        />
+                      )}
+                      {cardType !== "3" && (
+                        <Icon
+                          name="circle-o"
+                          style={styles.iconCard}
+                          color="#724929"
+                        />
+                      )}
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={[
+                        styles.cardTypeButton,
+                        cardType === "1" ? styles.cardTypeButtonDes : "",
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.cardText,
+                          cardType === "1" ? styles.cardTextDes : "",
+                        ]}
+                      >
+                        VIP
+                      </Text>
+                      {cardType === "1" && (
+                        <Icon
+                          name="dot-circle-o"
+                          style={[styles.iconCard, styles.iconCardChoose]}
+                          color="#724929"
+                        />
+                      )}
+                      {cardType !== "1" && (
+                        <Icon
+                          name="circle-o"
+                          style={styles.iconCard}
+                          color="#724929"
+                        />
+                      )}
+                    </TouchableOpacity>
+                  </View>
+                </View>
 
-              <View style={styles.inputWrapper}>
-                <Icon name="user" style={styles.icon} />
-                <TextInput
-                  style={styles.input}
-                  value={serviceTime}
-                  readOnly
-                  placeholder={t("lang_number_of_minutes")}
-                  underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
-                />
-              </View>
-              <View style={styles.inputWrapper}>
-                <Icon name="dollar" style={styles.icon} />
-                <TextInput
-                  style={styles.input}
-                  value={formatCurrency(serviceMoney, "vi-VN", "VND")}
-                  readOnly
-                  placeholder={t("lang_amount")}
-                  underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
-                />
-              </View>
-              <TouchableOpacity
-                style={styles.inputWrapper}
-                onPress={toggleNumberOptions}
-              >
-                {/* Icon của chọn số */}
-                <Icon name="credit-card" color="#724929" style={styles.icon} />
-                {/* Giá trị số được chọn */}
-                <Text style={styles.selectedNumber}>{selectedNumber}</Text>
-              </TouchableOpacity>
-              <View style={styles.inputWrapper}>
-                <Icon name="user" style={styles.icon} />
-                <TextInput
-                  style={styles.input}
-                  placeholder={t("lang_user_fullName")}
-                  value={fullName}
-                  readOnly
-                  underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
-                />
-              </View>
-              <View style={styles.inputWrapper}>
-                <Icon name="phone" style={styles.icon} />
-                <TextInput
-                  style={styles.input}
-                  placeholder={t("lang_user_login")}
-                  onChangeText={(text) => setPhoneNumber(text)}
-                  value={phoneNumber}
-                  readOnly
-                  underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
-                />
-              </View>
-              <View style={styles.inputWrapper}>
-                <Icon name="id-card" style={styles.icon} />
-                <View style={styles.cardTypeContainer}>
+                <View style={styles.inputWrapper}>
+                  <Text style={styles.inputTextMoney}>
+                    {t("lang_account_balance")}
+                  </Text>
+                  <TextInput
+                    style={[styles.input, styles.inputMoneys]}
+                    placeholder="############"
+                    value={formatCurrency(availableBalance, "vi-VN", "VND")}
+                    readOnly
+                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                  />
+                </View>
+                <View style={styles.buttonContainer}>
                   <TouchableOpacity
-                    style={[
-                      styles.cardTypeButton,
-                      cardType === "2" ? styles.cardTypeButtonDes : "",
-                    ]}
+                    style={[styles.button, styles.buttonReset]}
+                    onPress={handleReset}
                   >
-                    <Text
-                      style={[
-                        styles.cardText,
-                        cardType === "2" ? styles.cardTextDes : "",
-                      ]}
-                    >
-                      GOLD
+                    <Text style={[styles.buttonText, styles.resetText]}>
+                      {t("lang_reset")}
                     </Text>
-                    {/* Chọn kiểu radiobox theo giá trị của cardType */}
-                    {cardType === "2" && (
-                      <Icon
-                        name="dot-circle-o"
-                        style={[styles.iconCard, styles.iconCardChoose]}
-                        color="#724929"
-                      />
-                    )}
-                    {cardType !== "2" && (
-                      <Icon
-                        name="circle-o"
-                        style={styles.iconCard}
-                        color="#724929"
-                      />
-                    )}
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.cardTypeButton,
-                      cardType === "3" ? styles.cardTypeButtonDes : "",
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.cardText,
-                        cardType === "3" ? styles.cardTextDes : "",
-                      ]}
-                    >
-                      PLATIUM
-                    </Text>
-                    {cardType === "3" && (
-                      <Icon
-                        name="dot-circle-o"
-                        style={[styles.iconCard, styles.iconCardChoose]}
-                        color="#724929"
-                      />
-                    )}
-                    {cardType !== "3" && (
-                      <Icon
-                        name="circle-o"
-                        style={styles.iconCard}
-                        color="#724929"
-                      />
-                    )}
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    style={[
-                      styles.cardTypeButton,
-                      cardType === "1" ? styles.cardTypeButtonDes : "",
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.cardText,
-                        cardType === "1" ? styles.cardTextDes : "",
-                      ]}
-                    >
-                      VIP
-                    </Text>
-                    {cardType === "1" && (
-                      <Icon
-                        name="dot-circle-o"
-                        style={[styles.iconCard, styles.iconCardChoose]}
-                        color="#724929"
-                      />
-                    )}
-                    {cardType !== "1" && (
-                      <Icon
-                        name="circle-o"
-                        style={styles.iconCard}
-                        color="#724929"
-                      />
-                    )}
+                  <TouchableOpacity style={styles.button} onPress={updatePay}>
+                    <Text style={styles.buttonText}>{t("lang_complete")}</Text>
                   </TouchableOpacity>
                 </View>
               </View>
-
-              <View style={styles.inputWrapper}>
-                <Text style={styles.inputTextMoney}>
-                  {t("lang_account_balance")}
-                </Text>
-                <TextInput
-                  style={[styles.input, styles.inputMoneys]}
-                  placeholder="############"
-                  value={formatCurrency(availableBalance, "vi-VN", "VND")}
-                  readOnly
-                  underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
-                />
-              </View>
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                  style={[styles.button, styles.buttonReset]}
-                  onPress={handleReset}
-                >
-                  <Text style={[styles.buttonText, styles.resetText]}>
-                    {t("lang_reset")}
-                  </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={updatePay}>
-                  <Text style={styles.buttonText}>{t("lang_complete")}</Text>
-                </TouchableOpacity>
-              </View>
             </View>
-          </View>
-        </ScrollView>
+          </ScrollView>
+        </View>
       </KeyboardAvoidingView>
       <ConfirmBox
         visible={isConfirmVisible}
@@ -486,13 +677,71 @@ const PayDetails = () => {
           </View>
         </Pressable>
       </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showFoodOptions}
+        onRequestClose={toggleFoodOptions}
+        showsVerticalScrollIndicator={false}
+      >
+        <Pressable style={styles.modalBackground} onPress={toggleFoodOptions}>
+          <View style={styles.modalContainer}>
+            <ScrollView style={[styles.scrollcontainer]}>
+              {Object.keys(food).map((key) => {
+                const num = food[key];
+                if (num.useYn) {
+                  return (
+                    <TouchableOpacity
+                      key={num.idService}
+                      style={styles.dropdownItem}
+                      onPress={() => selectFood(num.content, num.idService)}
+                    >
+                      <Text style={styles.optionText}>{num.content}</Text>
+                    </TouchableOpacity>
+                  );
+                }
+                return null;
+              })}
+            </ScrollView>
+          </View>
+        </Pressable>
+      </Modal>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={showJuiceOptions}
+        onRequestClose={toggleJuiceOptions}
+        showsVerticalScrollIndicator={false}
+      >
+        <Pressable style={styles.modalBackground} onPress={toggleJuiceOptions}>
+          <View style={styles.modalContainer}>
+            <ScrollView style={[styles.scrollcontainer]}>
+              {Object.keys(juice).map((key) => {
+                const num = juice[key];
+                if (num.useYn) {
+                  return (
+                    <TouchableOpacity
+                      key={num.idService}
+                      style={styles.dropdownItem}
+                      onPress={() => selectJuice(num.content, num.idService)}
+                    >
+                      <Text style={styles.optionText}>{num.content}</Text>
+                    </TouchableOpacity>
+                  );
+                }
+                return null;
+              })}
+            </ScrollView>
+          </View>
+        </Pressable>
+      </Modal>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  containerScroll: {
-    height: hp("75%"),
+  scrollViewContai: {
+    height: hp("83%"),
   },
 
   headerCus: {

@@ -81,6 +81,7 @@ const TransacDetails = () => {
 
       const result = await getTransac(data.substring(1));
       if (result) {
+      
         setListTranSac(result);
       }
     } catch (e) {
@@ -240,7 +241,7 @@ const TransacDetails = () => {
                             styles.colorGreen,
                           ]}
                         >
-                          +{formatCurrency(ts.amount, "vi-VN", "VND")}
+                          +{formatCurrency(ts.totalAmount, "vi-VN", "VND")}
                         </Text>
                       ) : ts.transactionType == "2" ? (
                         <Text
@@ -250,7 +251,7 @@ const TransacDetails = () => {
                             styles.colorRed,
                           ]}
                         >
-                          -{formatCurrency(ts.amount, "vi-VN", "VND")}
+                          -{formatCurrency(ts.totalAmount, "vi-VN", "VND")}
                         </Text>
                       ) : null}
                     </View>

@@ -10,6 +10,7 @@ import { formatCurrency } from "../../../default/part/MoneyFomart";
 import { URL_BE } from "../../../api/URL";
 
 const ServiceMonitorDetails = ({ service, info }) => {
+  
   const primaryURL = URL_BE;
   const [listService, setListService] = useState([]);
   useEffect(() => {
@@ -43,7 +44,7 @@ const ServiceMonitorDetails = ({ service, info }) => {
             if (sv.useYn) {
               return (
                 <View style={[styles.item]} key={index}>
-                  <Text style={[styles.itemText]}>{sv.duration}min</Text>
+                  <Text style={[styles.itemText]}>{sv.duration > 0 ? sv.duration+'min': ''}</Text>
                   <Text style={[styles.itemText]}>
                     {formatCurrency(sv.totalAmount, "vi-VN", "VND")}
                   </Text>

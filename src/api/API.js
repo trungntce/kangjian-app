@@ -236,7 +236,6 @@ const loginScreen = async(username, password)=>{
       },
       body: JSON.stringify(data),
     });
-  
     // Kiểm tra nếu yêu cầu thành công và có dữ liệu phản hồi
     if (response.ok) {
       // Xử lý dữ liệu phản hồi ở đây nếu cần
@@ -383,9 +382,9 @@ const getServiceByID = async (data)=>{
     throw error;
   }
 }
-const getServiceshort = async ()=>{
+const getServiceshort = async (type)=>{
   try {
-    const response = await fetch(`${BASE_URL}/v1/service/short`, {
+    const response = await fetch(`${BASE_URL}/v1/service/short/type/${type}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

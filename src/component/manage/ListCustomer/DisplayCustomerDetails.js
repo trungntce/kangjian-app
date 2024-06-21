@@ -387,7 +387,7 @@ const DisplayCustomerDetails = ({ phone }) => {
 
 const styles = StyleSheet.create({
   containerScroll: {
-    height: hp("80%"),
+    maxHeight:'93%',
   },
   designMoney: {
     fontSize: wp("4%"),

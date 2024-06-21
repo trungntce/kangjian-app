@@ -55,10 +55,13 @@ const HomeDetails = () => {
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
-
+  const [juice, setJuice] = useState([]);
+  const [food, setFood] = useState([]);
   //Gọi hàm lấy danh sách dịch vụ <gọi 1 lần>
   useEffect(() => {
     getSV();
+    getSVJ();
+    getSVF();
   }, []);
 
   const handlePress = (text) => {
@@ -69,9 +72,30 @@ const HomeDetails = () => {
   // Lấy danh sách dịch vụ
   const getSV = async () => {
     try {
-      const result = await getServiceshort();
+      const result = await getServiceshort(1);
       if (result) {
         setListService(result);
+      }
+    
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const getSVJ = async () => {
+    try {
+      const resultJuice = await getServiceshort(3);
+      if (resultJuice) {
+        setJuice(resultJuice);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const getSVF = async () => {
+    try {
+      const resultFood = await getServiceshort(2);
+      if (resultFood) {
+        setFood(resultFood);
       }
     } catch (e) {
       console.log(e);
@@ -106,6 +130,7 @@ const HomeDetails = () => {
           />
         </View>
         <View>
+          
           <ScrollView style={styles.scrollContainer}>
             {/* Phần nút menu và nút xem hết */}
             <View style={styles.contentContainer}>
@@ -123,6 +148,75 @@ const HomeDetails = () => {
             <View style={styles.blocksContainer}>
               {Object.keys(listService).map((key, index) => {
                 const sv = listService[key];
+                if (sv.useYn) {
+                  return (
+                    <TouchableOpacity
+                      style={styles.block}
+                      key={sv.idService}
+                      onPress={() =>
+                        navigation.navigate("ServiceMonitor", {
+                          service: sv.idService,
+                          info: sv,
+                        })
+                      }
+                    >
+                      <View>
+                        <Image
+                          //  source={require('../../../assets/img/massageItem1.png')} // Đường dẫn đến hình ảnh của bạn
+                          source={{ uri: primaryURL + sv.imageUrl }}
+                          style={styles.blockImage}
+                        />
+                        <Text style={styles.title}>{sv.serviceName}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }
+                return null;
+              })}
+            </View>
+            <View style={styles.contentContainer}>
+              {/* Phần nút menu */}
+              <TouchableOpacity style={styles.menuButton}>
+                <Text style={styles.buttonText}>Đồ uống và đồ ăn nhẹ</Text>
+              </TouchableOpacity>
+              {/* Phần nút xem hết */}
+              <TouchableOpacity style={styles.viewAllButton}>
+                {/* <Text style={styles.buttonText}>See All</Text> */}
+              </TouchableOpacity>
+            </View>
+            <View style={styles.blocksContainer}>
+              {Object.keys(juice).map((key, index) => {
+                const sv = juice[key];
+                if (sv.useYn) {
+                  return (
+                    <TouchableOpacity
+                      style={styles.block}
+                      key={sv.idService}
+                      onPress={() =>
+                        navigation.navigate("ServiceMonitor", {
+                          service: sv.idService,
+                          info: sv,
+                        })
+                      }
+                    >
+                      <View>
+                        <Image
+                          //  source={require('../../../assets/img/massageItem1.png')} // Đường dẫn đến hình ảnh của bạn
+                          source={{ uri: primaryURL + sv.imageUrl }}
+                          style={styles.blockImage}
+                        />
+                        <Text style={styles.title}>{sv.serviceName}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }
+                return null;
+              })}
+            </View>
+            <View style={[styles.margin]}></View>
+            <View style={styles.blocksContainer}>
+              {Object.keys(food).map((key, index) => {
+                const sv = food[key];
                 if (sv.useYn) {
                   return (
                     <TouchableOpacity
@@ -229,8 +323,11 @@ const styles = StyleSheet.create({
     marginBottom: wp("15%"),
     height: hp("24%"),
   },
+  margin:{
+    marginBottom:wp('5%')
+  },
   scrollContainer: {
-    height: hp("52%"),
+    maxHeight: "75%",
   },
   searchIcon: {
     fontSize: wp("7%"),
@@ -289,6 +386,7 @@ const styles = StyleSheet.create({
     marginTop: wp("2%"),
     fontWeight: "bold",
     fontSize: wp("3%"),
+    textAlign:'center'
   },
   promotionContainer: {
     alignItems: "center",
