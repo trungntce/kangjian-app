@@ -23,7 +23,7 @@ import {
   getService,
   updatePayment,
   getServiceshort,
-  getServiceByID
+  getServiceByID,
 } from "../../../api/API";
 import ConfirmBox from "../../../default/part/ConfirmBox";
 import { alertBox } from "../../../default/part/Notify";
@@ -64,56 +64,58 @@ const PayDetails = () => {
   const [food, setFood] = useState([]);
   const [countJuice, setCountJuice] = useState("");
   const [countFood, setCountFood] = useState("");
-  const [priceJuice,setPriceJuice] = useState(0);
-  const [priceFood,setPriceFood] = useState(0);
-  const [displayPriceJuice,setDisplayPriceJuice] = useState(0);
-  const [displayPriceFood,setDisplayPriceFood] = useState(0);
+  const [priceJuice, setPriceJuice] = useState(0);
+  const [priceFood, setPriceFood] = useState(0);
+  const [displayPriceJuice, setDisplayPriceJuice] = useState(0);
+  const [displayPriceFood, setDisplayPriceFood] = useState(0);
   const [allMoney, setAllMoney] = useState("");
 
   const selectJuice = async (content, idService) => {
     setJuiceName(content);
-    setCountJuice(1+"");
-    getSV(idService,1);
+    setCountJuice(1 + "");
+    getSV(idService, 1);
     toggleJuiceOptions();
   };
-  const selectFood = async(content, idService) => {
+  const selectFood = async (content, idService) => {
     setFoodName(content);
-    setCountFood(1+"");
-    getSV(idService,2);
+    setCountFood(1 + "");
+    getSV(idService, 2);
     toggleFoodOptions();
   };
-  useEffect(()=>{
-    setDisplayPriceJuice(priceJuice*countJuice);
-  },[countJuice]);
-  useEffect(()=>{
-    setDisplayPriceFood(priceFood*countFood);
-  },[countFood]);
-  useEffect(()=>{
+  useEffect(() => {
+    setDisplayPriceJuice(priceJuice * countJuice);
+  }, [countJuice]);
+  useEffect(() => {
+    setDisplayPriceFood(priceFood * countFood);
+  }, [countFood]);
+  useEffect(() => {
     setDisplayPriceJuice(priceJuice);
-  },[priceJuice]);
-  useEffect(()=>{
+  }, [priceJuice]);
+  useEffect(() => {
     setDisplayPriceFood(priceFood);
-  },[priceFood]);
-  const getSV = async (idS,type) => {
+  }, [priceFood]);
+  const getSV = async (idS, type) => {
     try {
       const result = await getServiceByID(idS);
       if (result) {
-        if(type == 1){
+        if (type == 1) {
           setPriceJuice(result[0].totalAmount);
-        }else{
+        } else {
           setPriceFood(result[0].totalAmount);
         }
-       
       }
     } catch (e) {
       console.log(e);
     }
   };
 
-  useEffect(()=>{
-    setAllMoney(parseInt(displayPriceJuice)+parseInt(displayPriceFood)+parseInt(serviceMoney))
-
-  },[displayPriceJuice,displayPriceFood,serviceMoney]);
+  useEffect(() => {
+    setAllMoney(
+      parseInt(displayPriceJuice) +
+        parseInt(displayPriceFood) +
+        parseInt(serviceMoney)
+    );
+  }, [displayPriceJuice, displayPriceFood, serviceMoney]);
 
   const selectService = (nameS, timeS, moneyS, idP, idR) => {
     setServiceName(nameS);
@@ -127,8 +129,7 @@ const PayDetails = () => {
   };
 
   useEffect(() => {
-    setServiceMoney(moneyService * human );
-    
+    setServiceMoney(moneyService * human);
   }, [human]);
 
   const selectNumber = (

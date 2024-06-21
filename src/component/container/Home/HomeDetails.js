@@ -212,10 +212,7 @@ const HomeDetails = () => {
                 }
                 return null;
               })}
-            </View>
-            <View style={[styles.margin]}></View>
-            <View style={styles.blocksContainer}>
-              {Object.keys(food).map((key, index) => {
+               {Object.keys(food).map((key, index) => {
                 const sv = food[key];
                 if (sv.useYn) {
                   return (
@@ -242,6 +239,10 @@ const HomeDetails = () => {
                 }
                 return null;
               })}
+            </View>
+            <View style={[styles.margin]}></View>
+            <View style={styles.blocksContainer}>
+             
             </View>
             {/* Phần Ưu đãi */}
             <View style={styles.promotionContainer}>
