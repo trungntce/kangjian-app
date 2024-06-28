@@ -387,6 +387,7 @@ const PayDetails = () => {
                     keyboardType="numeric"
                     value={formatCurrency(allMoney, "vi-VN", "VND")}
                     placeholder={t("lang_amount")}
+                    readOnly
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
                 </View>
