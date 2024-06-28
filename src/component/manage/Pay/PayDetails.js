@@ -30,6 +30,7 @@ import { alertBox } from "../../../default/part/Notify";
 import { useNavigation } from "@react-navigation/native";
 import { formatCurrency } from "../../../default/part/MoneyFomart";
 import { useTranslation } from "react-i18next";
+import { processStringT } from "../../../default/part/MoneyFomart";
 const PayDetails = () => {
   const navigation = useNavigation();
   const [isVisible, setIsVisible] = useState(false);
@@ -38,8 +39,8 @@ const PayDetails = () => {
   const [numbers, setNumbers] = useState([]);
   const [showNumberOptions, setShowNumberOptions] = useState(false);
   const [showServiceOptions, setShowServiceOptions] = useState(false);
-  const [showFoodOptions, setShowFoodOptions] = useState(false);
-  const [showJuiceOptions, setShowJuiceOptions] = useState(false);
+  // const [showFoodOptions, setShowFoodOptions] = useState(false);
+  // const [showJuiceOptions, setShowJuiceOptions] = useState(false);
   const [money, setMoney] = useState("0");
   const [totalMoney, setTotalMoney] = useState("0");
   const [cardKey, setCardKey] = useState(0);
@@ -49,8 +50,8 @@ const PayDetails = () => {
   const [listService, setListService] = useState("");
   const [availableBalance, setAvailableBalance] = useState("");
   const [serviceName, setServiceName] = useState("");
-  const [foodName, setFoodName] = useState("");
-  const [juiceName, setJuiceName] = useState("");
+  // const [foodName, setFoodName] = useState("");
+  // const [juiceName, setJuiceName] = useState("");
   const [serviceTime, setServiceTime] = useState("");
   const [serviceMoney, setServiceMoney] = useState("");
   const [idPricing, setIdPricing] = useState("");
@@ -60,62 +61,62 @@ const PayDetails = () => {
   const { t, i18n } = useTranslation();
   const [human, setHuman] = useState("");
   const [moneyService, setMoneyService] = useState(0);
-  const [juice, setJuice] = useState([]);
-  const [food, setFood] = useState([]);
-  const [countJuice, setCountJuice] = useState("");
-  const [countFood, setCountFood] = useState("");
-  const [priceJuice, setPriceJuice] = useState(0);
-  const [priceFood, setPriceFood] = useState(0);
-  const [displayPriceJuice, setDisplayPriceJuice] = useState(0);
-  const [displayPriceFood, setDisplayPriceFood] = useState(0);
+  // const [juice, setJuice] = useState([]);
+  // const [food, setFood] = useState([]);
+  // const [countJuice, setCountJuice] = useState("");
+  // const [countFood, setCountFood] = useState("");
+  // const [priceJuice, setPriceJuice] = useState(0);
+  // const [priceFood, setPriceFood] = useState(0);
+  // const [displayPriceJuice, setDisplayPriceJuice] = useState(0);
+  // const [displayPriceFood, setDisplayPriceFood] = useState(0);
   const [allMoney, setAllMoney] = useState("");
+  const [addService,setAddService] = useState(0);
 
-  const selectJuice = async (content, idService) => {
-    setJuiceName(content);
-    setCountJuice(1 + "");
-    getSV(idService, 1);
-    toggleJuiceOptions();
-  };
-  const selectFood = async (content, idService) => {
-    setFoodName(content);
-    setCountFood(1 + "");
-    getSV(idService, 2);
-    toggleFoodOptions();
-  };
-  useEffect(() => {
-    setDisplayPriceJuice(priceJuice * countJuice);
-  }, [countJuice]);
-  useEffect(() => {
-    setDisplayPriceFood(priceFood * countFood);
-  }, [countFood]);
-  useEffect(() => {
-    setDisplayPriceJuice(priceJuice);
-  }, [priceJuice]);
-  useEffect(() => {
-    setDisplayPriceFood(priceFood);
-  }, [priceFood]);
-  const getSV = async (idS, type) => {
-    try {
-      const result = await getServiceByID(idS);
-      if (result) {
-        if (type == 1) {
-          setPriceJuice(result[0].totalAmount);
-        } else {
-          setPriceFood(result[0].totalAmount);
-        }
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const selectJuice = async (content, idService) => {
+  //   setJuiceName(content);
+  //   setCountJuice(1 + "");
+  //   getSV(idService, 1);
+  //   toggleJuiceOptions();
+  // };
+  // const selectFood = async (content, idService) => {
+  //   setFoodName(content);
+  //   setCountFood(1 + "");
+  //   getSV(idService, 2);
+  //   toggleFoodOptions();
+  // };
+  // useEffect(() => {
+  //   setDisplayPriceJuice(priceJuice * countJuice);
+  // }, [countJuice]);
+  // useEffect(() => {
+  //   setDisplayPriceFood(priceFood * countFood);
+  // }, [countFood]);
+  // useEffect(() => {
+  //   setDisplayPriceJuice(priceJuice);
+  // }, [priceJuice]);
+  // useEffect(() => {
+  //   setDisplayPriceFood(priceFood);
+  // }, [priceFood]);
+  // const getSV = async (idS, type) => {
+  //   try {
+  //     const result = await getServiceByID(idS);
+  //     if (result) {
+  //       if (type == 1) {
+  //         setPriceJuice(result[0].totalAmount);
+  //       } else {
+  //         setPriceFood(result[0].totalAmount);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
 
   useEffect(() => {
     setAllMoney(
-      parseInt(displayPriceJuice) +
-        parseInt(displayPriceFood) +
+      parseInt(addService) +
         parseInt(serviceMoney)
     );
-  }, [displayPriceJuice, displayPriceFood, serviceMoney]);
+  }, [serviceMoney,addService]);
 
   const selectService = (nameS, timeS, moneyS, idP, idR) => {
     setServiceName(nameS);
@@ -153,12 +154,12 @@ const PayDetails = () => {
   const toggleNumberOptions = () => {
     setShowNumberOptions(!showNumberOptions);
   };
-  const toggleFoodOptions = () => {
-    setShowFoodOptions(!showFoodOptions);
-  };
-  const toggleJuiceOptions = () => {
-    setShowJuiceOptions(!showJuiceOptions);
-  };
+  // const toggleFoodOptions = () => {
+  //   setShowFoodOptions(!showFoodOptions);
+  // };
+  // const toggleJuiceOptions = () => {
+  //   setShowJuiceOptions(!showJuiceOptions);
+  // };
   const toggleServiceOptions = () => {
     setShowServiceOptions(!showServiceOptions);
   };
@@ -167,8 +168,8 @@ const PayDetails = () => {
   }, [money]);
   useEffect(() => {
     getCard();
-    getSVJ();
-    getSVF();
+    // getSVJ();
+    // getSVF();
   }, []);
   const getCard = async () => {
     try {
@@ -181,26 +182,26 @@ const PayDetails = () => {
     }
   };
 
-  const getSVJ = async () => {
-    try {
-      const resultJuice = await getServiceshort(3);
-      if (resultJuice) {
-        setJuice(resultJuice);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
-  const getSVF = async () => {
-    try {
-      const resultFood = await getServiceshort(2);
-      if (resultFood) {
-        setFood(resultFood);
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  };
+  // const getSVJ = async () => {
+  //   try {
+  //     const resultJuice = await getServiceshort(3);
+  //     if (resultJuice) {
+  //       setJuice(resultJuice);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
+  // const getSVF = async () => {
+  //   try {
+  //     const resultFood = await getServiceshort(2);
+  //     if (resultFood) {
+  //       setFood(resultFood);
+  //     }
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+  // };
   const updatePay = async () => {
     try {
       if (!check()) {
@@ -282,6 +283,9 @@ const PayDetails = () => {
     return true;
   };
   const checkMoney = () => {
+    if (parseInt(allMoney) < 10000) {
+      return false;
+    }
     if (parseInt(allMoney) > parseInt(availableBalance)) {
       return false;
     }
@@ -299,6 +303,12 @@ const PayDetails = () => {
     setIdPricing("");
     setIdRef("");
     setAvailableBalance(0);
+  };
+  const setTextAdd = (text) => {
+    const textNumber = isNaN(parseInt(processStringT(text)))
+      ? 0
+      : parseInt(processStringT(text));
+    setAddService(textNumber)
   };
 
   return (
@@ -345,7 +355,7 @@ const PayDetails = () => {
                     onChangeText={(text) => setHuman(text)}
                     value={human}
                     keyboardType="numeric"
-                    placeholder={"Nhập số lượng người"}
+                    placeholder={t("lang_person")}
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
                 </View>
@@ -359,76 +369,23 @@ const PayDetails = () => {
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
                 </View>
-                <TouchableOpacity
-                  style={styles.inputWrapper}
-                  onPress={toggleFoodOptions}
-                >
-                  {/* Icon của chọn số */}
-                  <Icon
-                    name="birthday-cake"
-                    color="#724929"
-                    style={styles.icon}
-                  />
-                  {/* Giá trị số được chọn */}
-                  <Text style={styles.selectedNumber}>{foodName}</Text>
-                </TouchableOpacity>
                 <View style={styles.inputWrapper}>
-                  <Icon name="plus" style={styles.icon} />
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={(text) => setCountFood(text)}
-                    value={countFood}
-                    placeholder={"Nhập số lượng"}
-                    keyboardType="numeric"
-                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
-                  />
-                </View>
-                <View style={styles.inputWrapper}>
-                  <Icon name="dollar" style={styles.icon} />
-                  <TextInput
-                    style={styles.input}
-                    value={formatCurrency(displayPriceFood, "vi-VN", "VND")}
-                    readOnly
-                    placeholder={t("lang_amount")}
-                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
-                  />
-                </View>
-                <TouchableOpacity
-                  style={styles.inputWrapper}
-                  onPress={toggleJuiceOptions}
-                >
-                  {/* Icon của chọn số */}
-                  <Icon name="beer" color="#724929" style={styles.icon} />
-                  {/* Giá trị số được chọn */}
-                  <Text style={styles.selectedNumber}>{juiceName}</Text>
-                </TouchableOpacity>
-                <View style={styles.inputWrapper}>
-                  <Icon name="plus" style={styles.icon} />
-                  <TextInput
-                    style={styles.input}
-                    onChangeText={(text) => setCountJuice(text)}
-                    value={countJuice}
-                    placeholder={"Nhập số lượng"}
-                    keyboardType="numeric"
-                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
-                  />
-                </View>
-                <View style={styles.inputWrapper}>
-                  <Icon name="dollar" style={styles.icon} />
-                  <TextInput
-                    style={styles.input}
-                    value={formatCurrency(displayPriceJuice, "vi-VN", "VND")}
-                    readOnly
-                    placeholder={t("lang_amount")}
-                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
-                  />
-                </View>
-                <View style={styles.inputWrapper}>
-                  <Text>Tổng tiền</Text>
+                  <Text style={[styles.titleadd]}>{t("lang_cost")}</Text>
                   <TextInput
                     style={[styles.input, styles.inputMoneys]}
+                    onChangeText={(text) => setTextAdd(text)}
+                    keyboardType="numeric"
+                    value={addService.toLocaleString()}
+                    placeholder={t("lang_amount")}
+                    underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
+                  />
+                </View>
+                <View style={styles.inputWrapper}>
+                  <Text style={[styles.titleadd]}>{t("lang_total_amount")}</Text>
+                  <TextInput
+                    style={[styles.input, styles.inputMoneys]}
+                    keyboardType="numeric"
                     value={formatCurrency(allMoney, "vi-VN", "VND")}
-                    readOnly
                     placeholder={t("lang_amount")}
                     underlineColorAndroid="transparent" // Xóa border mặc định của TextInput
                   />
@@ -678,7 +635,7 @@ const PayDetails = () => {
           </View>
         </Pressable>
       </Modal>
-      <Modal
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={showFoodOptions}
@@ -735,12 +692,15 @@ const PayDetails = () => {
             </ScrollView>
           </View>
         </Pressable>
-      </Modal>
+      </Modal> */}
     </>
   );
 };
 
 const styles = StyleSheet.create({
+  titleadd:{
+    fontSize:wp('3%')
+  },
   scrollViewContai: {
     height: hp("83%"),
   },

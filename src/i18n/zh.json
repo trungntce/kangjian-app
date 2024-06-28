@@ -72,5 +72,6 @@
   "lang_log_money":"账户内资金不足!",
   "lang_pass_short":"密码必须大于4个字符！",
   "lang_pass_repeat":"重新输入错误密码!",
-  "lang_cost":"单价"
+  "lang_cost":"单价",
+  "lang_person":"人数 "
 }
