@@ -148,7 +148,7 @@ const HomeDetails = () => {
             <View style={styles.blocksContainer}>
               {Object.keys(listService).map((key, index) => {
                 const sv = listService[key];
-                if (sv.useYn) {
+                if (sv.useYn && index < 3) {
                   return (
                     <TouchableOpacity
                       style={styles.block}
@@ -167,6 +167,35 @@ const HomeDetails = () => {
                           style={styles.blockImage}
                         />
                         <Text style={styles.title}>{sv.serviceName}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                }
+                return null;
+              })}
+            </View>
+            <View style={[styles.blocksContainer,styles.blocksContainerFix]}>
+              {Object.keys(listService).map((key, index) => {
+                const sv = listService[key];
+                if (sv.useYn && index >= 3) {
+                  return (
+                    <TouchableOpacity
+                      style={[styles.block,styles.blocktype]}
+                      key={sv.idService}
+                      onPress={() =>
+                        navigation.navigate("ServiceMonitor", {
+                          service: sv.idService,
+                          info: sv,
+                        })
+                      }
+                    >
+                      <View>
+                        <Image
+                          //  source={require('../../../assets/img/massageItem1.png')} // Đường dẫn đến hình ảnh của bạn
+                          source={{ uri: primaryURL + sv.imageUrl }}
+                          style={styles.blockImage}
+                        />
+                        <Text style={[styles.title,styles.titlefix]}>{sv.serviceName}</Text>
                       </View>
                     </TouchableOpacity>
                   );
@@ -217,7 +246,7 @@ const HomeDetails = () => {
                 if (sv.useYn) {
                   return (
                     <TouchableOpacity
-                      style={styles.block}
+                      style={[styles.block]}
                       key={sv.idService}
                       onPress={() =>
                         navigation.navigate("ServiceMonitor", {
@@ -324,6 +353,7 @@ const styles = StyleSheet.create({
     marginBottom: wp("15%"),
     height: hp("24%"),
   },
+ 
   margin:{
     marginBottom:wp('5%')
   },
@@ -373,9 +403,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 20,
   },
+  blocksContainerFix: {
+    marginTop:wp('2%'),
+    marginBottom:wp('2%')
+  },
   block: {
     flex: 1,
     alignItems: "center",
+  },
+  blocktype:{
+   
   },
   blockImage: {
     width: wp("25%"),
@@ -388,6 +425,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: wp("3%"),
     textAlign:'center'
+  },
+  titlefix:{
+    
   },
   promotionContainer: {
     alignItems: "center",
