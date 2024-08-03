@@ -116,11 +116,7 @@ const Router = () => {
 
   const AuthNavigator = (
     <Stack.Navigator>
-      <Stack.Screen
-        name="Login"
-        component={Login}
-        options={{ headerShown: false }}
-      />
+     
       <Stack.Screen
         name="Home"
         component={Home}
@@ -129,6 +125,11 @@ const Router = () => {
       <Stack.Screen
         name="ServiceMonitor"
         component={ServiceMonitor}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="Login"
+        component={Login}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

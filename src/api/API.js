@@ -253,6 +253,24 @@ const loginScreen = async(username, password)=>{
   }
 }
 
+const getIsStatus = async ()=>{
+  try {
+    const token = await AsyncStorage.getItem('token');
+    const response = await fetch(`${BASE_URL}/v1/service/isStatus`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    const responseData = await response.json();
+    return responseData.result;
+  } catch (error) {
+    console.log('Error inserting data:', error);
+    throw error;
+  }
+}
+
 const getNumberCard = async ()=>{
   try {
     const token = await AsyncStorage.getItem('token');
@@ -441,4 +459,4 @@ const changePass = async(data)=>{
 
 
 
-export { loginScreen,getListUsers,changePass,editUser,getPersonal,updateUser,addUser,deleteUser,getNumberCard,getServiceByID,getListPromotion,updatePromotion,updatePayment,updateUserWithCard,getPromotion,addUserWithCard,getService,getServiceshort,getCardActive,getTransac,addDeposit,getUserByPhone};
+export { loginScreen,getIsStatus,getListUsers,changePass,editUser,getPersonal,updateUser,addUser,deleteUser,getNumberCard,getServiceByID,getListPromotion,updatePromotion,updatePayment,updateUserWithCard,getPromotion,addUserWithCard,getService,getServiceshort,getCardActive,getTransac,addDeposit,getUserByPhone};
